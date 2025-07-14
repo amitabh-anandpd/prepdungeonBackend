@@ -62,26 +62,33 @@
                 </div>
             </div>
 
-            <div class="test-container">
-                <div class="question-card" id="question-card">
+            {% for question in questions %}
+            <div class="test-container hidden" data-index="{{ forloop.counter0 }}" data-question-id="{{ question.id }}">
+                <div class="question-card" id="question-card{{ forloop.counter0 }}">
                     <div class="question-content">
-                        <h2 class="question-text" id="question-text">Loading question...</h2>
-                        <div class="options-container" id="options-container">
-                            <!-- Options will be populated by JavaScript -->
+                        <h2 class="question-text" id="question-text{{ forloop.counter0 }}">{{ question.question }}</h2>
+                        <div class="options-container" id="options-container{{ forloop.counter0 }}">
+                            <div class="upload-alternative">
+                                <div class="divider">
+                                    <span class="divider-text">Write your answer</span>
+                                </div>
+                                <textarea name="text_content" class="content-textarea" data-answer-index="{{ forloop.counter0 }}" placeholder="Write your answer here..."></textarea>
+                            </div>
                         </div>
                     </div>
                     <div class="question-actions">
-                        <button class="test-btn secondary" id="prev-btn" disabled>
+                        <button class="test-btn secondary" data-index="{{ forloop.counter0}}" id="prev-btn{{ forloop.counter0 }}" disabled>
                             <i data-lucide="arrow-left" class="btn-icon"></i>
                             Previous
                         </button>
-                        <button class="test-btn primary" id="next-btn" disabled>
+                        <button class="test-btn primary" data-index="{{ forloop.counter0}}" id="next-btn{{ forloop.counter0 }}" disabled>
                             Next
                             <i data-lucide="arrow-right" class="btn-icon"></i>
                         </button>
                     </div>
                 </div>
             </div>
+            {% endfor %}
         </div>
     </section>
     <script>window.notification = "{{ request.session.notification|default:''|escapejs }}"</script>

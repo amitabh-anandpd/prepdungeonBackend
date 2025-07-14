@@ -6,6 +6,8 @@ let currentQuestion = 0;
 let userAnswers = Array(testCards.length).fill(null);
 let timeRemaining = 300;
 let timerInterval;
+let questionStartTime = Date.now();
+let timePerQuestion = Array(testCards.length).fill(0);
 
 const nextButtons = document.querySelectorAll('.test-btn.primary');
 const prevButtons = document.querySelectorAll('.test-btn.secondary');
@@ -17,6 +19,11 @@ nextButtons.forEach(btn => {
     const index = parseInt(btn.dataset.index);
     if(index!==(testCards.length-1)){
         btn.addEventListener('click', () => {
+            const now = Date.now();
+            if (currentQuestion >= 0 && currentQuestion < testCards.length) {
+                timePerQuestion[currentQuestion] += Math.floor((now - questionStartTime) / 1000);
+                questionStartTime = now;
+            }
             currentQuestion = index + 1; 
             displayQuestion();
             updateProgress();
@@ -29,6 +36,11 @@ nextButtons.forEach(btn => {
         <i data-lucide="check" class="btn-icon"></i>
         `;
         btn.addEventListener('click', () => {
+            const now = Date.now();
+            if (currentQuestion >= 0 && currentQuestion < testCards.length) {
+                timePerQuestion[currentQuestion] += Math.floor((now - questionStartTime) / 1000);
+                questionStartTime = now;
+            }
             finishTest();
         });
     }
@@ -38,6 +50,11 @@ prevButtons.forEach(btn => {
     const index = parseInt(btn.dataset.index);
     if(index!==0){
         btn.addEventListener('click', () => {
+            const now = Date.now();
+            if (currentQuestion >= 0 && currentQuestion < testCards.length) {
+                timePerQuestion[currentQuestion] += Math.floor((now - questionStartTime) / 1000);
+                questionStartTime = now;
+            }
             currentQuestion = index-1;
             displayQuestion();
             updateProgress();
@@ -104,7 +121,8 @@ function finishTest() {
         test_type: 'mcq',
         userAnswers: userAnswers,
         totalQuestions: testCards.length,
-        timeSpent: 300 - timeRemaining
+        timeSpent: 300 - timeRemaining,
+        timePerQuestion: timePerQuestion,
     };
 
     fetch('/submit-mcq/', {
