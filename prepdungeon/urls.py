@@ -21,7 +21,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from .views import index, auth, dashboard, leaderboard, onboarding, profile, studyGuide, testCenter, dailyQuest
-from .views import clear_notifications, clear_question_ids
+from .views import clear_notifications, clear_question_ids, join_waitlist
 from .views import testMCQ, checkMCQ, testSpeed, checkSpeed, testConceptual, checkConceptual
 from .views import logout_view
 
@@ -45,6 +45,7 @@ urlpatterns = [
     path('submit-mcq/', checkMCQ, name="checkMCQ"),
     path('submit-speed/', checkSpeed, name="checkSpeed"),
     path('submit-conceptual/', checkConceptual, name="checkConceptual"),
+    path('join-waitlist/', join_waitlist, name="join_waitlist"),
     path('api/', include('prepdungeon.apiurls')),
 ]
 

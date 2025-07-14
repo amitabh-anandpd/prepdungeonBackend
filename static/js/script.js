@@ -1,4 +1,3 @@
-// Initialize Lucide icons
 lucide.createIcons();
 
 // Global state
@@ -110,7 +109,7 @@ function updateUploadDisplay() {
                 <i data-lucide="check-circle"></i>
             </div>
             <h3 class="upload-title">${uploadedFiles.length} file(s) uploaded</h3>
-            <p class="upload-description">Click to upload more files</p>
+            <p class="upload-description">Click to change file</p>
             <div class="uploaded-files">
                 ${uploadedFiles.map(file => `
                     <div class="uploaded-file">
@@ -454,9 +453,89 @@ if (modalSignupForm) {
             document.body.style.overflow = 'auto';
             
             setTimeout(() => {
-                window.location.href = 'auth.html';
+                window.location.href = '/auth/';
             }, 2000);
         }, 3000);
+    });
+}
+// Modal functionality
+const showWaitlistModalBtn = document.getElementById('show-Waitlist-modal');
+const WaitlistModal = document.getElementById('Waitlist-modal');
+const closeWaitlistModalBtn = document.getElementById('close-Waitlist-modal');
+const modalWaitlistForm = document.getElementById('modal-Waitlist-form');
+
+if (showWaitlistModalBtn) {
+    showWaitlistModalBtn.addEventListener('click', () => {
+        WaitlistModal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    });
+}
+
+if (closeWaitlistModalBtn) {
+    closeWaitlistModalBtn.addEventListener('click', () => {
+        WaitlistModal.classList.add('hidden');
+        document.body.style.overflow = 'auto';
+    });
+}
+
+// Close modal when clicking outside
+if (WaitlistModal) {
+    WaitlistModal.addEventListener('click', (e) => {
+        if (e.target === WaitlistModal) {
+            WaitlistModal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+    });
+}
+
+// Modal Waitlist form handling
+if (modalWaitlistForm) {
+    modalWaitlistForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const formData = new FormData(modalWaitlistForm);
+        const name = modalWaitlistForm.querySelector('input[type="text"]').value;
+        const email = modalWaitlistForm.querySelector('input[type="email"]').value;
+        const score = window.score;
+
+        const submitButton = modalWaitlistForm.querySelector('.signup-btn');
+        const originalText = submitButton.innerHTML;
+        
+        submitButton.innerHTML = '<i data-lucide="loader-2" class="animate-spin"></i> Joining Waitlist...';
+        submitButton.disabled = true;
+        lucide.createIcons();
+
+        try {
+            const res = await fetch('/join-waitlist/', {
+              method : 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken' : getCookie('csrftoken')
+              },
+              body: JSON.stringify({ name, email, score })
+            });
+      
+            const data = await res.json();
+            if (!res.ok || !data.success) {
+              showNotification("Error: "+data.message, "error")
+              return;
+            }
+      
+            showNotification('Welcome to PrepDungeon! We’ve e‑mailed your full analysis.', 'success');
+            WaitlistModal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+      
+            // optional redirect
+            setTimeout(() => window.location.href = '/', 2000);
+      
+          } catch (err) {
+            console.error(err);
+            showNotification(err.message, 'error');
+          } finally {
+            submitButton.innerHTML = originalText;
+            submitButton.disabled  = false;
+            lucide.createIcons();
+          }
     });
 }
 

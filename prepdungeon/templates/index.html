@@ -27,8 +27,8 @@
                     <span class="nav-title">PrepDungeon</span>
                 </div>
                 <div class="nav-menu">
-                    <a href="#features" class="nav-link">Features</a>
-                    <a href="#how-it-works" class="nav-link">How It Works</a>
+                    <a href="#features" class="nav-link">Superpowers</a>
+                    <a href="#how-it-works" class="nav-link">Features</a>
                     <a href="#trust" class="nav-link">Trust</a>
                     <a href="{% url 'auth' %}" class="nav-cta-btn">Login</a>
                 </div>
@@ -268,8 +268,15 @@
                 </div>
                 
                 <!-- Signup Button -->
-                <div class="signup-cta-container">
+                <!--div class="signup-cta-container">
                     <button class="signup-cta-btn" id="show-signup-modal">
+                        <span>Get My Full Analysis</span>
+                        <i data-lucide="arrow-right" class="btn-icon"></i>
+                    </button>
+                    <p class="signup-cta-text">Unlock detailed insights, personalized study plans, and progress tracking</p>
+                </div-->
+                <div class="signup-cta-container">
+                    <button class="signup-cta-btn" id="show-Waitlist-modal">
                         <span>Get My Full Analysis</span>
                         <i data-lucide="arrow-right" class="btn-icon"></i>
                     </button>
@@ -280,7 +287,7 @@
     </section>
 
     <!-- Signup Modal -->
-    <div id="signup-modal" class="modal-overlay hidden">
+    <!--div id="signup-modal" class="modal-overlay hidden">
         <div class="modal-container">
             <div class="signup-card">
                 <button class="modal-close" id="close-signup-modal">
@@ -338,7 +345,55 @@
                 </div>
             </div>
         </div>
+    </div-->
+    <!-- Join Waitlist Modal -->
+    <div id="Waitlist-modal" class="modal-overlay hidden">
+        <div class="modal-container">
+            <div class="signup-card">
+                <button class="modal-close" id="close-Waitlist-modal">
+                    <i data-lucide="x" class="close-icon"></i>
+                </button>
+
+                <div class="signup-header">
+                    <h2 class="signup-title">Join the Waitlist</h2>
+                    <p class="signup-subtitle">Be the first to experience PrepDungeon. We’ll email you your full analysis.</p>
+                    <div class="curiosity-badge">
+                        <i data-lucide="star" class="curiosity-icon"></i>
+                        <span>+1 Curiosity Point</span>
+                    </div>
+                </div>
+
+                <form class="signup-form" id="modal-Waitlist-form">
+                    <div class="form-group">
+                        <div class="input-wrapper">
+                            <i data-lucide="user" class="input-icon"></i>
+                            <input type="text" class="form-input" placeholder="Your name" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-wrapper">
+                            <i data-lucide="mail" class="input-icon"></i>
+                            <input type="email" class="form-input" placeholder="Your email" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="signup-btn">
+                        <span>Join the Waitlist</span>
+                        <i data-lucide="arrow-right" class="btn-icon"></i>
+                    </button>
+                </form>
+
+                <div class="signup-footer">
+                    <p class="privacy-note">
+                        <i data-lucide="shield" class="privacy-icon"></i>
+                        Your data is secure and we’ll email your full analysis when you’re in.
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
+
 
     <!-- Features Section -->
     <section id="features" class="features">

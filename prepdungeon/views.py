@@ -18,7 +18,7 @@ from PyPDF2 import PdfReader
 import docx
 
 from .forms import IndexForm, LoginForm, SignupForm
-from .models import Question, User, CompletedDailyQuest, UserProfile, UserDailyQuest
+from .models import Question, User, CompletedDailyQuest, UserProfile, UserDailyQuest, Waitlist
 
 API_URL = "https://furygold.pythonanywhere.com/generate"
 
@@ -60,7 +60,7 @@ def save_questions_from_csv(csv_text, test_type):
         question.save()
         saved.append(question.id)
     return saved
-
+import traceback
 def index(request):
     if request.user.is_authenticated:
         return redirect('/dashboard')
@@ -91,13 +91,19 @@ def index(request):
                     timeout=60,
                 )
                 if response.status_code == 200:
+                    print(response.json()["response"])
+                    raw_response = response.json()["response"]
+                    if raw_response.startswith("```csv"):
+                        raw_response = raw_response[6:]  # Remove first 6 chars: ```csv\n
+                    if raw_response.endswith("```"):
+                        raw_response = raw_response[:-3]
                     try:
                         csv_text = response.json()["response"]
                         question_ids = save_questions_from_csv(csv_text=csv_text, test_type=test_type)
                         request.session['question_ids'] = question_ids
                         return redirect(f"/test-{test_type}")
                     except Exception as e:
-                        print(e)
+                        traceback.print_exc()
                 elif response.status_code == 500:
                     request.session['notification'] = response.json()["error"]
                     request.session['notification_type'] = "error"
@@ -332,7 +338,6 @@ def checkSpeed(request):
                 timeout=60,
             )
             if response.status_code == 200:
-                print(response.json()['response'])
                 try:
                     reader = csv.DictReader(io.StringIO(response.json()['response']))
                     saved = []
@@ -411,7 +416,6 @@ def checkConceptual(request):
                 timeout=60,
             )
             if response.status_code == 200:
-                print(response.json()['response'])
                 try:
                     reader = csv.DictReader(io.StringIO(response.json()['response']))
                     saved = []
@@ -479,3 +483,22 @@ def logout_view(request):
     request.session['notification'] = "Couldn't Log out!"
     request.session['notification_type'] = "error"
     return redirect("/profile")
+
+def join_waitlist(request):
+    if request.method != "POST":
+        return JsonResponse({"success": False, "message": "POST required"}, status=405)
+
+    try:
+        data  = json.loads(request.body.decode())
+        name  = data.get("name", "").strip()
+        email = data.get("email", "").strip()
+        score = data.get("score") 
+
+        if not name or not email:
+            return JsonResponse({"success": False, "message": "Missing fields"}, status=400)
+        entry = Waitlist.objects.create(name=name, email=email)
+        entry.set_score(score)
+        return JsonResponse({"success": True})
+
+    except json.JSONDecodeError:
+        return JsonResponse({"success": False, "message": "Invalid JSON"}, status=400)

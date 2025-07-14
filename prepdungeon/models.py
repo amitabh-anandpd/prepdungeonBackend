@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils import timezone
 from django.db import transaction
+import json
 
 class User(AbstractUser):
 
@@ -239,3 +240,23 @@ class UserPhoto(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile_photos')
     photo = models.ImageField(upload_to='profile_photos')
     
+class Waitlist(models.Model):
+    name = models.CharField(max_length=128, null=False, blank=False)
+    email = models.EmailField(null=False, blank=False)
+    raw_score = models.TextField(blank=True, default="")
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    def set_score(self, score_dict: dict):
+        self.raw_score = json.dumps(score_dict, separators=(",", ":"))
+        self.save(update_fields=["raw_score"])
+
+    def get_score(self):
+        if self.raw_score:
+            try:
+                return json.loads(self.raw_score)
+            except json.JSONDecodeError:
+                pass
+        return None
+
+    def __str__(self):
+        return f"{self.name} <{self.email}>"
