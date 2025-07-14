@@ -117,30 +117,6 @@ function updateProgress() {
     progressFill.style.width = `${progress}%`;
 }
 
-function handleBackClick(event) {
-    event.preventDefault(); // stop immediate navigation
-    finishTest(() => {
-        Promise.all([
-            fetch("/clear-notification/", {
-                method: "POST",
-                headers: {
-                    "X-CSRFToken": getCookie("csrftoken"),
-                    "Content-Type": "application/json"
-                }
-            }),
-            fetch("/clear-question-ids/", {
-                method: "POST",
-                headers: {
-                    "X-CSRFToken": getCookie("csrftoken"),
-                    "Content-Type": "application/json"
-                }
-            })
-        ]).finally(() => {
-            window.location.href = "/";
-        });
-    });
-}
-
 function finishTest() {
     clearInterval(timerInterval);
     
@@ -165,6 +141,29 @@ function finishTest() {
     });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
     initTest();
+    window.handleBackClick = function(event) {
+        event.preventDefault();
+        finishTest(() => {
+            Promise.all([
+                fetch("/clear-notification/", {
+                    method: "POST",
+                    headers: {
+                        "X-CSRFToken": getCookie("csrftoken"),
+                        "Content-Type": "application/json"
+                    }
+                }),
+                fetch("/clear-question-ids/", {
+                    method: "POST",
+                    headers: {
+                        "X-CSRFToken": getCookie("csrftoken"),
+                        "Content-Type": "application/json"
+                    }
+                })
+            ]).finally(() => {
+                window.location.href = "/";
+            });
+        });
+    };
 });
