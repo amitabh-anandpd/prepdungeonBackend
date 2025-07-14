@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to PrepDungeon - Choose Your Path</title>
+    <link rel="stylesheet" href="{% static '/css/styles.css' %}">
+    <link rel="stylesheet" href="{% static '/css/dashboard.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.344.0/lucide.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@400;700;900&family=Bungee&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-background">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="gradient-orb orb-4"></div>
+    </div>
+
+    <!-- Onboarding Container -->
+    <div class="onboarding-container">
+        <!-- Character Guide -->
+        <div class="character-section">
+            <div class="character-avatar">
+                <div class="avatar-glow"></div>
+                <i data-lucide="brain" class="character-icon"></i>
+            </div>
+            <div class="character-dialogue">
+                <h2 class="character-name">Sage Nexus</h2>
+                <p class="dialogue-text">Welcome, young scholar! I am your AI guide through the PrepDungeon. Let me show you the path to mastery...</p>
+            </div>
+        </div>
+
+        <!-- Tutorial Cards -->
+        <div class="tutorial-cards">
+            <div class="tutorial-card" data-step="1">
+                <div class="card-icon">
+                    <i data-lucide="scroll-text"></i>
+                </div>
+                <h3 class="card-title">Daily Quests</h3>
+                <p class="card-description">Complete daily challenges to earn XP and maintain your learning streak. Each quest brings you closer to mastery!</p>
+                <div class="status-window">
+                    <span class="status-label">Reward:</span>
+                    <span class="status-value">+25 XP</span>
+                </div>
+            </div>
+
+            <div class="tutorial-card" data-step="2">
+                <div class="card-icon">
+                    <i data-lucide="sword"></i>
+                </div>
+                <h3 class="card-title">Screening Tests</h3>
+                <p class="card-description">Battle through dungeons of knowledge. Each test reveals your strengths and weaknesses in different subjects.</p>
+                <div class="status-window">
+                    <span class="status-label">Types:</span>
+                    <span class="status-value">MCQ • Conceptual • Speed</span>
+                </div>
+            </div>
+
+            <div class="tutorial-card" data-step="3">
+                <div class="card-icon">
+                    <i data-lucide="zap"></i>
+                </div>
+                <h3 class="card-title">XP & Levels</h3>
+                <p class="card-description">Gain experience points for every completed task. Level up to unlock new features and show your progress!</p>
+                <div class="status-window">
+                    <span class="status-label">Current Level:</span>
+                    <span class="status-value">Novice (Lv. 1)</span>
+                </div>
+            </div>
+
+            <div class="tutorial-card" data-step="4">
+                <div class="card-icon">
+                    <i data-lucide="star"></i>
+                </div>
+                <h3 class="card-title">Curiosity Points</h3>
+                <p class="card-description">Special currency earned through exploration and discovery. Use them to unlock premium features and bonuses!</p>
+                <div class="status-window">
+                    <span class="status-label">Balance:</span>
+                    <span class="status-value">100 CP</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Path Selection -->
+        <div class="path-selection">
+            <h2 class="selection-title">Choose Your Learning Path</h2>
+            <div class="path-cards">
+                <div class="path-card" data-path="guided">
+                    <div class="path-icon">
+                        <i data-lucide="compass"></i>
+                    </div>
+                    <h3 class="path-name">Guided Journey</h3>
+                    <p class="path-description">Follow a structured learning path with AI recommendations and step-by-step guidance.</p>
+                    <div class="path-features">
+                        <span class="feature">• Personalized roadmap</span>
+                        <span class="feature">• AI mentor support</span>
+                        <span class="feature">• Progress tracking</span>
+                    </div>
+                </div>
+
+                <div class="path-card" data-path="solo">
+                    <div class="path-icon">
+                        <i data-lucide="user"></i>
+                    </div>
+                    <h3 class="path-name">Solo Explorer</h3>
+                    <p class="path-description">Chart your own course through the knowledge dungeons at your own pace and style.</p>
+                    <div class="path-features">
+                        <span class="feature">• Complete freedom</span>
+                        <span class="feature">• Self-paced learning</span>
+                        <span class="feature">• Custom challenges</span>
+                    </div>
+                </div>
+
+                <div class="path-card" data-path="competitive">
+                    <div class="path-icon">
+                        <i data-lucide="trophy"></i>
+                    </div>
+                    <h3 class="path-name">Competitive Arena</h3>
+                    <p class="path-description">Compete with peers, climb leaderboards, and prove your mastery in ranked battles.</p>
+                    <div class="path-features">
+                        <span class="feature">• Global leaderboards</span>
+                        <span class="feature">• Peer challenges</span>
+                        <span class="feature">• Achievement badges</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Continue Button -->
+        <div class="continue-section">
+            <button class="continue-btn" id="continue-btn" disabled>
+                <span>Begin Your Journey</span>
+                <i data-lucide="arrow-right" class="btn-icon"></i>
+            </button>
+        </div>
+    </div>
+    <script>window.notification = "{{ request.session.notification|default:''|escapejs }}"</script>
+    <script>window.notification_type = "{{ request.session.notification_type|default:''|escapejs }}"</script>
+    <script src="{% static 'js/common.js' %}"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script type="module" src="{% static 'js/onboarding.js' %}"></script>
+</body>
+</html>

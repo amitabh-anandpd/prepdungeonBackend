@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Guide - PrepDungeon</title>
+    <link rel="stylesheet" href="{% static '/css/styles.css' %}">
+    <link rel="stylesheet" href="{% static '/css/dashboard.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.344.0/lucide.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@400;700;900&family=Bungee&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-background">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="gradient-orb orb-4"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="dashboard-nav">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i data-lucide="brain" class="nav-logo"></i>
+                <span class="nav-title">PrepDungeon</span>
+            </div>
+            <div class="nav-menu">
+                <a href="{% url 'dashboard' %}" class="nav-link">Dashboard</a>
+                <a href="{% url 'test-center' %}" class="nav-link">Test Center</a>
+                <a href="{% url 'study-guide' %}" class="nav-link active">Study Guide</a>
+                <a href="{% url 'daily-quest' %}" class="nav-link">Quests</a>
+                <a href="{% url 'leaderboard' %}" class="nav-link">Leaderboard</a>
+                <a href="{% url 'profile' %}" class="nav-link">Profile</a>
+            </div>
+            <div class="user-stats">
+                <div class="stat-item">
+                    <i data-lucide="star" class="stat-icon"></i>
+                    <span class="stat-value">250 CP</span>
+                </div>
+                <div class="stat-item">
+                    <i data-lucide="zap" class="stat-icon"></i>
+                    <span class="stat-value">Lv. 3</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Study Guide Container -->
+    <div class="study-guide-container">
+        <div class="study-guide-header">
+            <h1 class="page-title">Magical Study Grimoire</h1>
+            <p class="page-subtitle">Upload your knowledge scrolls and unlock the power of learning</p>
+        </div>
+
+        <!-- Subject Tabs -->
+        <div class="subject-tabs">
+            <button class="subject-tab active" data-subject="mathematics">
+                <i data-lucide="calculator" class="tab-icon"></i>
+                <span>Mathematics</span>
+            </button>
+            <button class="subject-tab" data-subject="dbms">
+                <i data-lucide="database" class="tab-icon"></i>
+                <span>DBMS</span>
+            </button>
+            <button class="subject-tab" data-subject="networks">
+                <i data-lucide="network" class="tab-icon"></i>
+                <span>Networks</span>
+            </button>
+            <button class="subject-tab" data-subject="os">
+                <i data-lucide="cpu" class="tab-icon"></i>
+                <span>OS</span>
+            </button>
+            <button class="subject-tab" data-subject="dsa">
+                <i data-lucide="git-branch" class="tab-icon"></i>
+                <span>DSA</span>
+            </button>
+            <button class="subject-tab" data-subject="se">
+                <i data-lucide="code" class="tab-icon"></i>
+                <span>SE</span>
+            </button>
+        </div>
+
+        <!-- Subject Content -->
+        <div class="subject-content">
+            <!-- Upload Section -->
+            <div class="upload-section">
+                <div class="upload-card">
+                    <div class="upload-header">
+                        <h3 class="upload-title">
+                            <i data-lucide="scroll" class="title-icon"></i>
+                            Upload Study Materials
+                        </h3>
+                        <span class="subject-name">Mathematics</span>
+                    </div>
+                    
+                    <div class="upload-zone" id="upload-zone">
+                        <div class="upload-content">
+                            <div class="upload-icon">
+                                <i data-lucide="upload-cloud"></i>
+                            </div>
+                            <h4 class="upload-text">Drop your knowledge scrolls here</h4>
+                            <p class="upload-description">Or click to browse your mystical files</p>
+                            <div class="upload-formats">
+                                <span class="format-tag">PDF</span>
+                                <span class="format-tag">DOC</span>
+                                <span class="format-tag">TXT</span>
+                                <span class="format-tag">Links</span>
+                            </div>
+                        </div>
+                        <input type="file" id="file-input" multiple accept=".pdf,.doc,.docx,.txt" hidden>
+                    </div>
+                    
+                    <div class="url-input-section">
+                        <div class="input-group">
+                            <i data-lucide="link" class="input-icon"></i>
+                            <input type="url" class="url-input" placeholder="Paste study material URL here...">
+                            <button class="add-url-btn">
+                                <i data-lucide="plus" class="btn-icon"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="text-input-section">
+                        <textarea class="text-input" placeholder="Or paste your study notes directly here..."></textarea>
+                        <button class="process-btn">
+                            <i data-lucide="wand-2" class="btn-icon"></i>
+                            <span>Process with AI Magic</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Topics Section -->
+            <div class="topics-section">
+                <div class="topics-header">
+                    <h3 class="topics-title">
+                        <i data-lucide="book-open" class="title-icon"></i>
+                        Knowledge Topics
+                    </h3>
+                    <div class="topics-stats">
+                        <span class="stat">
+                            <i data-lucide="target" class="stat-icon"></i>
+                            <span>8 Topics</span>
+                        </span>
+                        <span class="stat">
+                            <i data-lucide="check-circle" class="stat-icon"></i>
+                            <span>5 Mastered</span>
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="topics-grid">
+                    <div class="topic-card rank-s mastered">
+                        <div class="topic-header">
+                            <div class="topic-rank">S</div>
+                            <div class="topic-status">
+                                <i data-lucide="crown" class="status-icon"></i>
+                            </div>
+                        </div>
+                        <h4 class="topic-name">Basic Algebra</h4>
+                        <div class="topic-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 100%"></div>
+                            </div>
+                            <span class="progress-text">100% Complete</span>
+                        </div>
+                        <div class="topic-actions">
+                            <button class="topic-btn review-btn">
+                                <i data-lucide="refresh-cw" class="btn-icon"></i>
+                                Review
+                            </button>
+                            <button class="topic-btn test-btn" disabled>
+                                <i data-lucide="sword" class="btn-icon"></i>
+                                Test
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="topic-card rank-a active">
+                        <div class="topic-header">
+                            <div class="topic-rank">A</div>
+                            <div class="topic-status">
+                                <i data-lucide="zap" class="status-icon"></i>
+                            </div>
+                        </div>
+                        <h4 class="topic-name">Calculus</h4>
+                        <div class="topic-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 75%"></div>
+                            </div>
+                            <span class="progress-text">75% Complete</span>
+                        </div>
+                        <div class="topic-actions">
+                            <button class="topic-btn study-btn">
+                                <i data-lucide="book" class="btn-icon"></i>
+                                Study
+                            </button>
+                            <button class="topic-btn test-btn">
+                                <i data-lucide="sword" class="btn-icon"></i>
+                                Test
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="topic-card rank-b active">
+                        <div class="topic-header">
+                            <div class="topic-rank">B</div>
+                            <div class="topic-status">
+                                <i data-lucide="play" class="status-icon"></i>
+                            </div>
+                        </div>
+                        <h4 class="topic-name">Linear Algebra</h4>
+                        <div class="topic-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 45%"></div>
+                            </div>
+                            <span class="progress-text">45% Complete</span>
+                        </div>
+                        <div class="topic-actions">
+                            <button class="topic-btn study-btn">
+                                <i data-lucide="book" class="btn-icon"></i>
+                                Study
+                            </button>
+                            <button class="topic-btn test-btn">
+                                <i data-lucide="sword" class="btn-icon"></i>
+                                Test
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="topic-card rank-c locked">
+                        <div class="topic-header">
+                            <div class="topic-rank">C</div>
+                            <div class="topic-status">
+                                <i data-lucide="lock" class="status-icon"></i>
+                            </div>
+                        </div>
+                        <h4 class="topic-name">Statistics</h4>
+                        <div class="topic-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 0%"></div>
+                            </div>
+                            <span class="progress-text">Locked</span>
+                        </div>
+                        <div class="topic-actions">
+                            <button class="topic-btn study-btn" disabled>
+                                <i data-lucide="lock" class="btn-icon"></i>
+                                Locked
+                            </button>
+                            <button class="topic-btn test-btn" disabled>
+                                <i data-lucide="lock" class="btn-icon"></i>
+                                Locked
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>window.notification = "{{ request.session.notification|default:''|escapejs }}"</script>
+    <script>window.notification_type = "{{ request.session.notification_type|default:''|escapejs }}"</script>
+    <script src="{% static 'js/common.js' %}"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script type="module" src="{% static 'js/study-guide.js' %}"></script>
+</body>
+</html>

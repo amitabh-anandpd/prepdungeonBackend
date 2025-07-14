@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conceptual Test - PrepDungeon</title>
+    <link rel="stylesheet" href="{% static '/css/styles.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.344.0/lucide.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Crimson+Text:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-background">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="gradient-orb orb-4"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-content">
+                <div class="nav-brand">
+                    <i data-lucide="brain" class="nav-logo"></i>
+                    <span class="nav-title">PrepDungeon</span>
+                </div>
+                <div class="nav-menu">
+                    <a href="{% url 'index' %}" class="nav-link">Back to Home</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Test Container -->
+    <section class="test-section">
+        <div class="container">
+            <div class="test-header">
+                <div class="test-info">
+                    <h1 class="test-title">Conceptual Understanding Test</h1>
+                    <p class="test-description">Deep understanding through concept-based questions</p>
+                    <div class="test-meta">
+                        <div class="meta-item">
+                            <i data-lucide="clock" class="meta-icon"></i>
+                            <span>10-15 minutes</span>
+                        </div>
+                        <div class="meta-item">
+                            <i data-lucide="help-circle" class="meta-icon"></i>
+                            <span id="question-counter">Question 1 of 6</span>
+                        </div>
+                        <div class="meta-item">
+                            <i data-lucide="timer" class="meta-icon"></i>
+                            <span id="timer">10:00</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="test-container">
+                <div class="question-card" id="question-card">
+                    <div class="question-content">
+                        <h2 class="question-text" id="question-text">Loading question...</h2>
+                        <div class="options-container" id="options-container">
+                            <!-- Options will be populated by JavaScript -->
+                        </div>
+                    </div>
+                    <div class="question-actions">
+                        <button class="test-btn secondary" id="prev-btn" disabled>
+                            <i data-lucide="arrow-left" class="btn-icon"></i>
+                            Previous
+                        </button>
+                        <button class="test-btn primary" id="next-btn" disabled>
+                            Next
+                            <i data-lucide="arrow-right" class="btn-icon"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>window.notification = "{{ request.session.notification|default:''|escapejs }}"</script>
+    <script>window.notification_type = "{{ request.session.notification_type|default:''|escapejs }}"</script>
+    <script src="{% static 'js/common.js' %}"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script type="module" src="{% static 'js/test-conceptual.js' %}"></script>
+</body>
+</html>

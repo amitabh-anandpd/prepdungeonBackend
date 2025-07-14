@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - PrepDungeon</title>
+    <link rel="stylesheet" href="{% static '/css/styles.css' %}">
+    <link rel="stylesheet" href="{% static '/css/dashboard.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.344.0/lucide.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@400;700;900&family=Bungee&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-background">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="gradient-orb orb-4"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="dashboard-nav">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i data-lucide="brain" class="nav-logo"></i>
+                <span class="nav-title">PrepDungeon</span>
+            </div>
+            <div class="nav-menu">
+                <a href="{% url 'dashboard' %}" class="nav-link">Dashboard</a>
+                <a href="{% url 'test-center' %}" class="nav-link">Test Center</a>
+                <a href="{% url 'study-guide' %}" class="nav-link">Study Guide</a>
+                <a href="{% url 'daily-quest' %}" class="nav-link">Quests</a>
+                <a href="{% url 'leaderboard' %}" class="nav-link">Leaderboard</a>
+                <a href="{% url 'profile' %}" class="nav-link active">Profile</a>
+            </div>
+            <div class="user-stats">
+                <div class="stat-item">
+                    <i data-lucide="star" class="stat-icon"></i>
+                    <span class="stat-value">{{ user.profile.points }} CP</span>
+                </div>
+                <div class="stat-item">
+                    <i data-lucide="zap" class="stat-icon"></i>
+                    <span class="stat-value">Lv. {{ user.profile.level }}</span>
+                </div>
+                <div>
+                    <a href="{% url 'logout' %}" class="nav-cta-btn">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Profile Container -->
+    <div class="profile-container">
+        <!-- Profile Header -->
+        <div class="profile-header">
+            <div class="profile-banner">
+                <div class="banner-overlay"></div>
+                <div class="profile-main">
+                    <div class="profile-avatar">
+                        <img src="https://images.pexels.com/photos/1043471/pexels-photo-1043471.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop" alt="Profile Avatar">
+                        <div class="level-badge">
+                            <span class="level-number">{{ user.profile.level }}</span>
+                        </div>
+                        <button class="avatar-edit-btn">
+                            <i data-lucide="camera" class="edit-icon"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="profile-info">
+                        <h1 class="profile-name">{{ user.first_name }} {{ user.last_name }}</h1>
+                        <p class="profile-title">Knowledge Seeker • Level {{ user.profile.level }}</p>
+                        <div class="profile-stats">
+                            <div class="stat-item">
+                                <i data-lucide="calendar" class="stat-icon"></i>
+                                <span>Joined {{ user.date_joined }}</span>
+                            </div>
+                            <div class="stat-item">
+                                <i data-lucide="map-pin" class="stat-icon"></i>
+                                <span>{{ user.profile.stream }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="xp-section">
+                    <div class="xp-info">
+                        <span class="xp-label">Experience Points</span>
+                        <span class="xp-value">{{ user.profile.xp }} / {{ xp_max }} XP</span>
+                    </div>
+                    <div class="xp-bar">
+                        <div class="xp-fill" style="width: {{ user.profile.xp_progress_percentage }}%"></div>
+                    </div>
+                    <span class="xp-next">{{ user.profile.xp_to_next_level }} XP to Level {{ next_level }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Content -->
+        <div class="profile-content">
+            <!-- Player Stats -->
+            <div class="stats-section">
+                <h2 class="section-title">
+                    <i data-lucide="bar-chart-3" class="title-icon"></i>
+                    Player Statistics
+                </h2>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon-wrapper">
+                            <i data-lucide="zap" class="stat-icon"></i>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-value">{{ user.profile.total_xp }}</span>
+                            <span class="stat-label">Total XP</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon-wrapper">
+                            <i data-lucide="star" class="stat-icon"></i>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-value">{{ user.profile.points }}</span>
+                            <span class="stat-label">Curiosity Points</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon-wrapper">
+                            <i data-lucide="sword" class="stat-icon"></i>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-value">{{ user.completed_tests.count }}</span>
+                            <span class="stat-label">Tests Completed</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon-wrapper">
+                            <i data-lucide="target" class="stat-icon"></i>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-value">78%</span>
+                            <span class="stat-label">Average Score</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon-wrapper">
+                            <i data-lucide="flame" class="stat-icon"></i>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-value">{{ user.profile.streak }}</span>
+                            <span class="stat-label">Day Streak</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon-wrapper">
+                            <i data-lucide="clock" class="stat-icon"></i>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-value">42h</span>
+                            <span class="stat-label">Study Time</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Badges & Achievements -->
+            <div class="badges-section">
+                <h2 class="section-title">
+                    <i data-lucide="award" class="title-icon"></i>
+                    Badges & Achievements
+                </h2>
+                
+                <div class="badges-grid">
+                    <div class="badge-card earned">
+                        <div class="badge-icon">
+                            <i data-lucide="flame"></i>
+                        </div>
+                        <h4 class="badge-name">Week Warrior</h4>
+                        <p class="badge-description">Complete quests for 7 consecutive days</p>
+                        <span class="badge-date">Earned today</span>
+                    </div>
+                    
+                    <div class="badge-card earned">
+                        <div class="badge-icon">
+                            <i data-lucide="brain"></i>
+                        </div>
+                        <h4 class="badge-name">Knowledge Seeker</h4>
+                        <p class="badge-description">Upload 5 study materials</p>
+                        <span class="badge-date">Earned 2 days ago</span>
+                    </div>
+                    
+                    <div class="badge-card earned">
+                        <div class="badge-icon">
+                            <i data-lucide="target"></i>
+                        </div>
+                        <h4 class="badge-name">First Victory</h4>
+                        <p class="badge-description">Complete your first test</p>
+                        <span class="badge-date">Earned 1 week ago</span>
+                    </div>
+                    
+                    <div class="badge-card progress">
+                        <div class="badge-icon">
+                            <i data-lucide="crown"></i>
+                        </div>
+                        <h4 class="badge-name">Perfect Scholar</h4>
+                        <p class="badge-description">Score 100% on 3 different tests</p>
+                        <div class="badge-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 66.7%"></div>
+                            </div>
+                            <span class="progress-text">2 / 3</span>
+                        </div>
+                    </div>
+                    
+                    <div class="badge-card locked">
+                        <div class="badge-icon">
+                            <i data-lucide="trophy"></i>
+                        </div>
+                        <h4 class="badge-name">Champion</h4>
+                        <p class="badge-description">Reach the top 3 on global leaderboard</p>
+                        <span class="badge-requirement">Rank #4 currently</span>
+                    </div>
+                    
+                    <div class="badge-card locked">
+                        <div class="badge-icon">
+                            <i data-lucide="zap"></i>
+                        </div>
+                        <h4 class="badge-name">Speed Demon</h4>
+                        <p class="badge-description">Complete 10 speed tests under 30 seconds</p>
+                        <span class="badge-requirement">3 / 10 completed</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Settings -->
+            <div class="settings-section">
+                <h2 class="section-title">
+                    <i data-lucide="settings" class="title-icon"></i>
+                    Profile Settings
+                </h2>
+                
+                <div class="settings-grid">
+                    <!-- Basic Info -->
+                    <div class="settings-card">
+                        <h3 class="card-title">Basic Information</h3>
+                        <div class="form-group">
+                            <label class="form-label">Display Name</label>
+                            <input type="text" class="form-input" value="Scholar Adventurer" readonly>
+                            <span class="form-note">Contact support to change your display name</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email Address</label>
+                            <input type="email" class="form-input" value="scholar@prepdungeon.com" readonly>
+                            <span class="form-note">Email cannot be changed</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Academic Info -->
+                    <div class="settings-card">
+                        <h3 class="card-title">Academic Information</h3>
+                        <div class="form-group">
+                            <label class="form-label">College/University</label>
+                            <input type="text" class="form-input" value="{{ user.profile.college }}" placeholder="Enter your institution">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Branch/Major</label>
+                            <select class="form-input">
+                                <option value="computer-science" selected>Computer Science</option>
+                                <option value="information-technology">Information Technology</option>
+                                <option value="electronics">Electronics Engineering</option>
+                                <option value="mechanical">Mechanical Engineering</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Year of Study</label>
+                            <select class="form-input">
+                                <option value="1">1st Year</option>
+                                <option value="2">2nd Year</option>
+                                <option value="3" selected>3rd Year</option>
+                                <option value="4">4th Year</option>
+                                <option value="graduate">Graduate</option>
+                            </select>
+                        </div>
+                        <button class="save-btn">
+                            <i data-lucide="save" class="btn-icon"></i>
+                            Save Changes
+                        </button>
+                    </div>
+                    
+                    <!-- Study Preferences -->
+                    <div class="settings-card">
+                        <h3 class="card-title">Study Preferences</h3>
+                        <div class="form-group">
+                            <label class="form-label">Preferred Test Type</label>
+                            <select class="form-input">
+                                <option value="mcq" selected>Multiple Choice (MCQ)</option>
+                                <option value="conceptual">Conceptual</option>
+                                <option value="speed">Speed Test</option>
+                                <option value="mixed">Mixed</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Daily Study Goal</label>
+                            <select class="form-input">
+                                <option value="30">30 minutes</option>
+                                <option value="60" selected>1 hour</option>
+                                <option value="120">2 hours</option>
+                                <option value="180">3+ hours</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="toggle-label">
+                                <input type="checkbox" class="toggle-input" checked>
+                                <span class="toggle-slider"></span>
+                                <span>Enable daily quest notifications</span>
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="toggle-label">
+                                <input type="checkbox" class="toggle-input">
+                                <span class="toggle-slider"></span>
+                                <span>Auto-generate study schedules</span>
+                            </label>
+                        </div>
+                        <button class="save-btn">
+                            <i data-lucide="save" class="btn-icon"></i>
+                            Save Preferences
+                        </button>
+                    </div>
+                    
+                    <!-- Theme Settings -->
+                    <div class="settings-card">
+                        <h3 class="card-title">Appearance</h3>
+                        <div class="form-group">
+                            <label class="form-label">Theme Mode</label>
+                            <div class="theme-options">
+                                <label class="theme-option">
+                                    <input type="radio" name="theme" value="dark" checked>
+                                    <div class="theme-preview dark">
+                                        <div class="theme-circle"></div>
+                                        <span>Dark</span>
+                                    </div>
+                                </label>
+                                <label class="theme-option">
+                                    <input type="radio" name="theme" value="light">
+                                    <div class="theme-preview light">
+                                        <div class="theme-circle"></div>
+                                        <span>Light</span>
+                                    </div>
+                                </label>
+                                <label class="theme-option">
+                                    <input type="radio" name="theme" value="game">
+                                    <div class="theme-preview game">
+                                        <div class="theme-circle"></div>
+                                        <span>Game Mode</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="toggle-label">
+                                <input type="checkbox" class="toggle-input" checked>
+                                <span class="toggle-slider"></span>
+                                <span>Enable animations</span>
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="toggle-label">
+                                <input type="checkbox" class="toggle-input">
+                                <span class="toggle-slider"></span>
+                                <span>Reduce motion effects</span>
+                            </label>
+                        </div>
+                        <button class="save-btn">
+                            <i data-lucide="save" class="btn-icon"></i>
+                            Apply Theme
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>window.notification = "{{ request.session.notification|default:''|escapejs }}"</script>
+    <script>window.notification_type = "{{ request.session.notification_type|default:''|escapejs }}"</script>
+    <script src="{% static 'js/common.js' %}"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script type="module" src="{% static 'js/profile.js' %}"></script>
+</body>
+</html>

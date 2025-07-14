@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Center - PrepDungeon</title>
+    <link rel="stylesheet" href="{% static '/css/styles.css' %}">
+    <link rel="stylesheet" href="{% static '/css/dashboard.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.344.0/lucide.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@400;700;900&family=Bungee&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-background">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="gradient-orb orb-4"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="dashboard-nav">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i data-lucide="brain" class="nav-logo"></i>
+                <span class="nav-title">PrepDungeon</span>
+            </div>
+            <div class="nav-menu">
+                <a href="{% url 'dashboard' %}" class="nav-link">Dashboard</a>
+                <a href="{% url 'test-center' %}" class="nav-link active">Test Center</a>
+                <a href="{% url 'study-guide' %}" class="nav-link">Study Guide</a>
+                <a href="{% url 'daily-quest' %}" class="nav-link">Quests</a>
+                <a href="{% url 'leaderboard' %}" class="nav-link">Leaderboard</a>
+                <a href="{% url 'profile' %}" class="nav-link">Profile</a>
+            </div>
+            <div class="user-stats">
+                <div class="stat-item">
+                    <i data-lucide="star" class="stat-icon"></i>
+                    <span class="stat-value">250 CP</span>
+                </div>
+                <div class="stat-item">
+                    <i data-lucide="zap" class="stat-icon"></i>
+                    <span class="stat-value">Lv. 3</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Test Center Container -->
+    <div class="test-center-container">
+        <div class="test-center-header">
+            <h1 class="page-title">Knowledge Dungeons</h1>
+            <p class="page-subtitle">Choose your battleground and prove your mastery</p>
+        </div>
+
+        <!-- Dungeon Grid -->
+        <div class="dungeon-grid">
+            <!-- Mathematics Dungeon -->
+            <div class="dungeon-card rank-a" data-subject="mathematics">
+                <div class="dungeon-entrance">
+                    <div class="dungeon-door">
+                        <i data-lucide="calculator" class="dungeon-icon"></i>
+                    </div>
+                    <div class="rank-badge rank-a-badge">A</div>
+                </div>
+                <div class="dungeon-info">
+                    <h3 class="dungeon-name">Mathematics</h3>
+                    <p class="dungeon-description">Calculus, Algebra, Statistics</p>
+                    <div class="dungeon-stats">
+                        <div class="stat">
+                            <i data-lucide="sword" class="stat-icon"></i>
+                            <span>12 Tests</span>
+                        </div>
+                        <div class="stat">
+                            <i data-lucide="zap" class="stat-icon"></i>
+                            <span>+45 XP</span>
+                        </div>
+                    </div>
+                    <div class="completion-bar">
+                        <div class="completion-fill" style="width: 65%"></div>
+                    </div>
+                    <span class="completion-text">65% Complete</span>
+                </div>
+            </div>
+
+            <!-- DBMS Dungeon -->
+            <div class="dungeon-card rank-s" data-subject="dbms">
+                <div class="dungeon-entrance">
+                    <div class="dungeon-door">
+                        <i data-lucide="database" class="dungeon-icon"></i>
+                    </div>
+                    <div class="rank-badge rank-s-badge">S</div>
+                </div>
+                <div class="dungeon-info">
+                    <h3 class="dungeon-name">Database Management</h3>
+                    <p class="dungeon-description">SQL, Normalization, Transactions</p>
+                    <div class="dungeon-stats">
+                        <div class="stat">
+                            <i data-lucide="sword" class="stat-icon"></i>
+                            <span>15 Tests</span>
+                        </div>
+                        <div class="stat">
+                            <i data-lucide="zap" class="stat-icon"></i>
+                            <span>+60 XP</span>
+                        </div>
+                    </div>
+                    <div class="completion-bar">
+                        <div class="completion-fill" style="width: 30%"></div>
+                    </div>
+                    <span class="completion-text">30% Complete</span>
+                </div>
+            </div>
+
+            <!-- Computer Networks Dungeon -->
+            <div class="dungeon-card rank-b" data-subject="networks">
+                <div class="dungeon-entrance">
+                    <div class="dungeon-door">
+                        <i data-lucide="network" class="dungeon-icon"></i>
+                    </div>
+                    <div class="rank-badge rank-b-badge">B</div>
+                </div>
+                <div class="dungeon-info">
+                    <h3 class="dungeon-name">Computer Networks</h3>
+                    <p class="dungeon-description">TCP/IP, OSI Model, Routing</p>
+                    <div class="dungeon-stats">
+                        <div class="stat">
+                            <i data-lucide="sword" class="stat-icon"></i>
+                            <span>10 Tests</span>
+                        </div>
+                        <div class="stat">
+                            <i data-lucide="zap" class="stat-icon"></i>
+                            <span>+40 XP</span>
+                        </div>
+                    </div>
+                    <div class="completion-bar">
+                        <div class="completion-fill" style="width: 80%"></div>
+                    </div>
+                    <span class="completion-text">80% Complete</span>
+                </div>
+            </div>
+
+            <!-- Operating Systems Dungeon -->
+            <div class="dungeon-card rank-a" data-subject="os">
+                <div class="dungeon-entrance">
+                    <div class="dungeon-door">
+                        <i data-lucide="cpu" class="dungeon-icon"></i>
+                    </div>
+                    <div class="rank-badge rank-a-badge">A</div>
+                </div>
+                <div class="dungeon-info">
+                    <h3 class="dungeon-name">Operating Systems</h3>
+                    <p class="dungeon-description">Processes, Memory, File Systems</p>
+                    <div class="dungeon-stats">
+                        <div class="stat">
+                            <i data-lucide="sword" class="stat-icon"></i>
+                            <span>14 Tests</span>
+                        </div>
+                        <div class="stat">
+                            <i data-lucide="zap" class="stat-icon"></i>
+                            <span>+50 XP</span>
+                        </div>
+                    </div>
+                    <div class="completion-bar">
+                        <div class="completion-fill" style="width: 45%"></div>
+                    </div>
+                    <span class="completion-text">45% Complete</span>
+                </div>
+            </div>
+
+            <!-- Data Structures Dungeon -->
+            <div class="dungeon-card rank-s" data-subject="dsa">
+                <div class="dungeon-entrance">
+                    <div class="dungeon-door">
+                        <i data-lucide="git-branch" class="dungeon-icon"></i>
+                    </div>
+                    <div class="rank-badge rank-s-badge">S</div>
+                </div>
+                <div class="dungeon-info">
+                    <h3 class="dungeon-name">Data Structures</h3>
+                    <p class="dungeon-description">Arrays, Trees, Graphs, Algorithms</p>
+                    <div class="dungeon-stats">
+                        <div class="stat">
+                            <i data-lucide="sword" class="stat-icon"></i>
+                            <span>18 Tests</span>
+                        </div>
+                        <div class="stat">
+                            <i data-lucide="zap" class="stat-icon"></i>
+                            <span>+65 XP</span>
+                        </div>
+                    </div>
+                    <div class="completion-bar">
+                        <div class="completion-fill" style="width: 20%"></div>
+                    </div>
+                    <span class="completion-text">20% Complete</span>
+                </div>
+            </div>
+
+            <!-- Software Engineering Dungeon -->
+            <div class="dungeon-card rank-c" data-subject="se">
+                <div class="dungeon-entrance">
+                    <div class="dungeon-door">
+                        <i data-lucide="code" class="dungeon-icon"></i>
+                    </div>
+                    <div class="rank-badge rank-c-badge">C</div>
+                </div>
+                <div class="dungeon-info">
+                    <h3 class="dungeon-name">Software Engineering</h3>
+                    <p class="dungeon-description">SDLC, Testing, Design Patterns</p>
+                    <div class="dungeon-stats">
+                        <div class="stat">
+                            <i data-lucide="sword" class="stat-icon"></i>
+                            <span>8 Tests</span>
+                        </div>
+                        <div class="stat">
+                            <i data-lucide="zap" class="stat-icon"></i>
+                            <span>+35 XP</span>
+                        </div>
+                    </div>
+                    <div class="completion-bar">
+                        <div class="completion-fill" style="width: 90%"></div>
+                    </div>
+                    <span class="completion-text">90% Complete</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dungeon Detail Modal -->
+    <div id="dungeon-modal" class="modal-overlay hidden">
+        <div class="modal-container dungeon-modal">
+            <div class="dungeon-detail-card">
+                <button class="modal-close" id="close-dungeon-modal">
+                    <i data-lucide="x" class="close-icon"></i>
+                </button>
+                
+                <div class="dungeon-detail-header">
+                    <div class="dungeon-detail-icon">
+                        <i data-lucide="calculator" class="detail-icon"></i>
+                    </div>
+                    <h2 class="dungeon-detail-name">Mathematics</h2>
+                    <div class="dungeon-detail-rank">
+                        <span class="rank-badge rank-a-badge">A</span>
+                    </div>
+                </div>
+                
+                <div class="dungeon-detail-content">
+                    <div class="test-list">
+                        <h3 class="test-list-title">Available Tests</h3>
+                        <div class="test-items">
+                            <div class="test-item">
+                                <div class="test-info">
+                                    <span class="test-name">Calculus Fundamentals</span>
+                                    <span class="test-type">MCQ</span>
+                                </div>
+                                <div class="test-stats">
+                                    <span class="test-questions">15 Questions</span>
+                                    <span class="test-reward">+25 XP</span>
+                                </div>
+                                <button class="test-start-btn">Start</button>
+                            </div>
+                            
+                            <div class="test-item">
+                                <div class="test-info">
+                                    <span class="test-name">Linear Algebra</span>
+                                    <span class="test-type">Conceptual</span>
+                                </div>
+                                <div class="test-stats">
+                                    <span class="test-questions">10 Questions</span>
+                                    <span class="test-reward">+30 XP</span>
+                                </div>
+                                <button class="test-start-btn">Start</button>
+                            </div>
+                            
+                            <div class="test-item">
+                                <div class="test-info">
+                                    <span class="test-name">Statistics Speed Test</span>
+                                    <span class="test-type">Speed</span>
+                                </div>
+                                <div class="test-stats">
+                                    <span class="test-questions">20 Questions</span>
+                                    <span class="test-reward">+20 XP</span>
+                                </div>
+                                <button class="test-start-btn">Start</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="enemy-topics">
+                        <h3 class="enemy-title">
+                            <i data-lucide="skull" class="enemy-icon"></i>
+                            Topic Enemies
+                        </h3>
+                        <div class="enemy-list">
+                            <div class="enemy-item defeated">
+                                <span class="enemy-name">Basic Algebra</span>
+                                <span class="enemy-status">Defeated</span>
+                            </div>
+                            <div class="enemy-item active">
+                                <span class="enemy-name">Calculus</span>
+                                <span class="enemy-status">In Progress</span>
+                            </div>
+                            <div class="enemy-item locked">
+                                <span class="enemy-name">Advanced Statistics</span>
+                                <span class="enemy-status">Locked</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>window.notification = "{{ request.session.notification|default:''|escapejs }}"</script>
+    <script>window.notification_type = "{{ request.session.notification_type|default:''|escapejs }}"</script>
+    <script src="{% static 'js/common.js' %}"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script type="module" src="{% static 'js/test-center.js' %}"></script>
+</body>
+</html>

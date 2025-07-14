@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - PrepDungeon</title>
+    <link rel="stylesheet" href="{% static '/css/styles.css' %}">
+    <link rel="stylesheet" href="{% static '/css/dashboard.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.344.0/lucide.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@400;700;900&family=Bungee&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-background">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="gradient-orb orb-4"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="dashboard-nav">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i data-lucide="brain" class="nav-logo"></i>
+                <span class="nav-title">PrepDungeon</span>
+            </div>
+            <div class="nav-menu">
+                <a href="{% url 'dashboard' %}" class="nav-link active">Dashboard</a>
+                <a href="{% url 'test-center' %}" class="nav-link">Test Center</a>
+                <a href="{% url 'study-guide' %}" class="nav-link">Study Guide</a>
+                <a href="{% url 'daily-quest' %}" class="nav-link">Quests</a>
+                <a href="{% url 'leaderboard' %}" class="nav-link">Leaderboard</a>
+                <a href="{% url 'profile' %}" class="nav-link">Profile</a>
+            </div>
+            <div class="user-stats">
+                <div class="stat-item">
+                    <i data-lucide="star" class="stat-icon"></i>
+                    <span class="stat-value">{{ user.profile.points }}</span>
+                </div>
+                <div class="stat-item">
+                    <i data-lucide="zap" class="stat-icon"></i>
+                    <span class="stat-value">Lv. {{ user.profile.level }}</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Dashboard -->
+    <div class="dashboard-container">
+        <!-- Header Section -->
+        <div class="dashboard-header">
+            <div class="welcome-section">
+                <h1 class="welcome-title">Welcome back, {{ user.first_name }}!</h1>
+                <p class="welcome-subtitle">Ready to conquer today's challenges?</p>
+            </div>
+            
+            <!-- Player Stats -->
+            <div class="player-stats">
+                <div class="stat-card">
+                    <div class="stat-icon-wrapper">
+                        <i data-lucide="zap" class="stat-icon"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Level</span>
+                        <span class="stat-value">{{ user.profile.level }}</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon-wrapper">
+                        <i data-lucide="flame" class="stat-icon"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Streak</span>
+                        <span class="stat-value">{{ user.profile.streak }} days</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon-wrapper">
+                        <i data-lucide="star" class="stat-icon"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Curiosity Points</span>
+                        <span class="stat-value">{{ user.profile.points }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- XP Progress Bar -->
+        <div class="xp-section">
+            <div class="xp-info">
+                <span class="xp-label">Experience Points</span>
+                <span class="xp-value">{{ user.profile.xp }} / {{ xp_max }} XP</span>
+            </div>
+            <div class="xp-bar">
+                <div class="xp-fill" style="width: {{ user.profile.xp_progress_percentage }}%"></div>
+            </div>
+            <span class="xp-next">{{ user.profile.xp_to_next_level }} XP to Level {{ next_level }}</span>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="dashboard-grid">
+            <!-- Today's Tasks -->
+            <div class="dashboard-card tasks-card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i data-lucide="list-checks" class="title-icon"></i>
+                        Today's Study Tasks
+                    </h3>
+                    <span class="task-count">{{ user.completed_daily|length }}/{{ daily_quests|length }} Complete</span>
+                </div>
+                <div class="task-list">
+                    {% for quest in daily_quests %}
+                        {% if quest.id in completed_ids %}
+                            <div class="task-item completed">
+                                <div class="task-checkbox">
+                                    <i data-lucide="check" class="check-icon"></i>
+                                </div>
+                                <div class="task-content">
+                                    <span class="task-name">{{ quest.name }}</span>
+                                    <span class="task-reward">+{{ quest.xp_reward }} XP</span>
+                                    <span class="task-reward">+{{ quest.points_reward }} CP</span>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="task-item">
+                                <div class="task-checkbox">
+                                </div>
+                                <div class="task-content">
+                                    <span class="task-name">{{ quest.name }}</span>
+                                    <span class="task-reward">+{{ quest.xp_reward }} XP</span>
+                                    <span class="task-reward">+{{ quest.points_reward }} CP</span>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Focus Mode -->
+            <div class="dashboard-card focus-card" style="display: none;">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i data-lucide="target" class="title-icon"></i>
+                        Focus Mode
+                    </h3>
+                </div>
+                <div class="focus-content">
+                    <div class="focus-timer">
+                        <div class="timer-circle">
+                            <span class="timer-text">25:00</span>
+                        </div>
+                    </div>
+                    <p class="focus-description">Start a focused study session and earn bonus XP!</p>
+                    <div class="focus-rewards">
+                        <div class="reward-item">
+                            <i data-lucide="zap" class="reward-icon"></i>
+                            <span>+50 XP</span>
+                        </div>
+                        <div class="reward-item">
+                            <i data-lucide="star" class="reward-icon"></i>
+                            <span>+10 CP</span>
+                        </div>
+                    </div>
+                    <button class="focus-btn">
+                        <i data-lucide="play" class="btn-icon"></i>
+                        Start Focus Session
+                    </button>
+                </div>
+            </div>
+
+            <!-- Weak Topics Alert -->
+            <div class="dashboard-card alerts-card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i data-lucide="alert-triangle" class="title-icon"></i>
+                        Weak Topic Alerts
+                    </h3>
+                </div>
+                <div class="alert-list">
+                    <div class="alert-item urgent">
+                        <div class="alert-icon">
+                            <i data-lucide="database"></i>
+                        </div>
+                        <div class="alert-content">
+                            <span class="alert-subject">DBMS</span>
+                            <span class="alert-topic">Normalization</span>
+                            <span class="alert-score">45%</span>
+                        </div>
+                        <button class="alert-action">Practice</button>
+                    </div>
+                    
+                    <div class="alert-item warning">
+                        <div class="alert-icon">
+                            <i data-lucide="network"></i>
+                        </div>
+                        <div class="alert-content">
+                            <span class="alert-subject">CN</span>
+                            <span class="alert-topic">TCP/IP Protocol</span>
+                            <span class="alert-score">62%</span>
+                        </div>
+                        <button class="alert-action">Review</button>
+                    </div>
+                    
+                    <div class="alert-item moderate">
+                        <div class="alert-icon">
+                            <i data-lucide="calculator"></i>
+                        </div>
+                        <div class="alert-content">
+                            <span class="alert-subject">Math</span>
+                            <span class="alert-topic">Calculus</span>
+                            <span class="alert-score">71%</span>
+                        </div>
+                        <button class="alert-action">Improve</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Smart Suggestions -->
+            <div class="dashboard-card suggestions-card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i data-lucide="lightbulb" class="title-icon"></i>
+                        Smart Suggestions
+                    </h3>
+                </div>
+                <div class="suggestion-list">
+                    <div class="suggestion-item">
+                        <div class="suggestion-icon">
+                            <i data-lucide="book-open"></i>
+                        </div>
+                        <div class="suggestion-content">
+                            <span class="suggestion-text">Review DBMS concepts before tomorrow's test</span>
+                            <span class="suggestion-time">Recommended: 30 min</span>
+                        </div>
+                    </div>
+                    
+                    <div class="suggestion-item">
+                        <div class="suggestion-icon">
+                            <i data-lucide="users"></i>
+                        </div>
+                        <div class="suggestion-content">
+                            <span class="suggestion-text">Join the Computer Networks study group</span>
+                            <span class="suggestion-time">5 active members</span>
+                        </div>
+                    </div>
+                    
+                    <div class="suggestion-item">
+                        <div class="suggestion-icon">
+                            <i data-lucide="trophy"></i>
+                        </div>
+                        <div class="suggestion-content">
+                            <span class="suggestion-text">You're close to beating Sarah's Math score!</span>
+                            <span class="suggestion-time">Need 8% improvement</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>window.notification = "{{ request.session.notification|default:''|escapejs }}"</script>
+    <script>window.notification_type = "{{ request.session.notification_type|default:''|escapejs }}"</script>
+    <script src="{% static 'js/common.js' %}"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="{% static 'js/dashboard.js' %}"></script>
+</body>
+</html>

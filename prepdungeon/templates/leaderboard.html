@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard - PrepDungeon</title>
+    <link rel="stylesheet" href="{% static '/css/styles.css' %}">
+    <link rel="stylesheet" href="{% static '/css/dashboard.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.344.0/lucide.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@400;700;900&family=Bungee&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-background">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="gradient-orb orb-4"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="dashboard-nav">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i data-lucide="brain" class="nav-logo"></i>
+                <span class="nav-title">PrepDungeon</span>
+            </div>
+            <div class="nav-menu">
+                <a href="{% url 'dashboard' %}" class="nav-link">Dashboard</a>
+                <a href="{% url 'test-center' %}" class="nav-link">Test Center</a>
+                <a href="{% url 'study-guide' %}" class="nav-link">Study Guide</a>
+                <a href="{% url 'daily-quest' %}" class="nav-link">Quests</a>
+                <a href="{% url 'leaderboard' %}" class="nav-link active">Leaderboard</a>
+                <a href="{% url 'profile' %}" class="nav-link">Profile</a>
+            </div>
+            <div class="user-stats">
+                <div class="stat-item">
+                    <i data-lucide="star" class="stat-icon"></i>
+                    <span class="stat-value">250 CP</span>
+                </div>
+                <div class="stat-item">
+                    <i data-lucide="zap" class="stat-icon"></i>
+                    <span class="stat-value">Lv. 3</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Leaderboard Container -->
+    <div class="leaderboard-container">
+        <div class="leaderboard-header">
+            <h1 class="page-title">Hall of Champions</h1>
+            <p class="page-subtitle">Compete with fellow scholars and climb the ranks</p>
+            
+            <!-- Privacy Toggle -->
+            <div class="privacy-section">
+                <label class="privacy-toggle">
+                    <input type="checkbox" id="privacy-checkbox">
+                    <span class="toggle-slider"></span>
+                    <div class="toggle-content">
+                        <i data-lucide="eye-off" class="privacy-icon"></i>
+                        <span>Keep my profile private</span>
+                    </div>
+                </label>
+            </div>
+        </div>
+
+        <!-- Leaderboard Controls -->
+        <div class="leaderboard-controls">
+            <div class="time-filters">
+                <button class="filter-btn active" data-period="weekly">Weekly</button>
+                <button class="filter-btn" data-period="monthly">Monthly</button>
+                <button class="filter-btn" data-period="alltime">All Time</button>
+            </div>
+            
+            <div class="board-filters">
+                <button class="board-btn active" data-board="global">
+                    <i data-lucide="globe" class="btn-icon"></i>
+                    Global
+                </button>
+                <button class="board-btn" data-board="friends">
+                    <i data-lucide="users" class="btn-icon"></i>
+                    Friends
+                </button>
+            </div>
+        </div>
+
+        <!-- Top 3 Podium -->
+        <div class="podium-section">
+            <div class="podium">
+                <!-- 2nd Place -->
+                <div class="podium-player second">
+                    <div class="player-avatar">
+                        <img src="https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop" alt="Sarah Chen">
+                        <div class="rank-badge silver">2</div>
+                    </div>
+                    <h3 class="player-name">Sarah Chen</h3>
+                    <div class="player-stats">
+                        <span class="level">Lv. 5</span>
+                        <span class="score">2,847 XP</span>
+                    </div>
+                    <div class="podium-base second-place">
+                        <span class="place-number">2</span>
+                    </div>
+                </div>
+                
+                <!-- 1st Place -->
+                <div class="podium-player first">
+                    <div class="player-avatar">
+                        <img src="https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop" alt="Alex Rodriguez">
+                        <div class="rank-badge gold">1</div>
+                        <div class="crown">
+                            <i data-lucide="crown"></i>
+                        </div>
+                    </div>
+                    <h3 class="player-name">Alex Rodriguez</h3>
+                    <div class="player-stats">
+                        <span class="level">Lv. 6</span>
+                        <span class="score">3,245 XP</span>
+                    </div>
+                    <div class="podium-base first-place">
+                        <span class="place-number">1</span>
+                    </div>
+                </div>
+                
+                <!-- 3rd Place -->
+                <div class="podium-player third">
+                    <div class="player-avatar">
+                        <img src="https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop" alt="Mike Johnson">
+                        <div class="rank-badge bronze">3</div>
+                    </div>
+                    <h3 class="player-name">Mike Johnson</h3>
+                    <div class="player-stats">
+                        <span class="level">Lv. 4</span>
+                        <span class="score">2,156 XP</span>
+                    </div>
+                    <div class="podium-base third-place">
+                        <span class="place-number">3</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Leaderboard Table -->
+        <div class="leaderboard-table">
+            <div class="table-header">
+                <h3 class="table-title">
+                    <i data-lucide="trophy" class="title-icon"></i>
+                    Rankings
+                </h3>
+                <span class="update-time">Updated 5 minutes ago</span>
+            </div>
+            
+            <div class="table-content">
+                <div class="table-row header">
+                    <div class="rank-col">Rank</div>
+                    <div class="player-col">Player</div>
+                    <div class="level-col">Level</div>
+                    <div class="xp-col">XP</div>
+                    <div class="time-col">Daily Time</div>
+                    <div class="score-col">Avg Score</div>
+                    <div class="quests-col">Quests</div>
+                </div>
+                
+                <div class="table-row current-user">
+                    <div class="rank-col">
+                        <span class="rank-number">4</span>
+                    </div>
+                    <div class="player-col">
+                        <div class="player-info">
+                            <div class="player-avatar small">
+                                <img src="https://images.pexels.com/photos/1043471/pexels-photo-1043471.jpeg?auto=compress&cs=tinysrgb&w=50&h=50&fit=crop" alt="You">
+                            </div>
+                            <div class="player-details">
+                                <span class="player-name">You</span>
+                                <span class="player-badge">Scholar</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="level-col">
+                        <span class="level-badge">Lv. 3</span>
+                    </div>
+                    <div class="xp-col">1,892</div>
+                    <div class="time-col">2h 15m</div>
+                    <div class="score-col">78%</div>
+                    <div class="quests-col">42</div>
+                </div>
+                
+                <div class="table-row">
+                    <div class="rank-col">
+                        <span class="rank-number">5</span>
+                    </div>
+                    <div class="player-col">
+                        <div class="player-info">
+                            <div class="player-avatar small">
+                                <img src="https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=50&h=50&fit=crop" alt="Emma Wilson">
+                            </div>
+                            <div class="player-details">
+                                <span class="player-name">Emma Wilson</span>
+                                <span class="player-badge">Apprentice</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="level-col">
+                        <span class="level-badge">Lv. 3</span>
+                    </div>
+                    <div class="xp-col">1,756</div>
+                    <div class="time-col">1h 45m</div>
+                    <div class="score-col">82%</div>
+                    <div class="quests-col">38</div>
+                </div>
+                
+                <div class="table-row">
+                    <div class="rank-col">
+                        <span class="rank-number">6</span>
+                    </div>
+                    <div class="player-col">
+                        <div class="player-info">
+                            <div class="player-avatar small">
+                                <img src="https://images.pexels.com/photos/1516680/pexels-photo-1516680.jpeg?auto=compress&cs=tinysrgb&w=50&h=50&fit=crop" alt="David Kim">
+                            </div>
+                            <div class="player-details">
+                                <span class="player-name">David Kim</span>
+                                <span class="player-badge">Novice</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="level-col">
+                        <span class="level-badge">Lv. 2</span>
+                    </div>
+                    <div class="xp-col">1,423</div>
+                    <div class="time-col">3h 20m</div>
+                    <div class="score-col">75%</div>
+                    <div class="quests-col">29</div>
+                </div>
+                
+                <div class="table-row">
+                    <div class="rank-col">
+                        <span class="rank-number">7</span>
+                    </div>
+                    <div class="player-col">
+                        <div class="player-info">
+                            <div class="player-avatar small">
+                                <img src="https://images.pexels.com/photos/1559486/pexels-photo-1559486.jpeg?auto=compress&cs=tinysrgb&w=50&h=50&fit=crop" alt="Lisa Zhang">
+                            </div>
+                            <div class="player-details">
+                                <span class="player-name">Lisa Zhang</span>
+                                <span class="player-badge">Apprentice</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="level-col">
+                        <span class="level-badge">Lv. 3</span>
+                    </div>
+                    <div class="xp-col">1,298</div>
+                    <div class="time-col">1h 30m</div>
+                    <div class="score-col">88%</div>
+                    <div class="quests-col">35</div>
+                </div>
+                
+                <div class="table-row">
+                    <div class="rank-col">
+                        <span class="rank-number">8</span>
+                    </div>
+                    <div class="player-col">
+                        <div class="player-info">
+                            <div class="player-avatar small">
+                                <img src="https://images.pexels.com/photos/1040880/pexels-photo-1040880.jpeg?auto=compress&cs=tinysrgb&w=50&h=50&fit=crop" alt="Ryan Taylor">
+                            </div>
+                            <div class="player-details">
+                                <span class="player-name">Ryan Taylor</span>
+                                <span class="player-badge">Novice</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="level-col">
+                        <span class="level-badge">Lv. 2</span>
+                    </div>
+                    <div class="xp-col">1,156</div>
+                    <div class="time-col">2h 45m</div>
+                    <div class="score-col">71%</div>
+                    <div class="quests-col">24</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Achievement Leaderboards -->
+        <div class="achievement-boards">
+            <div class="achievement-board">
+                <h3 class="board-title">
+                    <i data-lucide="zap" class="title-icon"></i>
+                    Speed Champions
+                </h3>
+                <div class="mini-leaderboard">
+                    <div class="mini-row">
+                        <span class="mini-rank">1</span>
+                        <span class="mini-name">Alex Rodriguez</span>
+                        <span class="mini-stat">45s avg</span>
+                    </div>
+                    <div class="mini-row">
+                        <span class="mini-rank">2</span>
+                        <span class="mini-name">Sarah Chen</span>
+                        <span class="mini-stat">52s avg</span>
+                    </div>
+                    <div class="mini-row">
+                        <span class="mini-rank">3</span>
+                        <span class="mini-name">Mike Johnson</span>
+                        <span class="mini-stat">58s avg</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="achievement-board">
+                <h3 class="board-title">
+                    <i data-lucide="target" class="title-icon"></i>
+                    Accuracy Masters
+                </h3>
+                <div class="mini-leaderboard">
+                    <div class="mini-row">
+                        <span class="mini-rank">1</span>
+                        <span class="mini-name">Lisa Zhang</span>
+                        <span class="mini-stat">96.5%</span>
+                    </div>
+                    <div class="mini-row">
+                        <span class="mini-rank">2</span>
+                        <span class="mini-name">Emma Wilson</span>
+                        <span class="mini-stat">94.2%</span>
+                    </div>
+                    <div class="mini-row">
+                        <span class="mini-rank">3</span>
+                        <span class="mini-name">Alex Rodriguez</span>
+                        <span class="mini-stat">92.8%</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="achievement-board">
+                <h3 class="board-title">
+                    <i data-lucide="flame" class="title-icon"></i>
+                    Streak Legends
+                </h3>
+                <div class="mini-leaderboard">
+                    <div class="mini-row">
+                        <span class="mini-rank">1</span>
+                        <span class="mini-name">Sarah Chen</span>
+                        <span class="mini-stat">28 days</span>
+                    </div>
+                    <div class="mini-row">
+                        <span class="mini-rank">2</span>
+                        <span class="mini-name">David Kim</span>
+                        <span class="mini-stat">21 days</span>
+                    </div>
+                    <div class="mini-row">
+                        <span class="mini-rank">3</span>
+                        <span class="mini-name">You</span>
+                        <span class="mini-stat">7 days</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>window.notification = "{{ request.session.notification|default:''|escapejs }}"</script>
+    <script>window.notification_type = "{{ request.session.notification_type|default:''|escapejs }}"</script>
+    <script src="{% static 'js/common.js' %}"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script type="module" src="{% static 'js/leaderboard.js' %}"></script>
+</body>
+</html>
