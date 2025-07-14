@@ -4,7 +4,7 @@ const testCards = document.querySelectorAll('.test-container');
 
 let currentQuestion = 0;
 let userAnswers = Array(testCards.length).fill(null);
-let timeRemaining = 1500;
+let timeRemaining = 900;
 let timerInterval;
 let questionStartTime = Date.now();
 let timePerQuestion = Array(testCards.length).fill(0);
@@ -117,6 +117,30 @@ function updateProgress() {
     progressFill.style.width = `${progress}%`;
 }
 
+function handleBackClick(event) {
+    event.preventDefault(); // stop immediate navigation
+    finishTest(() => {
+        Promise.all([
+            fetch("/clear-notification/", {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": getCookie("csrftoken"),
+                    "Content-Type": "application/json"
+                }
+            }),
+            fetch("/clear-question-ids/", {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": getCookie("csrftoken"),
+                    "Content-Type": "application/json"
+                }
+            })
+        ]).finally(() => {
+            window.location.href = "/";
+        });
+    });
+}
+
 function finishTest() {
     clearInterval(timerInterval);
     
@@ -131,7 +155,7 @@ function finishTest() {
         timePerQuestion: timePerQuestion,
     };
 
-    fetch('/submit-speed/', {
+    fetch('/submit-conceptual/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', "X-CSRFToken": getCookie('csrftoken')},
         body: JSON.stringify(payload)

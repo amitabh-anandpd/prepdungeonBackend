@@ -80,7 +80,7 @@ def index(request):
             if test_type == 'mcq':
                 prompt = "Generate 5 mcq question based on the given text. Give output in csv format, don't forget to give the column name but keep it like this - 'topic', 'subject', 'question', 'opt1', 'opt2', 'opt3', 'opt4', 'answer', 'level'. subject should be the subject from which the question is (college subjects). topic name should be of the subject. topic from which the question is, not the subject. level should be the question's level based on easy, medium and hard. Make sure answer is one of the options exactly as it is. Don't forget to double quote the data so that it's csv can be read ignoring extra commas. Also, only give csv part and don't write anything else"
             elif test_type == 'conceptual':
-                prompt = "Generate 5 conceptual question based on the given text. Give output in csv format, don't forget to give the column name but keep it like this - 'topic', 'subject', 'question', 'answer', 'level'. subject should be the subject from which the question is (college subjects). topic name should be of the of the subject. topic from which the question is, not the subject. level should be the question's level based on easy, medium and hard. Don't forget to double quote the data so that it's csv can be read ignoring extra commas. Also, only give csv part and don't write anything else"
+                prompt = "Generate 5 conceptual question based on the given text. Give output in csv format, don't forget to give the column name but keep it like this - 'topic', 'subject', 'question', 'answer', 'level'. subject should be the subject from which the question is (college subjects). topic name should be of the of the subject. topic from which the question is, not the subject. level should be the question's level based on easy, medium and hard. Answers shouldn't exceed 512 characters, but around 350-450 is fine. Don't forget to double quote the data so that it's csv can be read ignoring extra commas. Also, only give csv part and don't write anything else"
             elif test_type == 'speed':
                 prompt = "Generate 5 question with short answer (less than 5 words will be okay) based on the given text. Give output in csv format, don't forget to give the column name but keep it like this - 'topic', 'subject', 'question', 'answer', 'level'. subject should be the subject from which the question is (college subjects). topic name should be of the subject. topic from which the question is, not the subject. level should be the question's level based on easy, medium and hard. Don't forget to double quote the data so that it's csv can be read ignoring extra commas. Also, only give csv part and don't write anything else"
             full_text = full_text + " " + prompt
@@ -283,9 +283,6 @@ def checkMCQ(request):
         return JsonResponse({'status': 'ok'})
     return JsonResponse({"error": "Only POST allowed"}, status=405)
 
-def testConceptual(request):
-    return render(request, 'test-conceptual.html')
-
 def testSpeed(request):
     if not request.session.get('question_ids'):
         request.session['notification'] = "No questions available!"
@@ -350,6 +347,85 @@ def checkSpeed(request):
                         'timeManagement': row['timeManagement'],
                         'accuracyFocus': row['accuracyFocus'],
                         'speed': row['speed'],
+                    }
+                except Exception as e:
+                    print(e)
+            elif response.status_code == 500:
+                request.session['notification'] = response.json()["error"]
+                request.session['notification_type'] = "error"
+            else:
+                request.session['notification'] = "Unexpected error occured!"
+                request.session['notification_type'] = "error"
+        except Exception as e:
+            request.session['notification'] = f"Failed to get analysis! ({e})"
+            request.session['notification_type'] = "error"
+        return JsonResponse({'status': 'ok'})
+    return JsonResponse({"error": "Only POST allowed"}, status=405)
+
+def testConceptual(request):
+    if not request.session.get('question_ids'):
+        request.session['notification'] = "No questions available!"
+        request.session['notification_type'] = "info"
+        referer = request.META.get('HTTP_REFERER')
+        if referer:
+            return redirect(referer)
+        else:
+            return redirect('/dashboard') 
+    question_ids = request.session['question_ids']
+    questions = Question.objects.filter(id__in=question_ids)
+    return render(request, 'test-conceptual.html', {
+        'questions': questions,
+    })
+
+def checkConceptual(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        user_answers = data.get('userAnswers', [])
+        question_ids = request.session.get('question_ids', [])
+        qs = Question.objects.filter(id__in=question_ids)
+        qs_dict = {str(q.id): q for q in qs}
+
+        answers = []
+        for i in range(len(question_ids)):
+            qid = str(question_ids[i])
+            question_obj = qs_dict.get(qid)
+
+            if question_obj:
+                answers.append({
+                    'question': question_obj.question,
+                    'user_answer': user_answers[i],
+                    'intended_answer': question_obj.answer,
+                })
+        answers = json.dumps(answers)
+        total = len(question_ids)
+        
+        request.session.pop('question_ids')
+        prompt = f"{answers}\n Give me an analysis on the basis of the given test question, user-answer and what correct answer is"
+        prompt = prompt + "I need score of 'deepUnderstanding', 'criticalThinking', 'problemSolving', 'memoryRetention', 'score'"
+        prompt = prompt + " in percentage in csv format. Use column names as I have given. Don't give anything else other than csv data and write each data cell inside double quotation marks so that unnecessary commas are not included."
+        prompt = prompt + " Calculate score from a max of 5 marks per question and give marks based on user-answer."
+        try:
+            response = requests.post(
+                API_URL,
+                json={'prompt': prompt},
+                timeout=60,
+            )
+            if response.status_code == 200:
+                print(response.json()['response'])
+                try:
+                    reader = csv.DictReader(io.StringIO(response.json()['response']))
+                    saved = []
+                    for row in reader:
+                        saved.append(row)
+                    request.session['score'] = {
+                        'test_type': data.get('test_type'),
+                        'score': row['score'],
+                        'total': data.get('totalQuestions'),
+                        'time': data.get('timeSpent'),
+                        'deepUnderstanding': row['deepUnderstanding'],
+                        'criticalThinking': row['criticalThinking'],
+                        'problemSolving': row['problemSolving'],
+                        'memoryRetention': row['memoryRetention'],
                     }
                 except Exception as e:
                     print(e)

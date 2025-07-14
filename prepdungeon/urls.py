@@ -22,7 +22,7 @@ from django.contrib import admin
 from django.urls import path, include
 from .views import index, auth, dashboard, leaderboard, onboarding, profile, studyGuide, testCenter, dailyQuest
 from .views import clear_notifications, clear_question_ids
-from .views import testMCQ, checkMCQ, testSpeed, checkSpeed
+from .views import testMCQ, checkMCQ, testSpeed, checkSpeed, testConceptual, checkConceptual
 from .views import logout_view
 
 urlpatterns = [
@@ -39,10 +39,12 @@ urlpatterns = [
     path('daily-quest/', dailyQuest, name="daily-quest"),
     path('test-mcq/', testMCQ, name='test-mcq'),
     path('test-speed/', testSpeed, name='test-speed'),
+    path('test-conceptual/', testConceptual, name='test-conceptual'),
     path('clear-notification/', clear_notifications, name="clear_notifications"),
     path('clear-question-ids/', clear_question_ids, name="clear_question_ids"),
     path('submit-mcq/', checkMCQ, name="checkMCQ"),
     path('submit-speed/', checkSpeed, name="checkSpeed"),
+    path('submit-conceptual/', checkConceptual, name="checkConceptual"),
     path('api/', include('prepdungeon.apiurls')),
 ]
 
