@@ -268,13 +268,6 @@
                 </div>
                 
                 <!-- Signup Button -->
-                <!--div class="signup-cta-container">
-                    <button class="signup-cta-btn" id="show-signup-modal">
-                        <span>Get My Full Analysis</span>
-                        <i data-lucide="arrow-right" class="btn-icon"></i>
-                    </button>
-                    <p class="signup-cta-text">Unlock detailed insights, personalized study plans, and progress tracking</p>
-                </div-->
                 <div class="signup-cta-container">
                     <button class="signup-cta-btn" id="show-Waitlist-modal">
                         <span>Get My Full Analysis</span>
@@ -395,61 +388,58 @@
     </div>
 
 
-    <!-- Features Section -->
-    <section id="features" class="features">
+    <!-- How It Works Section -->
+    <section class="how-it-works">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">Why Students Love PrepDungeon</h2>
-                <p class="section-subtitle">Personalized learning powered by AI technology</p>
+                <h2 class="section-title">How It Works</h2>
+                <p class="section-subtitle">A step-by-step journey through PrepDungeon</p>
             </div>
-            
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i data-lucide="brain"></i>
+  
+      <div class="steps-scroll">
+                <!-- Step 1 -->
+                <div class="how-step">
+                    <div class="step-icon">
+                        <i data-lucide="upload-cloud"></i>
                     </div>
-                    <h3 class="feature-title">AI-Powered Analysis</h3>
-                    <p class="feature-description">Advanced algorithms analyze your learning patterns and provide personalized insights.</p>
+                    <h3 class="step-title">Upload Material</h3>
+                    <p class="step-desc">Upload your syllabus, notes, or chapters to get started.</p>
                 </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i data-lucide="target"></i>
+  
+                <!-- Step 2 -->
+                <div class="how-step">
+                    <div class="step-icon">
+                        <i data-lucide="file-check-2"></i>
                     </div>
-                    <h3 class="feature-title">Personalized Study Plans</h3>
-                    <p class="feature-description">Custom study schedules tailored to your strengths, weaknesses, and goals.</p>
+                    <h3 class="step-title">Take Quick Test</h3>
+                    <p class="step-desc">Attempt AI-generated topic tests based on your material.</p>
                 </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i data-lucide="trending-up"></i>
-                    </div>
-                    <h3 class="feature-title">Progress Tracking</h3>
-                    <p class="feature-description">Real-time monitoring of your improvement with detailed analytics and insights.</p>
+        
+                <!-- Step 3 -->
+                <div class="how-step">
+                <div class="step-icon">
+                    <i data-lucide="bar-chart"></i>
                 </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i data-lucide="monitor-cog"></i>
-                    </div>
-                    <h3 class="feature-title">Adaptive Test Engine</h3>
-                    <p class="feature-description">Tests evolve with you—harder questions when you're strong, simpler ones when you're learning.</p>
+                    <h3 class="step-title">Instant Analysis</h3>
+                    <p class="step-desc">Receive insights on performance, accuracy, and weak areas.</p>
                 </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i data-lucide="users"></i>
+  
+                <!-- Step 4 -->
+                <div class="how-step">
+                    <div class="step-icon">
+                        <i data-lucide="calendar-check-2"></i>
                     </div>
-                    <h3 class="feature-title">Peer Comparison</h3>
-                    <p class="feature-description">See how you stack up against peers and get motivated to improve.</p>
+                    <h3 class="step-title">AI-Powered Plan</h3>
+                    <p class="step-desc">Get a daily routine adapted to your progress.</p>
                 </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i data-lucide="gamepad-2"></i>
+  
+                <!-- Step 5 -->
+                <div class="how-step">
+                    <div class="step-icon">
+                        <i data-lucide="award"></i>
                     </div>
-                    <h3 class="feature-title">Gamified Learning Experience</h3>
-                    <p class="feature-description">Earn Curiosity Points, unlock badges, and level up as you conquer topics.</p>
+                    <h3 class="step-title">Level-Up & Compete</h3>
+                    <p class="step-desc">Earn XP, badges, and join leaderboards with your friends.</p>
                 </div>
             </div>
         </div>
@@ -489,61 +479,45 @@
                         <div class="footer-column">
                             <h4 class="footer-column-title">Product</h4>
                             <ul class="footer-link-list">
-                                <li><a href="#features" class="footer-link">Features</a></li>
-                                <li><a href="#" class="footer-link">Pricing</a></li>
-                                <li><a href="#" class="footer-link">API</a></li>
-                                <li><a href="#" class="footer-link">Integrations</a></li>
+                                <li><a href="{% url 'features' %}" class="footer-link">Features</a></li>
+                                <li><a href="{% url 'faq' %}" class="footer-link">FAQs</a></li>
                             </ul>
                         </div>
                         
                         <div class="footer-column">
                             <h4 class="footer-column-title">Company</h4>
                             <ul class="footer-link-list">
-                                <li><a href="#" class="footer-link">About Us</a></li>
-                                <li><a href="#" class="footer-link">Careers</a></li>
-                                <li><a href="#" class="footer-link">Blog</a></li>
-                                <li><a href="#" class="footer-link">Press</a></li>
+                                <li><a href="{% url 'about' %}" class="footer-link">About Us</a></li>
+                                <li><a href="{% url 'contact' %}" class="footer-link">Contact</a></li>
                             </ul>
                         </div>
                         
-                        <div class="footer-column">
-                            <h4 class="footer-column-title">Resources</h4>
-                            <ul class="footer-link-list">
-                                <li><a href="#" class="footer-link">Help Center</a></li>
-                                <li><a href="#" class="footer-link">Documentation</a></li>
-                                <li><a href="#" class="footer-link">Community</a></li>
-                                <li><a href="#" class="footer-link">Contact</a></li>
-                            </ul>
-                        </div>
                         
-                        <div class="footer-column">
-                            <h4 class="footer-column-title">Legal</h4>
-                            <ul class="footer-link-list">
-                                <li><a href="#" class="footer-link">Privacy Policy</a></li>
-                                <li><a href="#" class="footer-link">Terms of Service</a></li>
-                                <li><a href="#" class="footer-link">Cookie Policy</a></li>
-                                <li><a href="#" class="footer-link">GDPR</a></li>
-                            </ul>
-                        </div>
                     </div>
                 </div>
                 
                 <div class="footer-bottom">
                     <div class="footer-bottom-content">
                         <p class="footer-copyright">
-                            © 2024 PrepDungeon. All rights reserved.
+                            © 2025 PrepDungeon. All rights reserved.
                         </p>
-                        <div class="footer-bottom-links">
-                            <a href="#" class="footer-bottom-link">Status</a>
-                            <a href="#" class="footer-bottom-link">Security</a>
-                            <a href="#" class="footer-bottom-link">Accessibility</a>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </footer>
 
+    <script>
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        }
+    </script>
     <script>window.notification = "{{ request.session.notification|default:''|escapejs }}"</script>
     <script>window.notification_type = "{{ request.session.notification_type|default:''|escapejs }}"</script>
     <script src="{% static 'js/common.js' %}"></script>

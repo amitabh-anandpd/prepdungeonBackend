@@ -176,9 +176,9 @@ class Question(models.Model):
     topic = models.CharField(max_length=128, null=False, default="Misc")
     subject = models.CharField(max_length=128, null=False, default="Misc")
     TYPE_CHOICES = [
-        ('MCQ', 'mcq'),
-        ('Conceptual', 'conceptual'),
-        ('Speed', 'speed'),
+        ('mcq', 'MCQ'),
+        ('conceptual', 'Conceptual'),
+        ('speed', 'Speed'),
     ]
     q_type = models.CharField(choices=TYPE_CHOICES, max_length=16, null=False)
     option1 = models.CharField(max_length=256, null=True)
@@ -187,9 +187,9 @@ class Question(models.Model):
     option4 = models.CharField(max_length=256, null=True)
     answer = models.CharField(max_length=512, null=True)
     LEVEL_CHOICES = [
-        ('Easy', 'easy'),
-        ('Medium', 'medium'),
-        ('Hard', 'hard'),
+        ('easy', 'Easy'),
+        ('medium', 'Medium'),
+        ('hard', 'Hard'),
     ]
     level = models.CharField(choices=LEVEL_CHOICES, max_length=16, null=False)
     
@@ -237,7 +237,7 @@ class UserAnswer(models.Model):
         return f"Answer to Q{self.question.id} in Test {self.completed_test.id}"
 
 class UserPhoto(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile_photos')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile_photo')
     photo = models.ImageField(upload_to='profile_photos')
     
 class Waitlist(models.Model):
@@ -260,3 +260,19 @@ class Waitlist(models.Model):
 
     def __str__(self):
         return f"{self.name} <{self.email}>"
+
+class ContactUsEmail(models.Model):
+    SUBJECT_CHOICES = [
+        ('general', 'General Inquiry'),
+        ('support', 'Support Request'),
+        ('feedback', 'Feedback'),
+        ('partnership', 'Partnership Opportunity'),
+        ('bug', 'Bug Report'),
+        ('feature', 'Feature Request'),
+    ]
+    email = models.EmailField(null=False)
+    subject = models.CharField(choices=SUBJECT_CHOICES, max_length=32, null=False)
+    first_name = models.CharField(max_length=30, blank=True)
+    last_name = models.CharField(max_length=30, blank=True)
+    message = models.TextField()
+    created_at  = models.DateTimeField(auto_now_add=True)

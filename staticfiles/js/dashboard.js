@@ -1,62 +1,22 @@
-// Initialize Lucide icons
 lucide.createIcons();
 
-// Dashboard state
 let focusTimer = null;
-let focusTimeRemaining = 1500; // 25 minutes in seconds
+let focusTimeRemaining = 1500;
 
 // Initialize dashboard
 document.addEventListener('DOMContentLoaded', () => {
-    initializeDashboard();
     animateElements();
 });
 
 function initializeDashboard() {
-    // Check if user has completed onboarding
     const learningPath = localStorage.getItem('learningPath');
     if (!learningPath) {
-        // Redirect to onboarding if not completed
         window.location.href = 'onboarding.html';
         return;
     }
-    
-    // Initialize components
-    initializeTasks();
     initializeFocusMode();
     initializeAlerts();
     updateUserStats();
-}
-
-// Task management
-function initializeTasks() {
-    const taskItems = document.querySelectorAll('.task-item:not(.completed)');
-    
-    taskItems.forEach(task => {
-        task.addEventListener('click', () => {
-            toggleTask(task);
-        });
-    });
-}
-
-function toggleTask(taskElement) {
-    const checkbox = taskElement.querySelector('.task-checkbox');
-    const taskName = taskElement.querySelector('.task-name');
-    
-    if (!taskElement.classList.contains('completed')) {
-        // Mark as completed
-        taskElement.classList.add('completed');
-        checkbox.innerHTML = '<i data-lucide="check" class="check-icon"></i>';
-        
-        // Show completion notification
-        const reward = taskElement.querySelector('.task-reward').textContent;
-        showTaskCompletion(taskName.textContent, reward);
-        
-        // Update XP
-        updateXP(parseInt(reward.replace('+', '').replace(' XP', '')));
-        
-        // Reinitialize icons
-        lucide.createIcons();
-    }
 }
 
 function showTaskCompletion(taskName, reward) {
@@ -155,7 +115,6 @@ function showTaskCompletion(taskName, reward) {
     }, 3000);
 }
 
-// Focus mode functionality
 function initializeFocusMode() {
     const focusBtn = document.querySelector('.focus-btn');
     const timerText = document.querySelector('.timer-text');

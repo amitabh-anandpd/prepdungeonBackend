@@ -24,11 +24,16 @@ from .views import index, auth, dashboard, leaderboard, onboarding, profile, stu
 from .views import clear_notifications, clear_question_ids, join_waitlist
 from .views import testMCQ, checkMCQ, testSpeed, checkSpeed, testConceptual, checkConceptual
 from .views import logout_view
+from .views import features, about, contact, faq
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index, name='index'),
     path('auth/', auth, name='auth'),
+    path('features/', features, name="features"),
+    path('about/', about, name="about"),
+    path('contact/', contact, name="contact"),
+    path('faq/', faq, name="faq"),
     path('logout/', logout_view, name='logout'),
     path('dashboard/', dashboard, name='dashboard'),
     path('leaderboard/', leaderboard, name='leaderboard'),

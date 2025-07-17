@@ -1,4 +1,3 @@
-// Initialize Lucide icons
 lucide.createIcons();
 
 // Global state
@@ -93,6 +92,10 @@ if (contentTextarea) {
 
 function handleFiles(files) {
     uploadedFiles = files;
+    const dataTransfer = new DataTransfer();
+    files.forEach(file => dataTransfer.items.add(file));
+    fileInput.files = dataTransfer.files;
+
     updateUploadDisplay();
     checkContinueButton();
 }
@@ -105,7 +108,7 @@ function updateUploadDisplay() {
                 <i data-lucide="check-circle"></i>
             </div>
             <h3 class="upload-title">${uploadedFiles.length} file(s) uploaded</h3>
-            <p class="upload-description">Click to upload more files</p>
+            <p class="upload-description">Click to change file</p>
             <div class="uploaded-files">
                 ${uploadedFiles.map(file => `
                     <div class="uploaded-file">
@@ -118,7 +121,14 @@ function updateUploadDisplay() {
         lucide.createIcons();
     }
 }
-
+if (continueBtn) {
+    continueBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        showSection('screening');
+        scrollToSection('screening');
+        showNotification('Great! Now choose your preferred test type.', 'success');
+    });
+}
 function checkContinueButton() {
     if (!continueBtn) return;
     
@@ -134,15 +144,6 @@ function checkContinueButton() {
         continueBtn.style.opacity = '0.5';
         continueBtn.style.pointerEvents = 'none';
     }
-}
-
-// Continue to screening
-if (continueBtn) {
-    continueBtn.addEventListener('click', () => {
-        showSection('screening');
-        scrollToSection('screening');
-        showNotification('Great! Now choose your preferred test type.', 'success');
-    });
 }
 
 // Screening card selection
@@ -163,8 +164,34 @@ screeningCards.forEach(card => {
         showNotification('Starting your test...', 'info');
         
         setTimeout(() => {
-            document.querySelector('form').submit();
+            const form = document.getElementById('study-material-form');
+            const formData = new FormData(form);
+        
+            // Append uploaded files
+            uploadedFiles.forEach(file => {
+                formData.append('file_input', file);
+            });
+        
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken')  // required if using Django CSRF
+                }
+            })
+            .then(response => {
+                if (response.redirected) {
+                    window.location.href = response.url;
+                } else {
+                    return response.text(); // or JSON
+                }
+            })
+            .catch(err => {
+                showNotification("Upload failed. Please try again.", "error");
+                console.error(err);
+            });
         }, 1000);
+        
         
     });
 });
@@ -189,23 +216,18 @@ function showSection(sectionId) {
     currentStep = sectionId;
 }
 
-// Check for test results on page load
 function checkForTestResults() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const showResults = urlParams.get('showResults');
-    
-    if (showResults === 'true') {
-        const results = localStorage.getItem('testResults');
-        if (results) {
-            const testData = JSON.parse(results);
-            displayTestResults(testData);
-            showSection('results-teaser');
-            scrollToSection('results-teaser');
-            
-            // Clear the URL parameter
-            window.history.replaceState({}, document.title, window.location.pathname);
-        }
-    }
+    const testData = window.score;
+    displayTestResults({
+            testType: testData.test_type,
+            score: testData.score,
+            correctAnswers: testData.correct,
+            totalQuestions: testData.total,
+            timeSpent: testData.time
+    });
+
+    showSection('results-teaser');
+    scrollToSection('results-teaser');
 }
 
 // Display test results
@@ -214,12 +236,12 @@ function displayTestResults(testData) {
     if (!resultsSection) return;
     
     // Update results display with actual test data
-    const scoreElement = resultsSection.querySelector('.score');
+    const Totlascore = resultsSection.querySelector('.score');
     const strengthBars = resultsSection.querySelectorAll('.strength-section .skill-bar');
     const weaknessBars = resultsSection.querySelectorAll('.weakness-section .skill-bar');
     
-    if (scoreElement) {
-        scoreElement.textContent = `${testData.score}%`;
+    if (Totlascore) {
+        Totlascore.textContent = `${testData.score}%`;
     }
     
     // Generate dynamic strengths and weaknesses based on score
@@ -263,42 +285,44 @@ function displayTestResults(testData) {
 
 // Generate strengths based on test performance
 function generateStrengths(testData) {
+    const data = window.score;
     const baseStrengths = {
-        'MCQ': [
-            { name: 'Quick Recall', score: Math.min(95, testData.score + 10) },
-            { name: 'Pattern Recognition', score: Math.min(90, testData.score + 5) }
+        'mcq': [
+            { name: 'Quick Recall', score: data.quickRecall ? Number(data.quickRecall) : 0 },
+            { name: 'Pattern Recognition', score: data.patternRecognition ? Number(data.patternRecognition): 0 }
         ],
-        'Conceptual': [
-            { name: 'Deep Understanding', score: Math.min(95, testData.score + 8) },
-            { name: 'Critical Thinking', score: Math.min(90, testData.score + 3) }
+        'conceptual': [
+            { name: 'Deep Understanding', score: data.deepUnderstanding ? Number(data.deepUnderstanding) : 0  },
+            { name: 'Critical Thinking', score: data.criticalThinking ? Number(data.criticalThinking) : 0  }
         ],
-        'Speed Test': [
-            { name: 'Quick Processing', score: Math.min(95, testData.score + 12) },
-            { name: 'Time Management', score: Math.min(90, testData.score + 7) }
+        'speed-test': [
+            { name: 'Quick Processing', score: data.quickProcessing ? Number(data.quickProcessing) : 0  },
+            { name: 'Time Management', score: data.timeManagement ? Number(data.timeManagement) : 0  }
         ]
     };
     
-    return baseStrengths[testData.testType] || baseStrengths['MCQ'];
+    return baseStrengths[data.test_type] || baseStrengths['mcq'];
 }
 
 // Generate weaknesses based on test performance
 function generateWeaknesses(testData) {
+    const data = window.score;
     const baseWeaknesses = {
-        'MCQ': [
-            { name: 'Detail Attention', score: Math.max(30, testData.score - 20) },
-            { name: 'Concept Application', score: Math.max(25, testData.score - 25) }
+        'mcq': [
+            { name: 'Detail Attention', score: data.detailAttention ? Number(data.detailAttention) : 0},
+            { name: 'Concept Application', score: data.conceptApplication ? Number(data.conceptApplication) : 0 }
         ],
-        'Conceptual': [
-            { name: 'Speed Under Pressure', score: Math.max(35, testData.score - 15) },
-            { name: 'Memory Retention', score: Math.max(30, testData.score - 20) }
+        'conceptual': [
+            { name: 'Complex Problem Solving', score: data.problemSolving ? Number(data.problemSolving) : 0  },
+            { name: 'Memory Retention', score: data.memoryRetention ? Number(data.memoryRetention) : 0}
         ],
-        'Speed Test': [
-            { name: 'Accuracy Focus', score: Math.max(40, testData.score - 10) },
-            { name: 'Complex Problem Solving', score: Math.max(35, testData.score - 15) }
+        'speed-test': [
+            { name: 'Accuracy Focus', score: data.accuracyFocus ? Number(data.accuracyFocus) : 0 },
+            { name: 'Speed', score: data.speed ? Number(data.speed) : 0 }
         ]
     };
     
-    return baseWeaknesses[testData.testType] || baseWeaknesses['MCQ'];
+    return baseWeaknesses[data.test_type] || baseWeaknesses['mcq'];
 }
 
 // Update study guide based on test type
@@ -402,220 +426,112 @@ if (modalSignupForm) {
         
         // Simulate signup process
         const submitButton = modalSignupForm.querySelector('.signup-btn');
-        const originalText = submitButton.innerHTML;
+        if (submitButton) {
+            const originalText = submitButton.innerHTML;
         
-        submitButton.innerHTML = '<i data-lucide="loader-2" class="animate-spin"></i> Creating your analysis...';
-        submitButton.disabled = true;
+            submitButton.innerHTML = '<i data-lucide="loader-2" class="animate-spin"></i> Creating your analysis...';
+            submitButton.disabled = true;
+        }
         
         lucide.createIcons();
-        
-        setTimeout(() => {
-            submitButton.innerHTML = originalText;
-            submitButton.disabled = false;
-            lucide.createIcons();
-            
-            showNotification('Welcome to PrepDungeon! Check your email for your full analysis.', 'success');
-            
-            // Close modal and redirect
-            signupModal.classList.add('hidden');
-            document.body.style.overflow = 'auto';
-            
+        if(submitButton){
             setTimeout(() => {
-                window.location.href = 'auth.html';
-            }, 2000);
-        }, 3000);
-    });
-}
-
-// Notification system
-function showNotification(message, type = 'info') {
-    // Remove existing notifications
-    const existingNotification = document.querySelector('.notification');
-    if (existingNotification) {
-        existingNotification.remove();
-    }
-    
-    const notification = document.createElement('div');
-    notification.className = `notification notification-${type}`;
-    notification.innerHTML = `
-        <div class="notification-content">
-            <i data-lucide="${getNotificationIcon(type)}" class="notification-icon"></i>
-            <span class="notification-message">${message}</span>
-            <button class="notification-close">
-                <i data-lucide="x" class="close-icon"></i>
-            </button>
-        </div>
-    `;
-    
-    // Add notification styles if not already present
-    if (!document.querySelector('style[data-notification-styles]')) {
-        const style = document.createElement('style');
-        style.setAttribute('data-notification-styles', '');
-        style.textContent = `
-            .notification {
-                position: fixed;
-                top: 2rem;
-                right: 2rem;
-                z-index: 9999;
-                max-width: 400px;
-                background: rgba(10, 10, 15, 0.95);
-                backdrop-filter: blur(24px);
-                border-radius: 15px;
-                border: 1px solid rgba(255, 255, 255, 0.1);
-                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-                animation: slideInRight 0.3s ease-out;
-            }
-            
-            .notification-content {
-                display: flex;
-                align-items: center;
-                gap: 0.75rem;
-                padding: 1rem;
-            }
-            
-            .notification-icon {
-                width: 1.25rem;
-                height: 1.25rem;
-                flex-shrink: 0;
-            }
-            
-            .notification-success .notification-icon {
-                color: #10b981;
-            }
-            
-            .notification-error .notification-icon {
-                color: #ef4444;
-            }
-            
-            .notification-info .notification-icon {
-                color: #8b5cf6;
-            }
-            
-            .notification-message {
-                color: #ffffff;
-                font-size: 0.875rem;
-                flex: 1;
-            }
-            
-            .notification-close {
-                background: none;
-                border: none;
-                color: rgba(255, 255, 255, 0.6);
-                cursor: pointer;
-                padding: 0.25rem;
-                border-radius: 0.25rem;
-                transition: color 0.3s ease;
-            }
-            
-            .notification-close:hover {
-                color: #ffffff;
-            }
-            
-            .close-icon {
-                width: 1rem;
-                height: 1rem;
-            }
-            
-            .animate-spin {
-                animation: spin 1s linear infinite;
-            }
-            
-            @keyframes spin {
-                from { transform: rotate(0deg); }
-                to { transform: rotate(360deg); }
-            }
-            
-            @keyframes slideInRight {
-                from {
-                    opacity: 0;
-                    transform: translateX(100%);
-                }
-                to {
-                    opacity: 1;
-                    transform: translateX(0);
-                }
-            }
-            
-            @keyframes slideOutRight {
-                from {
-                    opacity: 1;
-                    transform: translateX(0);
-                }
-                to {
-                    opacity: 0;
-                    transform: translateX(100%);
-                }
-            }
-            
-            .uploaded-files {
-                display: flex;
-                flex-direction: column;
-                gap: 0.5rem;
-                margin-top: 1rem;
-            }
-            
-            .uploaded-file {
-                display: flex;
-                align-items: center;
-                gap: 0.5rem;
-                background: rgba(255, 255, 255, 0.1);
-                padding: 0.5rem;
-                border-radius: 8px;
-                font-size: 0.875rem;
-                color: rgba(255, 255, 255, 0.8);
-            }
-            
-            .uploaded-file i {
-                width: 1rem;
-                height: 1rem;
-                color: #8b5cf6;
-            }
-            
-            @media (max-width: 640px) {
-                .notification {
-                    top: 1rem;
-                    right: 1rem;
-                    left: 1rem;
-                    max-width: none;
-                }
-            }
-        `;
-        document.head.appendChild(style);
-    }
-    
-    document.body.appendChild(notification);
-    lucide.createIcons();
-    
-    // Close button functionality
-    const closeButton = notification.querySelector('.notification-close');
-    closeButton.addEventListener('click', () => {
-        notification.style.animation = 'slideOutRight 0.3s ease-out';
-        setTimeout(() => {
-            notification.remove();
-        }, 300);
-    });
-    
-    // Auto-remove after 5 seconds
-    setTimeout(() => {
-        if (notification.parentNode) {
-            notification.style.animation = 'slideOutRight 0.3s ease-out';
-            setTimeout(() => {
-                notification.remove();
-            }, 300);
+                submitButton.innerHTML = originalText;
+                submitButton.disabled = false;
+                lucide.createIcons();
+                
+                showNotification('Welcome to PrepDungeon! Check your email for your full analysis.', 'success');
+                
+                // Close modal and redirect
+                signupModal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+                
+                setTimeout(() => {
+                    window.location.href = '/auth/';
+                }, 2000);
+            }, 3000);
         }
-    }, 5000);
+    });
+}
+// Modal functionality
+const showWaitlistModalBtn = document.getElementById('show-Waitlist-modal');
+const WaitlistModal = document.getElementById('Waitlist-modal');
+const closeWaitlistModalBtn = document.getElementById('close-Waitlist-modal');
+const modalWaitlistForm = document.getElementById('modal-Waitlist-form');
+
+if (showWaitlistModalBtn) {
+    showWaitlistModalBtn.addEventListener('click', () => {
+        WaitlistModal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    });
 }
 
-function getNotificationIcon(type) {
-    switch (type) {
-        case 'success':
-            return 'check-circle';
-        case 'error':
-            return 'alert-circle';
-        case 'info':
-        default:
-            return 'info';
-    }
+if (closeWaitlistModalBtn) {
+    closeWaitlistModalBtn.addEventListener('click', () => {
+        WaitlistModal.classList.add('hidden');
+        document.body.style.overflow = 'auto';
+    });
+}
+
+// Close modal when clicking outside
+if (WaitlistModal) {
+    WaitlistModal.addEventListener('click', (e) => {
+        if (e.target === WaitlistModal) {
+            WaitlistModal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+    });
+}
+
+// Modal Waitlist form handling
+if (modalWaitlistForm) {
+    modalWaitlistForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const formData = new FormData(modalWaitlistForm);
+        const name = modalWaitlistForm.querySelector('input[type="text"]').value;
+        const email = modalWaitlistForm.querySelector('input[type="email"]').value;
+        const score = window.score;
+
+        const submitButton = modalWaitlistForm.querySelector('.signup-btn');
+        const originalText = submitButton.innerHTML;
+        
+        submitButton.innerHTML = '<i data-lucide="loader-2" class="animate-spin"></i> Joining Waitlist...';
+        submitButton.disabled = true;
+        lucide.createIcons();
+
+        try {
+            const res = await fetch('/join-waitlist/', {
+              method : 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken' : getCookie('csrftoken')
+              },
+              body: JSON.stringify({ name, email, score })
+            });
+      
+            const data = await res.json();
+            if (!res.ok || !data.success) {
+              showNotification("Error: "+data.message, "error")
+              return;
+            }
+      
+            showNotification('Welcome to PrepDungeon! We’ve e‑mailed your full analysis.', 'success');
+            WaitlistModal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+      
+            // optional redirect
+            setTimeout(() => window.location.href = '/', 2000);
+      
+          } catch (err) {
+            console.error(err);
+            showNotification(err.message, 'error');
+          } finally {
+            submitButton.innerHTML = originalText;
+            submitButton.disabled  = false;
+            lucide.createIcons();
+          }
+    });
 }
 
 // Intersection Observer for animations
@@ -643,12 +559,15 @@ document.addEventListener('DOMContentLoaded', () => {
         el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
         observer.observe(el);
     });
+    const mcqSc = window.score;
+
+    if (mcqSc){
+        checkForTestResults();
+    }
+    else{
+        showSection('material-input');
+    }
     
-    // Initialize first step
-    showSection('material-input');
-    
-    // Check for test results
-    checkForTestResults();
 });
 
 // Smooth scrolling for navigation links

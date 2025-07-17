@@ -15,7 +15,7 @@
 .dashboard-nav .nav-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 1.5rem;
+    padding: 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -49,6 +49,7 @@
     display: flex;
     align-items: center;
     gap: 2rem;
+    padding: 0 20px;
 }
 
 .dashboard-nav .nav-link {
@@ -57,7 +58,7 @@
     font-weight: 500;
     transition: all 0.3s ease;
     position: relative;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 0.7rem;
     border-radius: 25px;
 }
 
@@ -296,6 +297,7 @@
     color: #ffffff;
     line-height: 1;
     margin-bottom: 0.25rem;
+    text-align: left;
 }
 
 .stat-label {
