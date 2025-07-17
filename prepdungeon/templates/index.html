@@ -27,9 +27,11 @@
                     <span class="nav-title">PrepDungeon</span>
                 </div>
                 <div class="nav-menu">
-                    <a href="#features" class="nav-link">Superpowers</a>
-                    <a href="#how-it-works" class="nav-link">Features</a>
-                    <a href="#trust" class="nav-link">Trust</a>
+                    <a href="{% url 'index' %}" class="nav-link active">Home</a>
+                    <a href="{% url 'features' %}" class="nav-link">Features</a>
+                    <a href="{% url 'about' %}" class="nav-link">About</a>
+                    <a href="{% url 'contact' %}" class="nav-link">Contact</a>
+                    <a href="{% url 'faq' %}" class="nav-link">FAQ</a>
                     <a href="{% url 'auth' %}" class="nav-cta-btn">Login</a>
                 </div>
                 <div class="mobile-menu-btn">

@@ -11,10 +11,14 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+env_path = BASE_DIR / ".env"
+if env_path.exists():
+    load_dotenv(env_path)
 
 
 # Quick-start development settings - unsuitable for production
@@ -135,7 +139,8 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = "amitabh.anandpd@gmail.com"
-SUPPORT_INBOX = "amitabh.anandpd@gmail.com"
+EMAIL_HOST_USER = os.environ.get('MY_EMAIL')
+SUPPORT_INBOX = os.environ.get('MY_EMAIL')
+KIYO_INBOX = os.environ.get('KIYO_EMAIL')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASS_KEY')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

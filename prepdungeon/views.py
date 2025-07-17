@@ -7,23 +7,29 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
 from django.core.serializers.json import DjangoJSONEncoder
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMultiAlternatives
+from django.utils.html import escape
 from django.utils import timezone
 import json
 from django.contrib.auth.hashers import make_password
 from datetime import date
-import os
 import requests
 import csv
 import io
 from PyPDF2 import PdfReader
 import docx
+from dotenv import load_dotenv
+import os
+
+env_path = settings.BASE_DIR / ".env"
+if env_path.exists():
+    load_dotenv(env_path)
 
 from .forms import IndexForm, LoginForm, SignupForm, ContactUsForm
 from .models import Question, User, CompletedDailyQuest, UserProfile, UserDailyQuest
 from .models import Waitlist, ContactUsEmail
 
-API_URL = "https://furygold.pythonanywhere.com/generate"
+API_URL = os.getenv("API_URL")
 
 def extract_text_from_file(uploaded_file):
     if uploaded_file.name.endswith('.pdf'):
@@ -41,7 +47,6 @@ def extract_text_from_file(uploaded_file):
 
 
 def save_questions_from_csv(csv_text, test_type):
-    # csv_text is a string, e.g., response.text from requests or file.read().decode()
 
     reader = csv.DictReader(io.StringIO(csv_text))
     saved = []
@@ -83,7 +88,7 @@ def index(request):
             if test_type == 'mcq':
                 prompt = "Generate 10 mcq question based on the given text. Give output in csv format, don't forget to give the column name but keep it like this - 'topic', 'subject', 'question', 'opt1', 'opt2', 'opt3', 'opt4', 'answer', 'level'. subject should be the subject from which the question is (college subjects). topic name should be of the subject. topic from which the question is, not the subject. level should be the question's level based on easy, medium and hard. Make sure answer is one of the options exactly as it is. Don't forget to double quote the data so that it's csv can be read ignoring extra commas. Also, only give csv part and don't write anything else"
             elif test_type == 'conceptual':
-                prompt = "Generate 10 conceptual question based on the given text. Give output in csv format, don't forget to give the column name but keep it like this - 'topic', 'subject', 'question', 'answer', 'level'. subject should be the subject from which the question is (college subjects). topic name should be of the of the subject. topic from which the question is, not the subject. level should be the question's level based on easy, medium and hard. Answers shouldn't exceed 512 characters, but around 350-450 is fine. Don't forget to double quote the data so that it's csv can be read ignoring extra commas. Also, only give csv part and don't write anything else"
+                prompt = "Generate 5 conceptual question based on the given text. Give output in csv format, don't forget to give the column name but keep it like this - 'topic', 'subject', 'question', 'answer', 'level'. subject should be the subject from which the question is (college subjects). topic name should be of the of the subject. topic from which the question is, not the subject. level should be the question's level based on easy, medium and hard. Answers shouldn't exceed 512 characters, but around 350-450 is fine. Don't forget to double quote the data so that it's csv can be read ignoring extra commas. Also, only give csv part and don't write anything else"
             elif test_type == 'speed':
                 prompt = "Generate 10 question with short answer (one word answers preferable) based on the given text. Give output in csv format, don't forget to give the column name but keep it like this - 'topic', 'subject', 'question', 'answer', 'level'. subject should be the subject from which the question is (college subjects). topic name should be of the subject. topic from which the question is, not the subject. level should be the question's level based on easy, medium and hard. Don't forget to double quote the data so that it's csv can be read ignoring extra commas. Also, only give csv part and don't write anything else"
             full_text = full_text + " " + prompt
@@ -254,7 +259,7 @@ def checkMCQ(request):
         request.session.pop('question_ids')
         prompt = " Give me an analysis on the basis of the given test question and results"
         prompt = prompt + "I need score of 'quickRecall', 'detailAttention', 'patternRecognition', 'conceptApplication'"
-        prompt = prompt + " in percentage in csv format. Use column names as I have given. Don't give anything else other than csv data and write each data cell inside double quotation marks so that unnecessary commas are not included "
+        prompt = prompt + " in percentage (only numbers) in csv format. Use column names as I have given. Don't give anything else other than csv data and write each data cell inside double quotation marks so that unnecessary commas are not included "
         try:
             response = requests.post(
                 API_URL,
@@ -332,7 +337,7 @@ def checkSpeed(request):
         request.session.pop('question_ids')
         prompt = f"{answers}\n Give me an analysis on the basis of the given test question, user-answer and what correct answer is"
         prompt = prompt + "I need score of 'quickProcessing', 'timeManagement', 'accuracyFocus', 'speed', 'score'"
-        prompt = prompt + " in percentage in csv format. Use column names as I have given. Don't give anything else other than csv data and write each data cell inside double quotation marks so that unnecessary commas are not included."
+        prompt = prompt + " in percentage (only numbers) in csv format. Use column names as I have given. Don't give anything else other than csv data and write each data cell inside double quotation marks so that unnecessary commas are not included."
         prompt = prompt + " Calculate score from a max of 5 marks per question and give marks based on user-answer."
         try:
             response = requests.post(
@@ -410,7 +415,7 @@ def checkConceptual(request):
         request.session.pop('question_ids')
         prompt = f"{answers}\n Give me an analysis on the basis of the given test question, user-answer and what correct answer is"
         prompt = prompt + "I need score of 'deepUnderstanding', 'criticalThinking', 'problemSolving', 'memoryRetention', 'score'"
-        prompt = prompt + " in percentage in csv format. Use column names as I have given. Don't give anything else other than csv data and write each data cell inside double quotation marks so that unnecessary commas are not included."
+        prompt = prompt + " in percentage (only numbers) in csv format. Use column names as I have given. Don't give anything else other than csv data and write each data cell inside double quotation marks so that unnecessary commas are not included."
         prompt = prompt + " Calculate score from a max of 5 marks per question and give marks based on user-answer."
         try:
             response = requests.post(
@@ -496,11 +501,33 @@ def join_waitlist(request):
         name  = data.get("name", "").strip()
         email = data.get("email", "").strip()
         score = data.get("score") 
+        score = json.dumps(score, indent=2, sort_keys=True)
 
         if not name or not email:
             return JsonResponse({"success": False, "message": "Missing fields"}, status=400)
         entry = Waitlist.objects.create(name=name, email=email)
         entry.set_score(score)
+        message = f"""
+        Hi,
+
+        Thank you for joining our waitlist! We truly appreciate your interest in our platform.
+
+        As promised, here is your detailed performance analysis:
+
+        {score}
+
+        We’ll keep you updated on the next steps soon. If you have any questions, feel free to reply to this email.
+
+        Best regards,
+        The PrepDungeon Team
+        """
+        send_mail(
+            subject="PrepDungeon Waitlist Confirmation & Performance Analysis",
+            message=message,
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[email],
+            fail_silently=True,
+        )
         return JsonResponse({"success": True})
 
     except json.JSONDecodeError:
@@ -546,14 +573,24 @@ def send_contact_email(contact_obj):
         subject=subject,
         message=message,
         from_email=settings.DEFAULT_FROM_EMAIL,
-        recipient_list=[settings.SUPPORT_INBOX, 'kiyotakasenpai69@gmail.com'],
-        fail_silently=False,
+        recipient_list=[settings.SUPPORT_INBOX, settings.KIYO_INBOX],
+        fail_silently=True,
     )
+    msg = f"""
+    Hi {contact_obj.first_name},
 
+    Thank you for reaching out to us! We have successfully received your message.
+
+    Our support team will review it and get back to you as soon as possible. 
+    If your inquiry is urgent, please feel free to reply to this email.
+
+    Best regards,
+    The PrepDungeon Team
+    """
     send_mail(
-        subject="Amitabh from PrepDungeon",
-        message="Hi, we've received your message and will get back to you shortly.",
+        subject="We've Received Your Message",
+        message=msg,
         from_email=settings.DEFAULT_FROM_EMAIL,
         recipient_list=[contact_obj.email],
-        fail_silently=False,
+        fail_silently=True,
     )

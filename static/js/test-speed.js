@@ -4,7 +4,7 @@ const testCards = document.querySelectorAll('.test-container');
 
 let currentQuestion = 0;
 let userAnswers = Array(testCards.length).fill(null);
-let timeRemaining = 300;
+let timeRemaining = testCards.length*45;
 let timerInterval;
 let questionStartTime = Date.now();
 let timePerQuestion = Array(testCards.length).fill(0);
