@@ -20,17 +20,18 @@ from PyPDF2 import PdfReader
 import docx
 from dotenv import load_dotenv
 import os
+import threading
+import markdown
 
 env_path = settings.BASE_DIR / ".env"
 if env_path.exists():
     load_dotenv(env_path)
 
 from .forms import IndexForm, LoginForm, SignupForm, ContactUsForm
-from .models import Question, User, CompletedDailyQuest, UserProfile, UserDailyQuest
+from .models import Question, User, UserAnswer, UserProfile, UserDailyQuest, CompletedTest
 from .models import Waitlist, ContactUsEmail
 
 API_URL = os.getenv("API_URL")
-
 def extract_text_from_file(uploaded_file):
     if uploaded_file.name.endswith('.pdf'):
         reader = PdfReader(uploaded_file)
@@ -99,10 +100,9 @@ def index(request):
                     timeout=60,
                 )
                 if response.status_code == 200:
-                    print(response.json()["response"])
                     raw_response = response.json()["response"]
                     if raw_response.startswith("```csv"):
-                        raw_response = raw_response[6:]  # Remove first 6 chars: ```csv\n
+                        raw_response = raw_response[6:]
                     if raw_response.endswith("```"):
                         raw_response = raw_response[:-3]
                     try:
@@ -163,19 +163,20 @@ def dashboard(request):
     if not request.user.is_authenticated:
         return redirect('/')
     user = request.user
-    daily_quests = UserDailyQuest.objects.filter(user=user, date_created=timezone.now().date())
-    completed_daily = CompletedDailyQuest.objects.filter(user=user, date_completed=timezone.now().date())
-    completed_ids = []
-    completed_ids = [i.quest.id for i in completed_daily]
+    all_quests = UserDailyQuest.objects.filter(user=user, date_created=timezone.now().date())
+    completed_quests = all_quests.filter(is_completed=False)
+    daily_quests = all_quests.filter(is_completed=True)
     level = user.profile.level
     xp_max = 50 * level * (1 + level)
+    weak_topics = []
     return render(request,'dashboard.html',
         {
             'user': user,
             "daily_quests": daily_quests,
-            "completed_ids": completed_ids,
+            "completed_quests": completed_quests,
             "xp_max": xp_max,
             "next_level": level+1,
+            "weak_topics": weak_topics,
         })
 
 def leaderboard(request):
@@ -198,7 +199,10 @@ def profile(request):
         })
 
 def studyGuide(request):
-    return render(request, 'study-guide.html')
+    return render(request, 'study-guide.html', {
+        "user": request.user,
+        
+    })
 
 def testCenter(request):
     return render(request, 'test-center.html')
@@ -229,6 +233,7 @@ def checkMCQ(request):
     if request.method == 'POST':
         data = json.loads(request.body)
         user_answers   = data.get('userAnswers', [])
+        timePerQuestion = data.get('timePerQuestion')
         question_ids   = request.session.get('question_ids', [])
         qs = Question.objects.filter(id__in=question_ids)
         question_map = {q.id: q for q in qs}
@@ -252,7 +257,8 @@ def checkMCQ(request):
             'score': score,
             'correct': correct,
             'total': data.get('totalQuestions'),
-            'time': data.get('timeSpent')
+            'time': data.get('timeSpent'),
+            'timePerQuestion': timePerQuestion,
         }
         result_dict = str(request.session['score'])
         questions_dict = str(Question.objects.filter(id__in=request.session['question_ids']))
@@ -278,11 +284,31 @@ def checkMCQ(request):
                         'correct': correct,
                         'total': data.get('totalQuestions'),
                         'time': data.get('timeSpent'),
+                        'timePerQuestion': timePerQuestion,
                         'quickRecall': row['quickRecall'],
                         'detailAttention': row['detailAttention'],
                         'patternRecognition': row['patternRecognition'],
                         'conceptApplication': row['conceptApplication'],
                     }
+                    if request.user.is_authenticated:
+                        completed_test = CompletedTest.objects.create(
+                            user=request.user,
+                            test_type=data.get('test_type'),
+                            score=score,
+                            analysis=json.dumps(saved),
+                            time_spent=data.get('timeSpent'),
+                        )
+                        i=0
+                        for qid, selected in zip(question_ids, user_answers):
+                            question = Question.objects.get(id=qid)
+                            UserAnswer.objects.create(
+                                user=request.user,
+                                completed_test=completed_test,
+                                question=question,
+                                answer_text=str(selected),
+                                time_spent=timePerQuestion[i]
+                            )
+                            i+=1
                 except Exception as e:
                     print(e)
             elif response.status_code == 500:
@@ -316,6 +342,7 @@ def checkSpeed(request):
     if request.method == 'POST':
         data = json.loads(request.body)
         user_answers = data.get('userAnswers', [])
+        timePerQuestion = data.get('timePerQuestion')
         question_ids = request.session.get('question_ids', [])
         qs = Question.objects.filter(id__in=question_ids)
         qs_dict = {str(q.id): q for q in qs}
@@ -330,6 +357,7 @@ def checkSpeed(request):
                     'question': question_obj.question,
                     'user_answer': user_answers[i],
                     'intended_answer': question_obj.answer,
+                    'time_taken': timePerQuestion[i],
                 })
         answers = json.dumps(answers)
         total = len(question_ids)
@@ -356,11 +384,30 @@ def checkSpeed(request):
                         'score': row['score'],
                         'total': data.get('totalQuestions'),
                         'time': data.get('timeSpent'),
+                        'timePerQuestion': timePerQuestion,
                         'quickProcessing': row['quickProcessing'],
                         'timeManagement': row['timeManagement'],
                         'accuracyFocus': row['accuracyFocus'],
                         'speed': row['speed'],
                     }
+                    if request.user.is_authenticated:
+                        completed_test = CompletedTest.objects.create(
+                            user=request.user,
+                            test_type=data.get('test_type'),
+                            score=row['score'],
+                            analysis=json.dumps(saved),
+                            time_spent=data.get('timeSpent'),
+                        )
+                        for i in range(len(question_ids)):
+                            qid = str(question_ids[i])
+                            question_obj = qs_dict.get(qid)
+                            UserAnswer.objects.create(
+                                user=request.user,
+                                completed_test=completed_test,
+                                question=question_obj,
+                                answer_text=user_answers[i],
+                                time_spent=timePerQuestion[i],
+                            )
                 except Exception as e:
                     print(e)
             elif response.status_code == 500:
@@ -394,6 +441,7 @@ def checkConceptual(request):
     if request.method == 'POST':
         data = json.loads(request.body)
         user_answers = data.get('userAnswers', [])
+        timePerQuestion = data.get('timePerQuestion')
         question_ids = request.session.get('question_ids', [])
         qs = Question.objects.filter(id__in=question_ids)
         qs_dict = {str(q.id): q for q in qs}
@@ -408,6 +456,7 @@ def checkConceptual(request):
                     'question': question_obj.question,
                     'user_answer': user_answers[i],
                     'intended_answer': question_obj.answer,
+                    'time_taken': timePerQuestion[i],
                 })
         answers = json.dumps(answers)
         total = len(question_ids)
@@ -439,6 +488,24 @@ def checkConceptual(request):
                         'problemSolving': row['problemSolving'],
                         'memoryRetention': row['memoryRetention'],
                     }
+                    if request.user.is_authenticated:
+                        completed_test = CompletedTest.objects.create(
+                            user=request.user,
+                            test_type=data.get('test_type'),
+                            score=row['score'],
+                            analysis=json.dumps(saved),
+                            time_spent=data.get('timeSpent')
+                        )
+                        for i in range(len(question_ids)):
+                            qid = str(question_ids[i])
+                            question_obj = qs_dict.get(qid)
+                            UserAnswer.objects.create(
+                                user=request.user,
+                                completed_test=completed_test,
+                                question=question_obj,
+                                answer_text=user_answers[i],
+                                time_spent=timePerQuestion[i],
+                            )
                 except Exception as e:
                     print(e)
             elif response.status_code == 500:
@@ -463,24 +530,21 @@ def clear_notifications(request):
     return JsonResponse({'status': 'cleared'})
 
 def dailyQuest(request):
-    return render(request, 'daily-quest.html')
+    daily_quests = UserDailyQuest.objects.filter(user=request.user, date_created=timezone.now().date(), is_completed=False)
+    completed_quests = UserDailyQuest.objects.filter(user=request.user, date_created=timezone.now().date(), is_completed=True)
+    return render(request, 'daily-quest.html', {
+        'daily_quests': daily_quests,
+        'completed_quests': completed_quests,
+    })
 
-def complete_daily_quest(user, quest_id):
-    quest = UserDailyQuest.objects.get(id=quest_id)
-    today = timezone.now().date()
-
-    already_done = CompletedDailyQuest.objects.filter(user=user, quest=quest, date_completed=today).exists()
-    if already_done:
-        return {"success": False, "message": "Quest already completed today."}
-
-    CompletedDailyQuest.objects.create(user=user, quest=quest)
-
-    profile = user.profile
-    profile.xp += quest.xp_reward
-    profile.save()
-    profile.update_streak()
-
-    return {"success": True, "message": "Quest completed and rewards applied."}
+def check_quest_completion(request, type):
+    user_quests = UserDailyQuest.objects.filter(user=request.user, date_created=timezone.now().date())
+    for user_quest in user_quests:
+        if type == user_quest.daily_quest.quest_type:
+            user_quest.is_completed = True
+            user_quest.save()
+            request.sesion['notification'] = "Quest Completed!"
+            request.sesion['notification_type'] = "success"
 
 def logout_view(request):
     if request.user.is_authenticated:
@@ -492,42 +556,41 @@ def logout_view(request):
     request.session['notification_type'] = "error"
     return redirect("/profile")
 
+def send_full_analysis(result, email):
+    prompt = "Score is as follows - \n" + json.dumps(result) + "\n\n Generate a detailed analysis, based on the score, as follows -\n\n"
+    with open(os.getenv('ANALYSIS_PROMPT_FILE'), "r") as file:
+        prompt = prompt + file.read()
+    try:
+        response = requests.post(
+            API_URL + "/analysis",
+            json={'prompt': prompt},
+            timeout=60,
+        )
+        full_analysis = str(response.json()['response']).encode('utf-8').decode('unicode_escape')
+        html_content = markdown.markdown(full_analysis)
+        send_mail(
+            subject="Full Analysis from PrepDungeon",
+            message=full_analysis,
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[email],
+            html_message=html_content,
+            fail_silently=False,
+        )
+    except Exception as e:
+        print(f"Failed to send full analysis! ({e})")
 def join_waitlist(request):
     if request.method != "POST":
         return JsonResponse({"success": False, "message": "POST required"}, status=405)
-
     try:
         data  = json.loads(request.body.decode())
         name  = data.get("name", "").strip()
         email = data.get("email", "").strip()
         score = data.get("score") 
-        score = json.dumps(score, indent=2, sort_keys=True)
-
         if not name or not email:
             return JsonResponse({"success": False, "message": "Missing fields"}, status=400)
+        threading.Thread(target=send_full_analysis, args=(score, email)).start()
         entry = Waitlist.objects.create(name=name, email=email)
         entry.set_score(score)
-        message = f"""
-        Hi,
-
-        Thank you for joining our waitlist! We truly appreciate your interest in our platform.
-
-        As promised, here is your detailed performance analysis:
-
-        {score}
-
-        We’ll keep you updated on the next steps soon. If you have any questions, feel free to reply to this email.
-
-        Best regards,
-        The PrepDungeon Team
-        """
-        send_mail(
-            subject="PrepDungeon Waitlist Confirmation & Performance Analysis",
-            message=message,
-            from_email=settings.DEFAULT_FROM_EMAIL,
-            recipient_list=[email],
-            fail_silently=True,
-        )
         return JsonResponse({"success": True})
 
     except json.JSONDecodeError:
@@ -573,23 +636,24 @@ def send_contact_email(contact_obj):
         subject=subject,
         message=message,
         from_email=settings.DEFAULT_FROM_EMAIL,
-        recipient_list=[settings.SUPPORT_INBOX, settings.KIYO_INBOX],
+        recipient_list=[settings.SUPPORT_INBOX, os.getenv('JHA_EMAIL')],
         fail_silently=True,
     )
-    msg = f"""
-    Hi {contact_obj.first_name},
+    greeting = f"Hi {contact_obj.first_name}," if contact_obj.first_name else "Hi,"
+    message = f"""{greeting}
 
-    Thank you for reaching out to us! We have successfully received your message.
+Thank you for taking the time to share your feedback with us. We've received your message and truly appreciate your input — it helps us improve and serve you better.
 
-    Our support team will review it and get back to you as soon as possible. 
-    If your inquiry is urgent, please feel free to reply to this email.
+Our team is reviewing your feedback and will get back to you shortly if a response is needed.
 
-    Best regards,
-    The PrepDungeon Team
-    """
+In the meantime, feel free to reach out to us at {settings.DEFAULT_FROM_EMAIL} if you have any further thoughts or questions.
+
+Warm regards,
+Team PrepDungeon
+"""
     send_mail(
-        subject="We've Received Your Message",
-        message=msg,
+        subject="Thank You for Your Feedback!",
+        message=message,
         from_email=settings.DEFAULT_FROM_EMAIL,
         recipient_list=[contact_obj.email],
         fail_silently=True,

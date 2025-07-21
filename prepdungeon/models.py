@@ -37,6 +37,8 @@ class UserProfile(models.Model):
     
     college = models.CharField(max_length=128, null=True, blank=True)
     stream = models.CharField(max_length=64, null=True, blank=True)
+    
+    friends = models.ManyToManyField("self", blank=True, symmetrical=False)
 
     def __str__(self):
         return f"{self.user.username} - Level {self.level}"
@@ -89,7 +91,15 @@ class UserProfile(models.Model):
             total += 50 * i * (i+1)
         total += self.xp
         return total
-    
+    def get_friend_list(self):
+        friends_list = [
+            {
+                "username": friend.user.username,
+                "id": friend.user.id,
+            }
+            for friend in self.friends.all()
+        ]
+        return friends_list
     def to_dict(self):
         return {
             "xp": self.xp,
@@ -101,7 +111,8 @@ class UserProfile(models.Model):
             "stream": self.stream,
             "xp_progress_percentage": self.xp_progress_percentage,
             "xp_to_next_level": self.xp_to_next_level,
-            "total_xp": self.total_xp
+            "total_xp": self.total_xp,
+            "friends": self.get_friend_list(),
         }
 
 class DailyEvent(models.Model):
@@ -123,53 +134,54 @@ class DailyEvent(models.Model):
             "points_reward": self.points_reward,
             }
 
-class UserDailyQuest(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="daily_quests")
-    name = models.CharField(max_length=255, null=False, blank=False)
+class DailyQuest(models.Model):
+    name = models.CharField(max_length=255)
     description = models.TextField()
     xp_reward = models.IntegerField(default=25)
     points_reward = models.IntegerField(default=5)
-    date_created = models.DateField(auto_now_add=True)
-    
+    quest_type = models.CharField(max_length=50, choices=[
+        ('read_material', 'Read Study Material'),
+        ('complete_test', 'Complete a Test'),
+        ('upload_document', 'Upload a Document'),
+        ('score_90', "Score 90% or higher"),
+        ('score_80', 'Score 80% or higher'),
+        ('complete_3_tests', 'Complete 3 Tests'),
+    ])
+
     def __str__(self):
         return self.name
-    
     def to_dict(self):
         return {
             "id": self.id,
-            "user": self.user.id,
             "name": self.name,
             "description": self.description,
             "xp_reward": self.xp_reward,
             "points_reward": self.points_reward,
-            }
+            "quest_type": self.quest_type,
+        }
 
-class CompletedDailyQuest(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='completed_daily')
-    quest = models.ForeignKey(UserDailyQuest, on_delete=models.CASCADE)
-    date_completed = models.DateField(auto_now_add=True)
-
-    class Meta:
-        unique_together = ('user', 'quest', 'date_completed')
-
+class UserDailyQuest(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="daily_quests")
+    daily_quest = models.ForeignKey(DailyQuest, on_delete=models.CASCADE)
+    date_created = models.DateField(auto_now_add=True)
+    is_completed = models.BooleanField(default=False)
+    
     def __str__(self):
-        return f"{self.user.username} completed {self.quest.name} on {self.date_completed}"
+        status = "Completed" if self.is_completed else "Pending"
+        return f"{self.user.username}'s quest: {self.daily_quest.name} ({status})"
     
-    def save(self, *args, **kwargs):
-        if not self.pk:
-            self.user.profile.add_xp(self.quest.xp_reward)
-            self.user.profile.points += self.quest.points_reward
-            self.user.profile.save()
-        super().save(*args, **kwargs)
-    
+    class Meta:
+        unique_together = ('user', 'daily_quest', 'date_created')
+        verbose_name = "User Daily Quest"
+        verbose_name_plural = "User Daily Quests"
+        
     def to_dict(self):
         return {
             "id": self.id,
-            "user": self.user.id,
-            "quest": self.quest.id,
-            "date_completed": self.date_completed,
-        }
-    
+            "user": self.user.to_dict(),
+            "daily_quest": self.daily_quest.to_dict(),
+            "is_completed": self.is_completed,
+            }
 
 class Question(models.Model):
     question = models.CharField(max_length=256, null=False)
@@ -212,9 +224,16 @@ class Question(models.Model):
 
 class CompletedTest(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='completed_tests')
+    TYPE_CHOICES = [
+        ('mcq', 'MCQ'),
+        ('conceptual', 'Conceptual'),
+        ('speed', 'Speed'),
+    ]
+    test_type = models.CharField(choices=TYPE_CHOICES, max_length=16, default="MCQ", null=False)
     score = models.IntegerField(default=0)
-    percentage = models.DecimalField(max_digits=5, decimal_places=2, default=0.0)
     analysis = models.TextField(default="No analysis available")
+    time_spent = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     @property
     def questions(self):
@@ -223,15 +242,18 @@ class CompletedTest(models.Model):
         return {
             "user": self.user.to_dict(),
             "score": self.score,
-            "percentage": self.percentage,
             "analysis": self.analysis,
             "questions": self.questions,
+            "time_spent": self.time_spent,
+            "created_at": self.created_at,
         }
 
 class UserAnswer(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_answers', default=None)
     completed_test = models.ForeignKey(CompletedTest, on_delete=models.CASCADE, related_name="user_answers")
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     answer_text = models.TextField()
+    time_spent = models.IntegerField(default=0)
 
     def __str__(self):
         return f"Answer to Q{self.question.id} in Test {self.completed_test.id}"

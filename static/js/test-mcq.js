@@ -141,6 +141,8 @@ function handleBackClick(event) {
 function finishTest() {
     clearInterval(timerInterval);
 
+    showNotification("Submitting test...", "success")
+
     const payload = {
         test_type: 'mcq',
         userAnswers: userAnswers,

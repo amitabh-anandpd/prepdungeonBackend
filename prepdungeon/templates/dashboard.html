@@ -115,28 +115,27 @@
                 </div>
                 <div class="task-list">
                     {% for quest in daily_quests %}
-                        {% if quest.id in completed_ids %}
-                            <div class="task-item completed">
-                                <div class="task-checkbox">
-                                    <i data-lucide="check" class="check-icon"></i>
-                                </div>
-                                <div class="task-content">
-                                    <span class="task-name">{{ quest.name }}</span>
-                                    <span class="task-reward">+{{ quest.xp_reward }} XP</span>
-                                    <span class="task-reward">+{{ quest.points_reward }} CP</span>
-                                </div>
+                        <div class="task-item">
+                            <div class="task-checkbox">
                             </div>
-                        {% else %}
-                            <div class="task-item">
-                                <div class="task-checkbox">
-                                </div>
-                                <div class="task-content">
-                                    <span class="task-name">{{ quest.name }}</span>
-                                    <span class="task-reward">+{{ quest.xp_reward }} XP</span>
-                                    <span class="task-reward">+{{ quest.points_reward }} CP</span>
-                                </div>
+                            <div class="task-content">
+                                <span class="task-name">{{ quest.name }}</span>
+                                <span class="task-reward">+{{ quest.xp_reward }} XP</span>
+                                <span class="task-reward">+{{ quest.points_reward }} CP</span>
                             </div>
-                        {% endif %}
+                        </div>
+                    {% endfor %}
+                    {% for quest in completed_quests %}
+                        <div class="task-item completed">
+                            <div class="task-checkbox">
+                                <i data-lucide="check" class="check-icon"></i>
+                            </div>
+                            <div class="task-content">
+                                <span class="task-name">{{ quest.name }}</span>
+                                <span class="task-reward">+{{ quest.xp_reward }} XP</span>
+                                <span class="task-reward">+{{ quest.points_reward }} CP</span>
+                            </div>
+                        </div>
                     {% endfor %}
                 </div>
             </div>
@@ -182,17 +181,19 @@
                     </h3>
                 </div>
                 <div class="alert-list">
-                    <div class="alert-item urgent">
-                        <div class="alert-icon">
-                            <i data-lucide="database"></i>
+                    {% for topic in weak_topics %}
+                        <div class="alert-item urgent">
+                            <div class="alert-icon">
+                                <i data-lucide="database"></i>
+                            </div>
+                            <div class="alert-content">
+                                <span class="alert-subject">{{ topic.subject }}</span>
+                                <span class="alert-topic">{{ topic.topic }}</span>
+                                <span class="alert-score">{{ topic.score }}</span>
+                            </div>
+                            <button class="alert-action">Practice</button>
                         </div>
-                        <div class="alert-content">
-                            <span class="alert-subject">DBMS</span>
-                            <span class="alert-topic">Normalization</span>
-                            <span class="alert-score">45%</span>
-                        </div>
-                        <button class="alert-action">Practice</button>
-                    </div>
+                    {% endfor %}
                     
                     <div class="alert-item warning">
                         <div class="alert-icon">

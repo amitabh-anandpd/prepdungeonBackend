@@ -143,6 +143,8 @@ function handleBackClick(event) {
 
 function finishTest() {
     clearInterval(timerInterval);
+
+    showNotification("Submitting test...", "success")
     
     const questionIds = Array.from(testCards).map(card => card.dataset.questionId);
 

@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .models import (
     User, UserProfile,
-    DailyEvent, UserDailyQuest, CompletedDailyQuest,
+    DailyEvent, UserDailyQuest,
     Question, CompletedTest, UserAnswer, Waitlist,
     ContactUsEmail,
 )
@@ -52,17 +52,9 @@ class DailyEventAdmin(admin.ModelAdmin):
 
 @admin.register(UserDailyQuest)
 class UserDailyQuestAdmin(admin.ModelAdmin):
-    list_display = ('name', 'user', 'xp_reward', 'points_reward', 'date_created')
+    list_display = ('user', 'daily_quest', 'is_completed', 'date_created')
     list_filter = ('date_created', 'user')
-    search_fields = ('name', 'user__username')
-
-
-@admin.register(CompletedDailyQuest)
-class CompletedDailyQuestAdmin(admin.ModelAdmin):
-    list_display = ('user', 'quest', 'date_completed')
-    list_filter = ('date_completed', 'user')
-    search_fields = ('user__username', 'quest__name')
-
+    search_fields = ('user__username', 'daily_quest')
 
 # -------------------------
 # Question bank
@@ -80,14 +72,13 @@ class QuestionAdmin(admin.ModelAdmin):
 class UserAnswerInline(admin.TabularInline):
     model = UserAnswer
     extra = 0
-    readonly_fields = ('question', 'answer_text')
+    readonly_fields = ('user', 'question', 'answer_text')
     can_delete = False
-
 
 @admin.register(CompletedTest)
 class CompletedTestAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'score', 'percentage')
-    list_filter = ('user',)
+    list_display = ('id', 'user', 'score', 'test_type', 'time_spent')
+    list_filter = ('user','test_type')
     inlines = [UserAnswerInline]
     readonly_fields = ('analysis',)
 
