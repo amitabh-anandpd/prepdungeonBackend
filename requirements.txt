@@ -1,0 +1,12 @@
+django
+python-docx
+PyPDF2
+uvicorn[standard]
+requests
+markdown
+dj-database-url
+psycopg2-binary
+whitenoise
+pytesseract
+pillow
+social-auth-app-django
