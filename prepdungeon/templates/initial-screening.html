@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Initial Screening - PrepDungeon</title>
+    <link rel="stylesheet" href="{% static '/css/styles.css' %}">
+    <link rel="stylesheet" href="{% static '/css/dashboard.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.344.0/lucide.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@400;700;900&family=Bungee&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-background">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="gradient-orb orb-4"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="dashboard-nav">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i data-lucide="brain" class="nav-logo"></i>
+                <span class="nav-title">PrepDungeon</span>
+            </div>
+            <div class="nav-menu">
+                <a href="{% url 'dashboard' %}" class="nav-link">Dashboard</a>
+                <a href="{% url 'test-center' %}" class="nav-link">Test Center</a>
+                <a href="{% url 'study-guide' %}" class="nav-link">Study Guide</a>
+                <a href="{% url 'daily-quest' %}" class="nav-link active">Quests</a>
+                <a href="{% url 'leaderboard' %}" class="nav-link">Leaderboard</a>
+                <a href="{% url 'profile' %}" class="nav-link">Profile</a>
+            </div>
+            <div class="user-stats">
+                <div class="stat-item">
+                    <i data-lucide="star" class="stat-icon"></i>
+                    <span class="stat-value">250 CP</span>
+                </div>
+                <div class="stat-item">
+                    <i data-lucide="zap" class="stat-icon"></i>
+                    <span class="stat-value">Lv. 3</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Screening Container -->
+    <div class="screening-container">
+        <div class="screening-header">
+            <h1 class="page-title">Knowledge Archive</h1>
+            <p class="page-subtitle">Discover your strengths and unlock your potential through comprehensive screening</p>
+            
+            <div class="screening-progress">
+                <div class="progress-stats">
+                    <div class="stat">
+                        <i data-lucide="check-circle" class="stat-icon"></i>
+                        <span>3 / 6 Completed</span>
+                    </div>
+                    <div class="stat">
+                        <i data-lucide="target" class="stat-icon"></i>
+                        <span>78% Average Score</span>
+                    </div>
+                    <div class="stat">
+                        <i data-lucide="clock" class="stat-icon"></i>
+                        <span>45 min Total Time</span>
+                    </div>
+                </div>
+                <div class="overall-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 50%"></div>
+                    </div>
+                    <span class="progress-text">Overall Progress: 50%</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Subject Cards Grid -->
+        <div class="subjects-grid">
+            <!-- Mathematics -->
+            <div class="subject-card completed">
+                <div class="card-header">
+                    <div class="subject-icon">
+                        <i data-lucide="calculator"></i>
+                    </div>
+                    <div class="subject-status">
+                        <i data-lucide="check-circle" class="status-icon"></i>
+                    </div>
+                </div>
+                
+                <div class="card-content">
+                    <h3 class="subject-name">Mathematics</h3>
+                    <p class="subject-description">Calculus, Algebra, Statistics & Probability</p>
+                    
+                    <div class="test-info">
+                        <div class="info-item">
+                            <i data-lucide="help-circle" class="info-icon"></i>
+                            <span>15 Questions</span>
+                        </div>
+                        <div class="info-item">
+                            <i data-lucide="clock" class="info-icon"></i>
+                            <span>20 minutes</span>
+                        </div>
+                        <div class="info-item">
+                            <i data-lucide="brain" class="info-icon"></i>
+                            <span>MCQ + Conceptual</span>
+                        </div>
+                    </div>
+                    
+                    <div class="test-results">
+                        <div class="score-display">
+                            <span class="score-value">85%</span>
+                            <span class="score-label">Score</span>
+                        </div>
+                        <div class="result-details">
+                            <span class="attempt-date">Completed 2 days ago</span>
+                            <span class="time-taken">Completed in 18 min</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-actions">
+                    <button class="action-btn secondary">
+                        <i data-lucide="eye" class="btn-icon"></i>
+                        View Results
+                    </button>
+                    <button class="action-btn primary">
+                        <i data-lucide="refresh-cw" class="btn-icon"></i>
+                        Retake Test
+                    </button>
+                </div>
+            </div>
+
+            <!-- DBMS -->
+            <div class="subject-card completed">
+                <div class="card-header">
+                    <div class="subject-icon">
+                        <i data-lucide="database"></i>
+                    </div>
+                    <div class="subject-status">
+                        <i data-lucide="check-circle" class="status-icon"></i>
+                    </div>
+                </div>
+                
+                <div class="card-content">
+                    <h3 class="subject-name">Database Management</h3>
+                    <p class="subject-description">SQL, Normalization, Transactions & Indexing</p>
+                    
+                    <div class="test-info">
+                        <div class="info-item">
+                            <i data-lucide="help-circle" class="info-icon"></i>
+                            <span>18 Questions</span>
+                        </div>
+                        <div class="info-item">
+                            <i data-lucide="clock" class="info-icon"></i>
+                            <span>25 minutes</span>
+                        </div>
+                        <div class="info-item">
+                            <i data-lucide="brain" class="info-icon"></i>
+                            <span>Conceptual + Practical</span>
+                        </div>
+                    </div>
+                    
+                    <div class="test-results">
+                        <div class="score-display">
+                            <span class="score-value">72%</span>
+                            <span class="score-label">Score</span>
+                        </div>
+                        <div class="result-details">
+                            <span class="attempt-date">Completed 1 day ago</span>
+                            <span class="time-taken">Completed in 23 min</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-actions">
+                    <button class="action-btn secondary">
+                        <i data-lucide="eye" class="btn-icon"></i>
+                        View Results
+                    </button>
+                    <button class="action-btn primary">
+                        <i data-lucide="refresh-cw" class="btn-icon"></i>
+                        Retake Test
+                    </button>
+                </div>
+            </div>
+
+            <!-- Computer Networks -->
+            <div class="subject-card completed">
+                <div class="card-header">
+                    <div class="subject-icon">
+                        <i data-lucide="network"></i>
+                    </div>
+                    <div class="subject-status">
+                        <i data-lucide="check-circle" class="status-icon"></i>
+                    </div>
+                </div>
+                
+                <div class="card-content">
+                    <h3 class="subject-name">Computer Networks</h3>
+                    <p class="subject-description">TCP/IP, OSI Model, Routing & Protocols</p>
+                    
+                    <div class="test-info">
+                        <div class="info-item">
+                            <i data-lucide="help-circle" class="info-icon"></i>
+                            <span>16 Questions</span>
+                        </div>
+                        <div class="info-item">
+                            <i data-lucide="clock" class="info-icon"></i>
+                            <span>22 minutes</span>
+                        </div>
+                        <div class="info-item">
+                            <i data-lucide="brain" class="info-icon"></i>
+                            <span>MCQ + Speed</span>
+                        </div>
+                    </div>
+                    
+                    <div class="test-results">
+                        <div class="score-display">
+                            <span class="score-value">78%</span>
+                            <span class="score-label">Score</span>
+                        </div>
+                        <div class="result-details">
+                            <span class="attempt-date">Completed today</span>
+                            <span class="time-taken">Completed in 19 min</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-actions">
+                    <button class="action-btn secondary">
+                        <i data-lucide="eye" class="btn-icon"></i>
+                        View Results
+                    </button>
+                    <button class="action-btn primary">
+                        <i data-lucide="refresh-cw" class="btn-icon"></i>
+                        Retake Test
+                    </button>
+                </div>
+            </div>
+
+            <!-- Operating Systems -->
+            <div class="subject-card pending">
+                <div class="card-header">
+                    <div class="subject-icon">
+                        <i data-lucide="cpu"></i>
+                    </div>
+                    <div class="subject-status">
+                        <i data-lucide="clock" class="status-icon"></i>
+                    </div>
+                </div>
+                
+                <div class="card-content">
+                    <h3 class="subject-name">Operating Systems</h3>
+                    <p class="subject-description">Processes, Memory, File Systems & Scheduling</p>
+                    
+                    <div class="test-info">
+                        <div class="info-item">
+                            <i data-lucide="help-circle" class="info-icon"></i>
+                            <span>17 Questions</span>
+                        </div>
+                        <div class="info-item">
+                            <i data-lucide="clock" class="info-icon"></i>
+                            <span>24 minutes</span>
+                        </div>
+                        <div class="info-item">
+                            <i data-lucide="brain" class="info-icon"></i>
+                            <span>Conceptual + MCQ</span>
+                        </div>
+                    </div>
+                    
+                    <div class="test-preview">
+                        <h4 class="preview-title">Sample Questions:</h4>
+                        <ul class="preview-list">
+                            <li>What is the difference between process and thread?</li>
+                            <li>Explain the concept of virtual memory</li>
+                            <li>Which scheduling algorithm provides fairness?</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="card-actions">
+                    <button class="action-btn primary">
+                        <i data-lucide="play" class="btn-icon"></i>
+                        Start Test
+                    </button>
+                </div>
+            </div>
+
+            <!-- Data Structures -->
+            <div class="subject-card pending">
+                <div class="card-header">
+                    <div class="subject-icon">
+                        <i data-lucide="git-branch"></i>
+                    </div>
+                    <div class="subject-status">
+                        <i data-lucide="clock" class="status-icon"></i>
+                    </div>
+                </div>
+                
+                <div class="card-content">
+                    <h3 class="subject-name">Data Structures & Algorithms</h3>
+                    <p class="subject-description">Arrays, Trees, Graphs, Sorting & Searching</p>
+                    
+                    <div class="test-info">
+                        <div class="info-item">
+                            <i data-lucide="help-circle" class="info-icon"></i>
+                            <span>20 Questions</span>
+                        </div>
+                        <div class="info-item">
+                            <i data-lucide="clock" class="info-icon"></i>
+                            <span>30 minutes</span>
+                        </div>
+                        <div class="info-item">
+                            <i data-lucide="brain" class="info-icon"></i>
+                            <span>Coding + MCQ</span>
+                        </div>
+                    </div>
+                    
+                    <div class="test-preview">
+                        <h4 class="preview-title">Sample Questions:</h4>
+                        <ul class="preview-list">
+                            <li>Implement binary search algorithm</li>
+                            <li>What is the time complexity of quicksort?</li>
+                            <li>Explain the difference between stack and queue</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="card-actions">
+                    <button class="action-btn primary">
+                        <i data-lucide="play" class="btn-icon"></i>
+                        Start Test
+                    </button>
+                </div>
+            </div>
+
+            <!-- Software Engineering -->
+            <div class="subject-card pending">
+                <div class="card-header">
+                    <div class="subject-icon">
+                        <i data-lucide="code"></i>
+                    </div>
+                    <div class="subject-status">
+                        <i data-lucide="clock" class="status-icon"></i>
+                    </div>
+                </div>
+                
+                <div class="card-content">
+                    <h3 class="subject-name">Software Engineering</h3>
+                    <p class="subject-description">SDLC, Testing, Design Patterns & Project Management</p>
+                    
+                    <div class="test-info">
+                        <div class="info-item">
+                            <i data-lucide="help-circle" class="info-icon"></i>
+                            <span>14 Questions</span>
+                        </div>
+                        <div class="info-item">
+                            <i data-lucide="clock" class="info-icon"></i>
+                            <span>18 minutes</span>
+                        </div>
+                        <div class="info-item">
+                            <i data-lucide="brain" class="info-icon"></i>
+                            <span>MCQ + Case Study</span>
+                        </div>
+                    </div>
+                    
+                    <div class="test-preview">
+                        <h4 class="preview-title">Sample Questions:</h4>
+                        <ul class="preview-list">
+                            <li>What are the phases of SDLC?</li>
+                            <li>Explain the Singleton design pattern</li>
+                            <li>What is the difference between unit and integration testing?</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="card-actions">
+                    <button class="action-btn primary">
+                        <i data-lucide="play" class="btn-icon"></i>
+                        Start Test
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recommendations Section -->
+        <div class="recommendations-section">
+            <h2 class="section-title">
+                <i data-lucide="lightbulb" class="title-icon"></i>
+                AI Recommendations
+            </h2>
+            
+            <div class="recommendations-grid">
+                <div class="recommendation-card priority-high">
+                    <div class="recommendation-header">
+                        <i data-lucide="alert-triangle" class="priority-icon"></i>
+                        <span class="priority-label">High Priority</span>
+                    </div>
+                    <h4 class="recommendation-title">Focus on DBMS Normalization</h4>
+                    <p class="recommendation-description">Your DBMS score indicates weakness in normalization concepts. Spend extra time reviewing 1NF, 2NF, and 3NF.</p>
+                    <div class="recommendation-actions">
+                        <button class="rec-btn">
+                            <i data-lucide="book" class="btn-icon"></i>
+                            Study Guide
+                        </button>
+                        <button class="rec-btn">
+                            <i data-lucide="play" class="btn-icon"></i>
+                            Practice Test
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="recommendation-card priority-medium">
+                    <div class="recommendation-header">
+                        <i data-lucide="info" class="priority-icon"></i>
+                        <span class="priority-label">Medium Priority</span>
+                    </div>
+                    <h4 class="recommendation-title">Complete Remaining Screenings</h4>
+                    <p class="recommendation-description">Take the OS, DSA, and SE screening tests to get a complete picture of your knowledge areas.</p>
+                    <div class="recommendation-actions">
+                        <button class="rec-btn">
+                            <i data-lucide="play" class="btn-icon"></i>
+                            Start Next Test
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="recommendation-card priority-low">
+                    <div class="recommendation-header">
+                        <i data-lucide="check-circle" class="priority-icon"></i>
+                        <span class="priority-label">Strength</span>
+                    </div>
+                    <h4 class="recommendation-title">Mathematics Excellence</h4>
+                    <p class="recommendation-description">Great job on Mathematics! Consider taking advanced calculus challenges to further strengthen this area.</p>
+                    <div class="recommendation-actions">
+                        <button class="rec-btn">
+                            <i data-lucide="trophy" class="btn-icon"></i>
+                            Advanced Tests
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>window.notification = "{{ request.session.notification|default:''|escapejs }}"</script>
+    <script>window.notification_type = "{{ request.session.notification_type|default:''|escapejs }}"</script>
+    <script src="{% static 'js/common.js' %}"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script type="module" src="{% static 'js/initial-screening.js' %}"></script>
+</body>
+</html>

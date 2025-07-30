@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A personalized, AI-powered platform that adapts to individual pace, goals, and curriculum.">
+    <title>PrepDungeon</title>
+    <link rel="stylesheet" href="{% static '/css/styles.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.344.0/lucide.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Crimson+Text:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-background">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="gradient-orb orb-4"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-content">
+                <div class="nav-brand">
+                    <i data-lucide="brain" class="nav-logo"></i>
+                    <span class="nav-title">PrepDungeon</span>
+                </div>
+                <div class="nav-menu">
+                    <a href="{% url 'index' %}" class="nav-link active">Home</a>
+                    <a href="{% url 'features' %}" class="nav-link">Features</a>
+                    <a href="{% url 'about' %}" class="nav-link">About</a>
+                    <a href="{% url 'contact' %}" class="nav-link">Contact</a>
+                    <a href="{% url 'faq' %}" class="nav-link">FAQ</a>
+                    <a href="{% url 'auth' %}" class="nav-cta-btn">Login</a>
+                </div>
+                <div class="mobile-menu-btn">
+                    <i data-lucide="menu" class="menu-icon"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="hero-title">
+                        Know Where You Stand
+                        <span class="gradient-text">Before You Start</span>
+                    </h1>
+                    <p class="hero-description">
+                        Upload your study material. Take a short screening. Discover your strengths. No signup needed.
+                    </p>
+                    <button class="hero-cta-btn" onclick="scrollToSection('material-input')">
+                        <span>Start Without Signup</span>
+                        <i data-lucide="arrow-down" class="btn-icon"></i>
+                    </button>
+                </div>
+                
+                <!-- Trust Badges -->
+                <div class="trust-badges">
+                    <div class="trust-badge">
+                        <i data-lucide="cpu" class="trust-icon"></i>
+                        <span>AI-Powered</span>
+                    </div>
+                    <div class="trust-badge">
+                        <i data-lucide="heart" class="trust-icon"></i>
+                        <span>Student-Loved</span>
+                    </div>
+                    <div class="trust-badge">
+                        <i data-lucide="shield-check" class="trust-icon"></i>
+                        <span>Private & Secure</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <form method="post" id="study-material-form" enctype="multipart/form-data">
+        {% csrf_token %}
+        <!-- Study Material Input Section -->
+        <section id="material-input" class="material-input">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Upload Your Study Material</h2>
+                    <p class="section-subtitle">Upload your syllabus once. We'll personalize everything for you.</p>
+                </div>
+                
+                <div class="upload-container">
+                    <div class="upload-box" id="upload-box">
+                        <div class="upload-content">
+                            <div class="upload-icon">
+                                <i data-lucide="upload-cloud"></i>
+                            </div>
+                            <h3 class="upload-title">Drag & Drop Your Files</h3>
+                            <p class="upload-description">Or click to browse your files</p>
+                            <div class="upload-formats">
+                                <span class="format-tag">PDF</span>
+                                <span class="format-tag">DOC</span>
+                                <span class="format-tag">TXT</span>
+                                <span class="format-tag">Links</span>
+                            </div>
+                            <input type="file" name="file_input" id="file-input" multiple accept=".pdf,.doc,.docx,.txt" hidden>
+                        </div>
+                    </div>
+                    
+                    <div class="upload-alternative">
+                        <div class="divider">
+                            <span class="divider-text">Or paste your content</span>
+                        </div>
+                        <textarea name="text_content" class="content-textarea" placeholder="Paste your syllabus, study notes, or any text content here...">{{ form.text_content.value|default_if_none:''  }}</textarea>
+                    </div>
+                    
+                    <button class="continue-btn" id="continue-to-screening" disabled>
+                        <span>Continue to Screening</span>
+                        <i data-lucide="arrow-right" class="btn-icon"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Screening Section -->
+        <section id="screening" class="screening hidden">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Choose Your Preferred Screening Style</h2>
+                    <p class="section-subtitle">Select the test type that matches your learning preference</p>
+                </div>
+                
+                <div class="screening-options">
+                    <div class="screening-card" data-type="mcq">
+                        <div class="card-icon">
+                            <i data-lucide="check-square"></i>
+                        </div>
+                        <h3 class="card-title">MCQs</h3>
+                        <p class="card-description">Multiple choice questions to test your knowledge quickly</p>
+                        <div class="card-features">
+                            <span class="feature">• Quick assessment</span>
+                            <span class="feature">• Instant feedback</span>
+                            <span class="feature">• 5-10 minutes</span>
+                        </div>
+                    </div>
+                    
+                    <div class="screening-card" data-type="conceptual">
+                        <div class="card-icon">
+                            <i data-lucide="lightbulb"></i>
+                        </div>
+                        <h3 class="card-title">Conceptual Test</h3>
+                        <p class="card-description">Deep understanding through concept-based questions</p>
+                        <div class="card-features">
+                            <span class="feature">• In-depth analysis</span>
+                            <span class="feature">• Critical thinking</span>
+                            <span class="feature">• 10-15 minutes</span>
+                        </div>
+                    </div>
+                    
+                    <div class="screening-card" data-type="speed">
+                        <div class="card-icon">
+                            <i data-lucide="zap"></i>
+                        </div>
+                        <h3 class="card-title">Speed Test</h3>
+                        <p class="card-description">Fast-paced questions to test your quick recall</p>
+                        <div class="card-features">
+                            <span class="feature">• Rapid fire</span>
+                            <span class="feature">• Time pressure</span>
+                            <span class="feature">• 3-5 minutes</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <input type="hidden" name="test_type" id="selected-test-type" value="{{ form.test_type.value }}">
+    </form>
+
+    <!-- Results Teaser Section -->
+    <section id="results-teaser" class="results-teaser hidden">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Your Screening Results</h2>
+                <p class="section-subtitle">Great job! Here's your performance overview</p>
+            </div>
+            
+            <div class="results-container">
+                <div class="results-card">
+                    <div class="results-header">
+                        <h3 class="results-title">Performance Overview</h3>
+                        <div class="score-badge">
+                            <span class="score">78%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="results-content">
+                        <div class="strength-weakness">
+                            <div class="strength-section">
+                                <h4 class="section-label">
+                                    <i data-lucide="trending-up" class="label-icon"></i>
+                                    Strengths
+                                </h4>
+                                <div class="skill-bars">
+                                    <div class="skill-bar">
+                                        <span class="skill-name">Problem Solving</span>
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" style="width: 85%"></div>
+                                        </div>
+                                        <span class="skill-score">85%</span>
+                                    </div>
+                                    <div class="skill-bar">
+                                        <span class="skill-name">Logical Reasoning</span>
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" style="width: 78%"></div>
+                                        </div>
+                                        <span class="skill-score">78%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="weakness-section">
+                                <h4 class="section-label">
+                                    <i data-lucide="trending-down" class="label-icon"></i>
+                                    Areas to Improve
+                                </h4>
+                                <div class="skill-bars">
+                                    <div class="skill-bar">
+                                        <span class="skill-name">Time Management</span>
+                                        <div class="progress-bar">
+                                            <div class="progress-fill weakness" style="width: 45%"></div>
+                                        </div>
+                                        <span class="skill-score">45%</span>
+                                    </div>
+                                    <div class="skill-bar">
+                                        <span class="skill-name">Conceptual Clarity</span>
+                                        <div class="progress-bar">
+                                            <div class="progress-fill weakness" style="width: 52%"></div>
+                                        </div>
+                                        <span class="skill-score">52%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="study-guide-preview">
+                            <h4 class="section-label">
+                                <i data-lucide="book-open" class="label-icon"></i>
+                                Suggested Study Guide
+                            </h4>
+                            <div class="guide-items">
+                                <div class="guide-item">
+                                    <i data-lucide="clock" class="guide-icon"></i>
+                                    <span>Focus on time-based practice sessions</span>
+                                </div>
+                                <div class="guide-item">
+                                    <i data-lucide="target" class="guide-icon"></i>
+                                    <span>Review fundamental concepts daily</span>
+                                </div>
+                                <div class="guide-item">
+                                    <i data-lucide="repeat" class="guide-icon"></i>
+                                    <span>Practice similar problems repeatedly</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="results-footer">
+                        <div class="preview-badge">
+                            <i data-lucide="eye" class="preview-icon"></i>
+                            <span>Preview Mode</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Signup Button -->
+                <div class="signup-cta-container">
+                    <button class="signup-cta-btn" id="show-Waitlist-modal">
+                        <span>Get My Full Analysis</span>
+                        <i data-lucide="arrow-right" class="btn-icon"></i>
+                    </button>
+                    <p class="signup-cta-text">Unlock detailed insights, personalized study plans, and progress tracking</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Signup Modal -->
+    <!--div id="signup-modal" class="modal-overlay hidden">
+        <div class="modal-container">
+            <div class="signup-card">
+                <button class="modal-close" id="close-signup-modal">
+                    <i data-lucide="x" class="close-icon"></i>
+                </button>
+                
+                <div class="signup-header">
+                    <h2 class="signup-title">Get Your Full Analysis</h2>
+                    <p class="signup-subtitle">Only takes 10 seconds. Stay curious.</p>
+                    <div class="curiosity-badge">
+                        <i data-lucide="star" class="curiosity-icon"></i>
+                        <span>+1 Curiosity Point</span>
+                    </div>
+                </div>
+                
+                <form class="signup-form" id="modal-signup-form">
+                    <div class="form-group">
+                        <div class="input-wrapper">
+                            <i data-lucide="user" class="input-icon"></i>
+                            <input type="text" class="form-input" placeholder="Your name" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="input-wrapper">
+                            <i data-lucide="mail" class="input-icon"></i>
+                            <input type="email" class="form-input" placeholder="Your email" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="input-wrapper">
+                            <i data-lucide="graduation-cap" class="input-icon"></i>
+                            <select class="form-input" required>
+                                <option value="">Select your level</option>
+                                <option value="high-school">High School</option>
+                                <option value="undergraduate">Undergraduate</option>
+                                <option value="graduate">Graduate</option>
+                                <option value="professional">Professional</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="signup-btn">
+                        <span>Get My Full Analysis</span>
+                        <i data-lucide="arrow-right" class="btn-icon"></i>
+                    </button>
+                </form>
+                
+                <div class="signup-footer">
+                    <p class="privacy-note">
+                        <i data-lucide="shield" class="privacy-icon"></i>
+                        Your data is secure and will never be shared
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div-->
+    <!-- Join Waitlist Modal -->
+    <div id="Waitlist-modal" class="modal-overlay hidden">
+        <div class="modal-container">
+            <div class="signup-card">
+                <button class="modal-close" id="close-Waitlist-modal">
+                    <i data-lucide="x" class="close-icon"></i>
+                </button>
+
+                <div class="signup-header">
+                    <h2 class="signup-title">Join the Waitlist</h2>
+                    <p class="signup-subtitle">Be the first to experience PrepDungeon. We’ll email you your full analysis.</p>
+                    <div class="curiosity-badge">
+                        <i data-lucide="star" class="curiosity-icon"></i>
+                        <span>+1 Curiosity Point</span>
+                    </div>
+                </div>
+
+                <form class="signup-form" id="modal-Waitlist-form">
+                    <div class="form-group">
+                        <div class="input-wrapper">
+                            <i data-lucide="user" class="input-icon"></i>
+                            <input type="text" class="form-input" placeholder="Your name" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-wrapper">
+                            <i data-lucide="mail" class="input-icon"></i>
+                            <input type="email" class="form-input" placeholder="Your email" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="signup-btn">
+                        <span>Join the Waitlist</span>
+                        <i data-lucide="arrow-right" class="btn-icon"></i>
+                    </button>
+                </form>
+
+                <div class="signup-footer">
+                    <p class="privacy-note">
+                        <i data-lucide="shield" class="privacy-icon"></i>
+                        Your data is secure and we’ll email your full analysis when you’re in.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- How It Works Section -->
+    <section class="how-it-works">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">How It Works</h2>
+                <p class="section-subtitle">A step-by-step journey through PrepDungeon</p>
+            </div>
+  
+      <div class="steps-scroll">
+                <!-- Step 1 -->
+                <div class="how-step">
+                    <div class="step-icon">
+                        <i data-lucide="upload-cloud"></i>
+                    </div>
+                    <h3 class="step-title">Upload Material</h3>
+                    <p class="step-desc">Upload your syllabus, notes, or chapters to get started.</p>
+                </div>
+  
+                <!-- Step 2 -->
+                <div class="how-step">
+                    <div class="step-icon">
+                        <i data-lucide="file-check-2"></i>
+                    </div>
+                    <h3 class="step-title">Take Quick Test</h3>
+                    <p class="step-desc">Attempt AI-generated topic tests based on your material.</p>
+                </div>
+        
+                <!-- Step 3 -->
+                <div class="how-step">
+                <div class="step-icon">
+                    <i data-lucide="bar-chart"></i>
+                </div>
+                    <h3 class="step-title">Instant Analysis</h3>
+                    <p class="step-desc">Receive insights on performance, accuracy, and weak areas.</p>
+                </div>
+  
+                <!-- Step 4 -->
+                <div class="how-step">
+                    <div class="step-icon">
+                        <i data-lucide="calendar-check-2"></i>
+                    </div>
+                    <h3 class="step-title">AI-Powered Plan</h3>
+                    <p class="step-desc">Get a daily routine adapted to your progress.</p>
+                </div>
+  
+                <!-- Step 5 -->
+                <div class="how-step">
+                    <div class="step-icon">
+                        <i data-lucide="award"></i>
+                    </div>
+                    <h3 class="step-title">Level-Up & Compete</h3>
+                    <p class="step-desc">Earn XP, badges, and join leaderboards with your friends.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-main">
+                    <div class="footer-brand">
+                        <div class="footer-logo">
+                            <i data-lucide="brain" class="footer-logo-icon"></i>
+                            <span class="footer-brand-name">PrepDungeon</span>
+                        </div>
+                        <p class="footer-description">
+                            Empowering students with AI-powered personalized learning experiences. 
+                            Know where you stand before you start your journey.
+                        </p>
+                        <div class="footer-social">
+                            <a href="#" class="social-link">
+                                <i data-lucide="twitter" class="social-icon"></i>
+                            </a>
+                            <a href="#" class="social-link">
+                                <i data-lucide="linkedin" class="social-icon"></i>
+                            </a>
+                            <a href="#" class="social-link">
+                                <i data-lucide="github" class="social-icon"></i>
+                            </a>
+                            <a href="#" class="social-link">
+                                <i data-lucide="instagram" class="social-icon"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="footer-links">
+                        <div class="footer-column">
+                            <h4 class="footer-column-title">Product</h4>
+                            <ul class="footer-link-list">
+                                <li><a href="{% url 'features' %}" class="footer-link">Features</a></li>
+                                <li><a href="{% url 'faq' %}" class="footer-link">FAQs</a></li>
+                            </ul>
+                        </div>
+                        
+                        <div class="footer-column">
+                            <h4 class="footer-column-title">Company</h4>
+                            <ul class="footer-link-list">
+                                <li><a href="{% url 'about' %}" class="footer-link">About Us</a></li>
+                                <li><a href="{% url 'contact' %}" class="footer-link">Contact</a></li>
+                            </ul>
+                        </div>
+                        
+                        
+                    </div>
+                </div>
+                
+                <div class="footer-bottom">
+                    <div class="footer-bottom-content">
+                        <p class="footer-copyright">
+                            © 2025 PrepDungeon. All rights reserved.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        }
+    </script>
+    <script>window.notification = "{{ request.session.notification|default:''|escapejs }}"</script>
+    <script>window.notification_type = "{{ request.session.notification_type|default:''|escapejs }}"</script>
+    <script src="{% static 'js/common.js' %}"></script>
+    <script>window.score = {{ score|safe }};</script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script type="module" src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

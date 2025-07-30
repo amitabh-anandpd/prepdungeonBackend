@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - PrepDungeon</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.344.0/lucide.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Crimson+Text:wght@400;600&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-background">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="gradient-orb orb-4"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-content">
+                <a href="{% url 'index' %}" class="card-link">
+                    <div class="nav-brand">
+                        <i data-lucide="brain" class="nav-logo"></i>
+                        <span class="nav-title">PrepDungeon</span>
+                    </div>
+                </a>
+                <div class="nav-menu">
+                    <a href="{% url 'index' %}" class="nav-link">Home</a>
+                    <a href="{% url 'features' %}" class="nav-link">Features</a>
+                    <a href="{% url 'about' %}" class="nav-link">About</a>
+                    <a href="{% url 'contact' %}" class="nav-link">Contact</a>
+                    <a href="{% url 'faq' %}" class="nav-link active">FAQ</a>
+                    <a href="{% url 'auth' %}" class="nav-cta-btn">Login</a>
+                </div>
+                <div class="mobile-menu-btn">
+                    <i data-lucide="menu" class="menu-icon"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- FAQ Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    Frequently Asked <span class="gradient-text">Questions</span>
+                </h1>
+                <p class="hero-description">
+                    Find answers to common questions about PrepDungeon and how it can transform your learning experience.
+                </p>
+                
+                <!-- Search Bar -->
+                <div class="faq-search">
+                    <div class="search-wrapper">
+                        <i data-lucide="search" class="search-icon"></i>
+                        <input type="text" class="search-input" placeholder="Search for answers..." id="faq-search">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Categories -->
+    <section class="faq-categories">
+        <div class="container">
+            <div class="category-tabs">
+                <button class="category-tab active" data-category="all">All Questions</button>
+                <button class="category-tab" data-category="getting-started">Getting Started</button>
+                <button class="category-tab" data-category="features">Features</button>
+                <button class="category-tab" data-category="account">Account</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Content -->
+    <section class="faq-content">
+        <div class="container">
+            <div class="faq-list" id="faq-list">
+                <div class="faq-item" data-category="getting-started">
+                    <div class="faq-question">
+                        <h3>What is PrepDungeon?</h3>
+                        <i data-lucide="chevron-down" class="faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>PrepDungeon is an AI-powered personalized study platform that transforms any study material into a tailored learning experience. You can upload your syllabus or notes (PDF, DOC, links, etc.), and the platform's AI will analyze the content to create a custom study plan, quizzes, and feedback.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-category="getting-started">
+                    <div class="faq-question">
+                        <h3>How does PrepDungeon personalize my learning?</h3>
+                        <i data-lucide="chevron-down" class="faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>PrepDungeon's AI algorithms track your performance in real-time, identifying knowledge gaps and adjusting lesson difficulty. It creates individualized learning paths based on your data and continuously personalizes exercises and recommendations, mimicking the effect of a private tutor.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-category="getting-started">
+                    <div class="faq-question">
+                        <h3>What kind of study materials can I use with PrepDungeon?</h3>
+                        <i data-lucide="chevron-down" class="faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Unlike fixed-course apps, PrepDungeon allows you to use your own syllabus or notes as input. This means any topic, textbook, or personal study goal can be the basis for PrepDungeon's tutoring.</p>
+                    </div>
+                </div>
+
+                <!-- Features -->
+                <div class="faq-item" data-category="features">
+                    <div class="faq-question">
+                        <h3>How do adaptive assessments work on PrepDungeon?</h3>
+                        <i data-lucide="chevron-down" class="faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Every quiz and practice test on PrepDungeon is adaptive. The platform dynamically adjusts question difficulty based on your past answers, offering harder questions for your strengths and simpler ones for weak topics. This helps guide you to what you need to learn next.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-category="features">
+                    <div class="faq-question">
+                        <h3>How does PrepDungeon make studying engaging?</h3>
+                        <i data-lucide="chevron-down" class="faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>PrepDungeon gamifies the learning process by turning studying into a game-like quest. You earn points and progress towards levels, complete daily quests, conquer "dungeons" (themed subject tests), and accumulate experience points (XP) and Curiosity Points, which can unlock fun features or content bonuses.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-category="features">
+                    <div class="faq-question">
+                        <h3>Can I track my progress with PrepDungeon?</h3>
+                        <i data-lucide="chevron-down" class="faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, PrepDungeon provides clear dashboards where you (and optionally your teachers or mentors) can monitor progress. It tracks quiz scores, topic proficiency, and overall XP/level, and identifies "weak topic alerts" (areas where scores are low) suggesting targeted revision.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-category="features">
+                    <div class="faq-question">
+                        <h3>How does PrepDungeon differ from other AI learning tools?</h3>
+                        <i data-lucide="chevron-down" class="faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>While some tools offer parts of PrepDungeon's features, PrepDungeon uniquely combines content-driven customization (using your actual syllabus) with a fully gamified experience and all-in-one learning journey.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-category="features">
+                    <div class="faq-question">
+                        <h3>What future enhancements are planned for PrepDungeon?</h3>
+                        <i data-lucide="chevron-down" class="faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>After the initial release (MVP), planned enhancements include multiple test modes (Conceptual, Speed), an adaptive testing engine that adjusts question difficulty, more extensive gamification features (points, levels, badges, quests), personalized study plans and tracking, social and competitive features (leaderboards, study groups), and potentially a mobile app or integrations with existing LMS tools.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-category="features">
+                    <div class="faq-question">
+                        <h3>What are "Weakness Alerts" and "Focus Mode" in PrepDungeon?</h3>
+                        <i data-lucide="chevron-down" class="faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>"Weakness Alerts" pinpoint specific concepts where your scores are low, flagging them for review (e.g., "Calculus: Integration - 62% correct").
+                            "Focus Mode" includes a built-in Pomodoro-style timer and smart tips to remind you when to study or which topics to tackle next.</p>
+                    </div>
+                </div>
+
+                <!-- Account -->
+                <div class="faq-item" data-category="account">
+                    <div class="faq-question">
+                        <h3>Is PrepDungeon free to use?</h3>
+                        <i data-lucide="chevron-down" class="faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes! PrepDungeon offers a generous free tier that includes basic screening tests, progress tracking, and limited AI recommendations.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-category="account">
+                    <div class="faq-question">
+                        <h3>Do I need to sign up to try PrepDungeon?</h3>
+                        <i data-lucide="chevron-down" class="faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>No, you can start a screening test without creating an account or sharing personal data, lowering the barrier to use and allowing you to try the tool instantly.
+                            You will be prompted to create an account after the quiz if you wish to save your results.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Still Have Questions -->
+    <section class="help-section">
+        <div class="container">
+            <div class="help-content">
+                <h2 class="help-title">Still Have Questions?</h2>
+                <p class="help-description">Can't find what you're looking for? Our support team is here to help!</p>
+                <div class="help-actions">
+                    <a href="{% url 'contact' %}" class="help-btn primary">
+                        <i data-lucide="mail" class="btn-icon"></i>
+                        Contact Support
+                    </a>
+                    <!--button class="help-btn secondary" id="live-chat-btn">
+                        <i data-lucide="message-circle" class="btn-icon"></i>
+                        Live Chat
+                    </button-->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-main">
+                    <div class="footer-brand">
+                        <div class="footer-logo">
+                            <i data-lucide="brain" class="footer-logo-icon"></i>
+                            <span class="footer-brand-name">PrepDungeon</span>
+                        </div>
+                        <p class="footer-description">
+                            Empowering students with AI-powered personalized learning experiences. 
+                            Know where you stand before you start your journey.
+                        </p>
+                        <div class="footer-social">
+                            <a href="#" class="social-link">
+                                <i data-lucide="twitter" class="social-icon"></i>
+                            </a>
+                            <a href="#" class="social-link">
+                                <i data-lucide="linkedin" class="social-icon"></i>
+                            </a>
+                            <a href="#" class="social-link">
+                                <i data-lucide="github" class="social-icon"></i>
+                            </a>
+                            <a href="#" class="social-link">
+                                <i data-lucide="instagram" class="social-icon"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="footer-links">
+                        <div class="footer-column">
+                            <h4 class="footer-column-title">Product</h4>
+                            <ul class="footer-link-list">
+                                <li><a href="{% url 'features' %}" class="footer-link">Features</a></li>
+                                <li><a href="{% url 'faq' %}" class="footer-link">FAQs</a></li>
+                            </ul>
+                        </div>
+                        
+                        <div class="footer-column">
+                            <h4 class="footer-column-title">Company</h4>
+                            <ul class="footer-link-list">
+                                <li><a href="{% url 'about' %}" class="footer-link">About Us</a></li>
+                                <li><a href="{% url 'contact' %}" class="footer-link">Contact</a></li>
+                            </ul>
+                        </div>
+                        
+                        
+                    </div>
+                </div>
+                
+                <div class="footer-bottom">
+                    <div class="footer-bottom-content">
+                        <p class="footer-copyright">
+                            © 2025 PrepDungeon. All rights reserved.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>window.notification = "{{ request.session.notification|default:''|escapejs }}"</script>
+    <script>window.notification_type = "{{ request.session.notification_type|default:''|escapejs }}"</script>
+    <script src="{% static 'js/common.js' %}"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script type="module" src="{% static 'js/script.js' %}"></script>
+    <script>
+        // FAQ functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const faqItems = document.querySelectorAll('.faq-item');
+            const categoryTabs = document.querySelectorAll('.category-tab');
+            const searchInput = document.getElementById('faq-search');
+            const liveChatBtn = document.getElementById('live-chat-btn');
+
+            // FAQ accordion functionality
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                const answer = item.querySelector('.faq-answer');
+                const icon = item.querySelector('.faq-icon');
+
+                question.addEventListener('click', () => {
+                    const isOpen = item.classList.contains('open');
+                    
+                    // Close all other items
+                    faqItems.forEach(otherItem => {
+                        otherItem.classList.remove('open');
+                        otherItem.querySelector('.faq-answer').style.maxHeight = '0';
+                        otherItem.querySelector('.faq-icon').style.transform = 'rotate(0deg)';
+                    });
+
+                    // Toggle current item
+                    if (!isOpen) {
+                        item.classList.add('open');
+                        answer.style.maxHeight = answer.scrollHeight + 'px';
+                        icon.style.transform = 'rotate(180deg)';
+                    }
+                });
+            });
+
+            // Category filtering
+            categoryTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const category = tab.getAttribute('data-category');
+                    
+                    // Update active tab
+                    categoryTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    
+                    // Filter FAQ items
+                    faqItems.forEach(item => {
+                        if (category === 'all' || item.getAttribute('data-category') === category) {
+                            item.style.display = 'block';
+                        } else {
+                            item.style.display = 'none';
+                            item.classList.remove('open');
+                            item.querySelector('.faq-answer').style.maxHeight = '0';
+                            item.querySelector('.faq-icon').style.transform = 'rotate(0deg)';
+                        }
+                    });
+                });
+            });
+
+            // Search functionality
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                
+                faqItems.forEach(item => {
+                    const question = item.querySelector('.faq-question h3').textContent.toLowerCase();
+                    const answer = item.querySelector('.faq-answer p').textContent.toLowerCase();
+                    
+                    if (question.includes(searchTerm) || answer.includes(searchTerm)) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                        item.classList.remove('open');
+                        item.querySelector('.faq-answer').style.maxHeight = '0';
+                        item.querySelector('.faq-icon').style.transform = 'rotate(0deg)';
+                    }
+                });
+
+                // Reset category filter when searching
+                if (searchTerm) {
+                    categoryTabs.forEach(t => t.classList.remove('active'));
+                    categoryTabs[0].classList.add('active'); // "All Questions" tab
+                }
+            });
+
+            // Live chat button
+            liveChatBtn.addEventListener('click', function() {
+                showNotification('Live chat feature coming soon! Please use our contact form for now.', 'info');
+            });
+        });
+    </script>
+</body>
+</html>

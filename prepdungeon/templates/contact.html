@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - PrepDungeon</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.344.0/lucide.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Crimson+Text:wght@400;600&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-background">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="gradient-orb orb-4"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-content">
+                <a href="{% url 'index' %}" class="card-link">
+                    <div class="nav-brand">
+                        <i data-lucide="brain" class="nav-logo"></i>
+                        <span class="nav-title">PrepDungeon</span>
+                    </div>
+                </a>
+                <div class="nav-menu">
+                    <a href="{% url 'index' %}" class="nav-link">Home</a>
+                    <a href="{% url 'features' %}" class="nav-link">Features</a>
+                    <a href="{% url 'about' %}" class="nav-link">About</a>
+                    <a href="{% url 'contact' %}" class="nav-link active">Contact</a>
+                    <a href="{% url 'faq' %}" class="nav-link">FAQ</a>
+                    <a href="{% url 'auth' %}" class="nav-cta-btn">Login</a>
+                </div>
+                <div class="mobile-menu-btn">
+                    <i data-lucide="menu" class="menu-icon"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contact Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    Get in <span class="gradient-text">Touch</span>
+                </h1>
+                <p class="hero-description">
+                    Have questions, feedback, or need support? We're here to help you on your learning journey.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section">
+        <div class="container">
+            <div class="contact-content">
+                <!-- Contact Form -->
+                <div class="contact-form-container">
+                    <div class="form-header">
+                        <h2 class="form-title">Send us a Message</h2>
+                        <p class="form-subtitle">We'll get back to you within 24 hours</p>
+                    </div>
+                    
+                    <form class="contact-form" id="contact-form">
+                        {% csrf_token %}
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">First Name</label>
+                                <div class="input-wrapper">
+                                    <i data-lucide="user" class="input-icon"></i>
+                                    <input type="text" class="form-input" name="first_name" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Last Name</label>
+                                <div class="input-wrapper">
+                                    <i data-lucide="user" class="input-icon"></i>
+                                    <input type="text" class="form-input" name="last_name" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Email Address</label>
+                            <div class="input-wrapper">
+                                <i data-lucide="mail" class="input-icon"></i>
+                                <input type="email" name="email" class="form-input" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Subject</label>
+                            <div class="input-wrapper">
+                                <i data-lucide="tag" class="input-icon"></i>
+                                <select class="form-input" name="subject" required>
+                                    <option value="">Select a topic</option>
+                                    <option value="general">General Inquiry</option>
+                                    <option value="support">Technical Support</option>
+                                    <option value="feedback">Feedback</option>
+                                    <option value="partnership">Partnership</option>
+                                    <option value="bug">Bug Report</option>
+                                    <option value="feature">Feature Request</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Message</label>
+                            <div class="input-wrapper">
+                                <i data-lucide="message-square" class="input-icon textarea-icon"></i>
+                                <textarea class="form-input form-textarea" name="message" rows="6" required></textarea>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="contact-submit-btn">
+                            <span>Send Message</span>
+                            <i data-lucide="send" class="btn-icon"></i>
+                        </button>
+                    </form>
+                </div>
+                
+                <!-- Contact Info -->
+                <div class="contact-info">
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i data-lucide="mail"></i>
+                        </div>
+                        <h3>Email Us</h3>
+                        <p>Get in touch via email</p>
+                        <a href="mailto:kiyotakasenpai69@gmail.com" class="info-link">kiyotakasenpai69@gmail.com</a>
+                    </div>
+                    
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i data-lucide="book-open"></i>
+                        </div>
+                        <h3>Help Center</h3>
+                        <p>Find answers to common questions</p>
+                        <a href="{% url 'faq' %}" class="info-link">Visit FAQ</a>
+                    </div>
+                    
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i data-lucide="users"></i>
+                        </div>
+                        <h3>Community</h3>
+                        <p>Join our student community</p>
+                        <a href="#" class="info-link">Join Discord</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Response Times -->
+    <section class="response-section">
+        <div class="container">
+            <h2 class="section-title">Our Response Times</h2>
+            <div class="response-grid">
+                <div class="response-card">
+                    <div class="response-icon general">
+                        <i data-lucide="zap"></i>
+                    </div>
+                    <h3>General Inquiries</h3>
+                    <p class="response-time">Within 24 hours</p>
+                    <p class="response-desc">We respond to all general questions and feedback within one business day.</p>
+                </div>
+                
+                <div class="response-card">
+                    <div class="response-icon support">
+                        <i data-lucide="headphones"></i>
+                    </div>
+                    <h3>Technical Support</h3>
+                    <p class="response-time">Within 4 hours</p>
+                    <p class="response-desc">Technical issues and bug reports get priority attention from our support team.</p>
+                </div>
+                
+                <div class="response-card">
+                    <div class="response-icon critical">
+                        <i data-lucide="alert-circle"></i>
+                    </div>
+                    <h3>Critical Issues</h3>
+                    <p class="response-time">Within 1 hour</p>
+                    <p class="response-desc">Critical bugs affecting learning are addressed immediately by our engineering team.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-main">
+                    <div class="footer-brand">
+                        <div class="footer-logo">
+                            <i data-lucide="brain" class="footer-logo-icon"></i>
+                            <span class="footer-brand-name">PrepDungeon</span>
+                        </div>
+                        <p class="footer-description">
+                            Empowering students with AI-powered personalized learning experiences. 
+                            Know where you stand before you start your journey.
+                        </p>
+                        <div class="footer-social">
+                            <a href="#" class="social-link">
+                                <i data-lucide="twitter" class="social-icon"></i>
+                            </a>
+                            <a href="#" class="social-link">
+                                <i data-lucide="linkedin" class="social-icon"></i>
+                            </a>
+                            <a href="#" class="social-link">
+                                <i data-lucide="github" class="social-icon"></i>
+                            </a>
+                            <a href="#" class="social-link">
+                                <i data-lucide="instagram" class="social-icon"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="footer-links">
+                        <div class="footer-column">
+                            <h4 class="footer-column-title">Product</h4>
+                            <ul class="footer-link-list">
+                                <li><a href="{% url 'features' %}" class="footer-link">Features</a></li>
+                                <li><a href="{% url 'faq' %}" class="footer-link">FAQs</a></li>
+                            </ul>
+                        </div>
+                        
+                        <div class="footer-column">
+                            <h4 class="footer-column-title">Company</h4>
+                            <ul class="footer-link-list">
+                                <li><a href="{% url 'about' %}" class="footer-link">About Us</a></li>
+                                <li><a href="{% url 'contact' %}" class="footer-link">Contact</a></li>
+                            </ul>
+                        </div>
+                        
+                        
+                    </div>
+                </div>
+                
+                <div class="footer-bottom">
+                    <div class="footer-bottom-content">
+                        <p class="footer-copyright">
+                            © 2025 PrepDungeon. All rights reserved.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>window.notification = "{{ request.session.notification|default:''|escapejs }}"</script>
+    <script>window.notification_type = "{{ request.session.notification_type|default:''|escapejs }}"</script>
+    <script src="{% static 'js/common.js' %}"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script type="module" src="{% static 'js/script.js' %}"></script>
+    <script>
+        // Contact form handling
+        document.getElementById('contact-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+        
+            const submitBtn = this.querySelector('.contact-submit-btn');
+            const originalText = submitBtn.innerHTML;
+        
+            // Show loading state
+            submitBtn.innerHTML = '<i data-lucide="loader-2" class="animate-spin"></i> Sending...';
+            submitBtn.disabled = true;
+            lucide.createIcons();
+        
+            const formData = new FormData(this);
+        
+            try {
+                const res = await fetch(this.action || '/contact/', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: formData
+                });
+        
+                if (!res.ok) {
+                    throw new Error('Network response was not OK');
+                }
+        
+                // Show success state
+                submitBtn.innerHTML = '<i data-lucide="check" class="btn-icon"></i> Message Sent!';
+                showNotification('Thank you! Your message has been sent successfully. We\'ll get back to you soon.', 'success');
+        
+                // Reset form
+                setTimeout(() => {
+                    document.getElementById('contact-form').reset();
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                    lucide.createIcons();
+                }, 2000);
+            } catch (err) {
+                console.error(err);
+                showNotification('Something went wrong. Please try again later.', 'error');
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+                lucide.createIcons();
+            }
+        });
+        
+        const style = document.createElement('style');
+        style.textContent = `
+            .animate-spin {
+                animation: spin 1s linear infinite;
+            }
+            
+            @keyframes spin {
+                from { transform: rotate(0deg); }
+                to { transform: rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

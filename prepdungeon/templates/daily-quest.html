@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Quests - PrepDungeon</title>
+    <link rel="stylesheet" href="{% static '/css/styles.css' %}">
+    <link rel="stylesheet" href="{% static '/css/dashboard.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.344.0/lucide.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@400;700;900&family=Bungee&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-background">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="gradient-orb orb-4"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="dashboard-nav">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i data-lucide="brain" class="nav-logo"></i>
+                <span class="nav-title">PrepDungeon</span>
+            </div>
+            <div class="nav-menu">
+                <a href="{% url 'dashboard' %}" class="nav-link">Dashboard</a>
+                <a href="{% url 'test-center' %}" class="nav-link">Test Center</a>
+                <a href="{% url 'study-guide' %}" class="nav-link">Study Guide</a>
+                <a href="{% url 'daily-quest' %}" class="nav-link active">Quests</a>
+                <a href="{% url 'leaderboard' %}" class="nav-link">Leaderboard</a>
+                <a href="{% url 'profile' %}" class="nav-link">Profile</a>
+            </div>
+            <div class="user-stats">
+                <div class="stat-item">
+                    <i data-lucide="star" class="stat-icon"></i>
+                    <span class="stat-value">250 CP</span>
+                </div>
+                <div class="stat-item">
+                    <i data-lucide="zap" class="stat-icon"></i>
+                    <span class="stat-value">Lv. 3</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Daily Quest Container -->
+    <div class="daily-quest-container">
+        <div class="quest-header">
+            <h1 class="page-title">Commission Board</h1>
+            <p class="page-subtitle">Accept daily challenges and earn rewards for your dedication</p>
+            
+            <div class="quest-stats">
+                <div class="stat-card">
+                    <div class="stat-icon-wrapper">
+                        <i data-lucide="flame" class="stat-icon"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Current Streak</span>
+                        <span class="stat-value">7 Days</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon-wrapper">
+                        <i data-lucide="trophy" class="stat-icon"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Quests Completed</span>
+                        <span class="stat-value">42</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon-wrapper">
+                        <i data-lucide="clock" class="stat-icon"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label">Time Remaining</span>
+                        <span class="stat-value" id="time-remaining">18:42:15</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Daily Quests -->
+        <div class="quests-section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i data-lucide="scroll-text" class="title-icon"></i>
+                    Today's Quests
+                </h2>
+                <button class="refresh-btn" id="refresh-quests">
+                    <i data-lucide="refresh-cw" class="btn-icon"></i>
+                    <span>Refresh (1 left)</span>
+                </button>
+            </div>
+            
+            <div class="quest-board">
+                <div class="quest-scroll active" data-quest="test">
+                    <div class="scroll-header">
+                        <div class="quest-rank">A</div>
+                        <div class="quest-status">Active</div>
+                    </div>
+                    <div class="scroll-content">
+                        <h3 class="quest-title">Complete 1 Test</h3>
+                        <p class="quest-description">Prove your knowledge by completing any test in the Test Center</p>
+                        <div class="quest-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 0%"></div>
+                            </div>
+                            <span class="progress-text">0 / 1 Tests</span>
+                        </div>
+                        <div class="quest-rewards">
+                            <div class="reward-item">
+                                <i data-lucide="zap" class="reward-icon"></i>
+                                <span>+50 XP</span>
+                            </div>
+                            <div class="reward-item">
+                                <i data-lucide="star" class="reward-icon"></i>
+                                <span>+15 CP</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="quest-action-btn">
+                        <i data-lucide="sword" class="btn-icon"></i>
+                        Go to Tests
+                    </button>
+                </div>
+                
+                <div class="quest-scroll completed" data-quest="score">
+                    <div class="scroll-header">
+                        <div class="quest-rank">S</div>
+                        <div class="quest-status">Completed</div>
+                    </div>
+                    <div class="scroll-content">
+                        <h3 class="quest-title">Score 90%+ in any test</h3>
+                        <p class="quest-description">Achieve excellence with a score of 90% or higher</p>
+                        <div class="quest-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill completed" style="width: 100%"></div>
+                            </div>
+                            <span class="progress-text">Completed! (92%)</span>
+                        </div>
+                        <div class="quest-rewards">
+                            <div class="reward-item">
+                                <i data-lucide="zap" class="reward-icon"></i>
+                                <span>+75 XP</span>
+                            </div>
+                            <div class="reward-item">
+                                <i data-lucide="star" class="reward-icon"></i>
+                                <span>+25 CP</span>
+                            </div>
+                            <div class="reward-item">
+                                <i data-lucide="crown" class="reward-icon"></i>
+                                <span>Excellence Badge</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="quest-action-btn completed">
+                        <i data-lucide="check" class="btn-icon"></i>
+                        Completed
+                    </button>
+                </div>
+                
+                <div class="quest-scroll active" data-quest="upload">
+                    <div class="scroll-header">
+                        <div class="quest-rank">B</div>
+                        <div class="quest-status">Active</div>
+                    </div>
+                    <div class="scroll-content">
+                        <h3 class="quest-title">Upload study material</h3>
+                        <p class="quest-description">Share knowledge by uploading study materials for any subject</p>
+                        <div class="quest-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 0%"></div>
+                            </div>
+                            <span class="progress-text">0 / 1 Materials</span>
+                        </div>
+                        <div class="quest-rewards">
+                            <div class="reward-item">
+                                <i data-lucide="zap" class="reward-icon"></i>
+                                <span>+30 XP</span>
+                            </div>
+                            <div class="reward-item">
+                                <i data-lucide="star" class="reward-icon"></i>
+                                <span>+10 CP</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="quest-action-btn">
+                        <i data-lucide="upload" class="btn-icon"></i>
+                        Study Guide
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Weekly Challenges -->
+        <div class="weekly-section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i data-lucide="calendar" class="title-icon"></i>
+                    Weekly Challenges
+                </h2>
+                <span class="week-progress">Week 3 of 4</span>
+            </div>
+            
+            <div class="weekly-challenge">
+                <div class="challenge-card">
+                    <div class="challenge-header">
+                        <div class="challenge-icon">
+                            <i data-lucide="target"></i>
+                        </div>
+                        <div class="challenge-info">
+                            <h3 class="challenge-title">Mathematics Mastery</h3>
+                            <p class="challenge-description">Complete 10 mathematics tests this week</p>
+                        </div>
+                        <div class="challenge-rank">Epic</div>
+                    </div>
+                    
+                    <div class="challenge-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 70%"></div>
+                        </div>
+                        <span class="progress-text">7 / 10 Tests Completed</span>
+                    </div>
+                    
+                    <div class="challenge-rewards">
+                        <h4 class="rewards-title">Epic Rewards</h4>
+                        <div class="reward-list">
+                            <div class="reward-item">
+                                <i data-lucide="zap" class="reward-icon"></i>
+                                <span>+200 XP</span>
+                            </div>
+                            <div class="reward-item">
+                                <i data-lucide="star" class="reward-icon"></i>
+                                <span>+50 CP</span>
+                            </div>
+                            <div class="reward-item">
+                                <i data-lucide="award" class="reward-icon"></i>
+                                <span>Math Master Badge</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Achievement Showcase -->
+        <div class="achievements-section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i data-lucide="award" class="title-icon"></i>
+                    Recent Achievements
+                </h2>
+            </div>
+            
+            <div class="achievements-grid">
+                <div class="achievement-card earned">
+                    <div class="achievement-icon">
+                        <i data-lucide="flame"></i>
+                    </div>
+                    <h4 class="achievement-name">Week Warrior</h4>
+                    <p class="achievement-desc">Complete quests for 7 consecutive days</p>
+                    <span class="achievement-date">Earned today</span>
+                </div>
+                
+                <div class="achievement-card earned">
+                    <div class="achievement-icon">
+                        <i data-lucide="brain"></i>
+                    </div>
+                    <h4 class="achievement-name">Knowledge Seeker</h4>
+                    <p class="achievement-desc">Upload 5 study materials</p>
+                    <span class="achievement-date">Earned 2 days ago</span>
+                </div>
+                
+                <div class="achievement-card locked">
+                    <div class="achievement-icon">
+                        <i data-lucide="crown"></i>
+                    </div>
+                    <h4 class="achievement-name">Perfect Scholar</h4>
+                    <p class="achievement-desc">Score 100% on 3 different tests</p>
+                    <span class="achievement-progress">2 / 3 Perfect Scores</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quest Completion Modal -->
+    <div id="quest-completion-modal" class="modal-overlay hidden">
+        <div class="modal-container quest-modal">
+            <div class="completion-card">
+                <div class="completion-header">
+                    <div class="completion-icon">
+                        <i data-lucide="check-circle" class="success-icon"></i>
+                    </div>
+                    <h2 class="completion-title">Quest Completed!</h2>
+                    <p class="completion-subtitle">Excellent work, Scholar!</p>
+                </div>
+                
+                <div class="completion-content">
+                    <h3 class="quest-name">Complete 1 Test</h3>
+                    <div class="rewards-earned">
+                        <h4>Rewards Earned:</h4>
+                        <div class="reward-list">
+                            <div class="reward-item">
+                                <i data-lucide="zap" class="reward-icon"></i>
+                                <span>+50 XP</span>
+                            </div>
+                            <div class="reward-item">
+                                <i data-lucide="star" class="reward-icon"></i>
+                                <span>+15 CP</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="streak-info">
+                        <i data-lucide="flame" class="streak-icon"></i>
+                        <span>Streak Continued: 8 Days!</span>
+                    </div>
+                </div>
+                
+                <button class="continue-btn" id="close-quest-modal">
+                    <span>Continue Adventure</span>
+                    <i data-lucide="arrow-right" class="btn-icon"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <script>window.notification = "{{ request.session.notification|default:''|escapejs }}"</script>
+    <script>window.notification_type = "{{ request.session.notification_type|default:''|escapejs }}"</script>
+    <script src="{% static 'js/common.js' %}"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script type="module" src="{% static 'js/daily-quest.js' %}"></script>
+</body>
+</html>

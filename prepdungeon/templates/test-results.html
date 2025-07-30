@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Results - PrepDungeon</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link rel="stylesheet" href="{% static 'dashboard.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.344.0/lucide.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@400;700;900&family=Bungee&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-background">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="gradient-orb orb-4"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="dashboard-nav">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="{% url 'index' %}"><i data-lucide="brain" class="nav-logo"></i>
+                <span class="nav-title">PrepDungeon</span></a>
+            </div>
+            <div class="nav-menu">
+                <a href="{% url 'dashboard' %}" class="nav-link">Dashboard</a>
+                <a href="{% url 'test-center' %}" class="nav-link">Test Center</a>
+                <a href="{% url 'study-guide' %}" class="nav-link">Study Guide</a>
+                <a href="{% url 'daily-quest' %}" class="nav-link">Quests</a>
+                <a href="{% url 'leaderboard' %}" class="nav-link">Leaderboard</a>
+                <a href="{% url 'profile' %}" class="nav-link">Profile</a>
+            </div>
+            <div class="user-stats">
+                <div class="stat-item">
+                    <i data-lucide="star" class="stat-icon"></i>
+                    <span class="stat-value">250 CP</span>
+                </div>
+                <div class="stat-item">
+                    <i data-lucide="zap" class="stat-icon"></i>
+                    <span class="stat-value">Lv. 3</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Results Container -->
+    <div class="results-container">
+        <!-- Results Header -->
+        <div class="results-header">
+            <div class="completion-celebration">
+                <div class="celebration-icon">
+                    <i data-lucide="trophy" class="trophy-icon"></i>
+                </div>
+                <h1 class="results-title">Test Completed!</h1>
+                <p class="results-subtitle">Here's how you performed on your Mathematics MCQ Test</p>
+            </div>
+        </div>
+
+        <!-- Main Results Grid -->
+        <div class="results-grid">
+            <!-- Overall Score Card -->
+            <div class="score-card main-score">
+                <div class="score-header">
+                    <h3 class="card-title">
+                        <i data-lucide="target" class="title-icon"></i>
+                        Overall Score
+                    </h3>
+                    <div class="score-badge excellent">Excellent</div>
+                </div>
+                <div class="score-display">
+                    <div class="score-circle">
+                        <svg class="progress-ring" width="120" height="120">
+                            <circle class="progress-ring-background" cx="60" cy="60" r="50"></circle>
+                            <circle class="progress-ring-fill" cx="60" cy="60" r="50" style="stroke-dasharray: 314; stroke-dashoffset: 62.8;"></circle>
+                        </svg>
+                        <div class="score-text">
+                            <span class="score-value" id="main-score">85%</span>
+                            <span class="score-label">Score</span>
+                        </div>
+                    </div>
+                    <div class="score-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Correct Answers</span>
+                            <span class="detail-value" id="correct-answers">17 / 20</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Time Taken</span>
+                            <span class="detail-value" id="time-taken">4m 32s</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Accuracy</span>
+                            <span class="detail-value" id="accuracy">85%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Performance Breakdown -->
+            <div class="performance-card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i data-lucide="bar-chart-3" class="title-icon"></i>
+                        Performance Breakdown
+                    </h3>
+                </div>
+                <div class="performance-content">
+                    <div class="topic-performance">
+                        <div class="topic-item">
+                            <div class="topic-info">
+                                <span class="topic-name">Algebra</span>
+                                <span class="topic-score">92%</span>
+                            </div>
+                            <div class="topic-bar">
+                                <div class="topic-fill excellent" style="width: 92%"></div>
+                            </div>
+                            <span class="topic-questions">6/6 correct</span>
+                        </div>
+                        
+                        <div class="topic-item">
+                            <div class="topic-info">
+                                <span class="topic-name">Calculus</span>
+                                <span class="topic-score">78%</span>
+                            </div>
+                            <div class="topic-bar">
+                                <div class="topic-fill good" style="width: 78%"></div>
+                            </div>
+                            <span class="topic-questions">7/9 correct</span>
+                        </div>
+                        
+                        <div class="topic-item">
+                            <div class="topic-info">
+                                <span class="topic-name">Statistics</span>
+                                <span class="topic-score">80%</span>
+                            </div>
+                            <div class="topic-bar">
+                                <div class="topic-fill good" style="width: 80%"></div>
+                            </div>
+                            <span class="topic-questions">4/5 correct</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rewards Earned -->
+            <div class="rewards-card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i data-lucide="gift" class="title-icon"></i>
+                        Rewards Earned
+                    </h3>
+                </div>
+                <div class="rewards-content">
+                    <div class="reward-item">
+                        <div class="reward-icon">
+                            <i data-lucide="zap" class="icon"></i>
+                        </div>
+                        <div class="reward-info">
+                            <span class="reward-amount">+75 XP</span>
+                            <span class="reward-label">Experience Points</span>
+                        </div>
+                    </div>
+                    
+                    <div class="reward-item">
+                        <div class="reward-icon">
+                            <i data-lucide="star" class="icon"></i>
+                        </div>
+                        <div class="reward-info">
+                            <span class="reward-amount">+25 CP</span>
+                            <span class="reward-label">Curiosity Points</span>
+                        </div>
+                    </div>
+                    
+                    <div class="reward-item">
+                        <div class="reward-icon">
+                            <i data-lucide="award" class="icon"></i>
+                        </div>
+                        <div class="reward-info">
+                            <span class="reward-amount">Math Expert</span>
+                            <span class="reward-label">Badge Unlocked</span>
+                        </div>
+                    </div>
+                    
+                    <div class="streak-bonus">
+                        <i data-lucide="flame" class="streak-icon"></i>
+                        <span class="streak-text">7-day streak maintained! +10 bonus XP</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detailed Analysis -->
+        <div class="analysis-section">
+            <h2 class="section-title">
+                <i data-lucide="brain" class="title-icon"></i>
+                AI Analysis & Insights
+            </h2>
+            
+            <div class="analysis-grid">
+                <!-- Strengths -->
+                <div class="analysis-card strengths">
+                    <div class="analysis-header">
+                        <h3 class="analysis-title">
+                            <i data-lucide="trending-up" class="analysis-icon"></i>
+                            Your Strengths
+                        </h3>
+                    </div>
+                    <div class="analysis-content">
+                        <div class="strength-item">
+                            <div class="strength-icon">
+                                <i data-lucide="check-circle" class="icon"></i>
+                            </div>
+                            <div class="strength-text">
+                                <h4>Algebraic Problem Solving</h4>
+                                <p>You excel at solving complex algebraic equations and understanding variable relationships.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="strength-item">
+                            <div class="strength-icon">
+                                <i data-lucide="check-circle" class="icon"></i>
+                            </div>
+                            <div class="strength-text">
+                                <h4>Quick Pattern Recognition</h4>
+                                <p>Your ability to identify mathematical patterns is above average, helping you solve problems efficiently.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Areas for Improvement -->
+                <div class="analysis-card improvements">
+                    <div class="analysis-header">
+                        <h3 class="analysis-title">
+                            <i data-lucide="trending-down" class="analysis-icon"></i>
+                            Areas for Improvement
+                        </h3>
+                    </div>
+                    <div class="analysis-content">
+                        <div class="improvement-item">
+                            <div class="improvement-icon">
+                                <i data-lucide="alert-circle" class="icon"></i>
+                            </div>
+                            <div class="improvement-text">
+                                <h4>Calculus Integration</h4>
+                                <p>Consider reviewing integration techniques, particularly substitution and integration by parts.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="improvement-item">
+                            <div class="improvement-icon">
+                                <i data-lucide="alert-circle" class="icon"></i>
+                            </div>
+                            <div class="improvement-text">
+                                <h4>Time Management</h4>
+                                <p>You spent more time on calculus questions. Practice timed exercises to improve speed.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recommendations -->
+        <div class="recommendations-section">
+            <h2 class="section-title">
+                <i data-lucide="lightbulb" class="title-icon"></i>
+                Personalized Recommendations
+            </h2>
+            
+            <div class="recommendations-grid">
+                <div class="recommendation-card priority-high">
+                    <div class="rec-header">
+                        <i data-lucide="book-open" class="rec-icon"></i>
+                        <span class="rec-priority">High Priority</span>
+                    </div>
+                    <h4 class="rec-title">Study Calculus Integration</h4>
+                    <p class="rec-description">Focus on integration techniques for the next 3 study sessions to improve your calculus performance.</p>
+                    <button class="rec-action-btn">
+                        <i data-lucide="play" class="btn-icon"></i>
+                        Start Study Session
+                    </button>
+                </div>
+                
+                <div class="recommendation-card priority-medium">
+                    <div class="rec-header">
+                        <i data-lucide="clock" class="rec-icon"></i>
+                        <span class="rec-priority">Medium Priority</span>
+                    </div>
+                    <h4 class="rec-title">Practice Timed Tests</h4>
+                    <p class="rec-description">Take speed tests to improve your time management and quick problem-solving skills.</p>
+                    <button class="rec-action-btn">
+                        <i data-lucide="zap" class="btn-icon"></i>
+                        Take Speed Test
+                    </button>
+                </div>
+                
+                <div class="recommendation-card priority-low">
+                    <div class="rec-header">
+                        <i data-lucide="users" class="rec-icon"></i>
+                        <span class="rec-priority">Bonus</span>
+                    </div>
+                    <h4 class="rec-title">Join Study Group</h4>
+                    <p class="rec-description">Connect with other mathematics students to share knowledge and learn together.</p>
+                    <button class="rec-action-btn">
+                        <i data-lucide="users" class="btn-icon"></i>
+                        Find Study Group
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question Review -->
+        <div class="review-section">
+            <h2 class="section-title">
+                <i data-lucide="eye" class="title-icon"></i>
+                Question Review
+            </h2>
+            
+            <div class="review-filters">
+                <button class="filter-btn active" data-filter="all">All Questions</button>
+                <button class="filter-btn" data-filter="correct">Correct</button>
+                <button class="filter-btn" data-filter="incorrect">Incorrect</button>
+                <button class="filter-btn" data-filter="flagged">Flagged</button>
+            </div>
+            
+            <div class="questions-list">
+                <div class="question-item correct" data-question="1">
+                    <div class="question-header">
+                        <span class="question-number">Q1</span>
+                        <span class="question-status correct">
+                            <i data-lucide="check-circle" class="status-icon"></i>
+                            Correct
+                        </span>
+                        <span class="question-time">45s</span>
+                    </div>
+                    <div class="question-content">
+                        <p class="question-text">What is the derivative of x² + 3x + 2?</p>
+                        <div class="answer-comparison">
+                            <div class="your-answer correct">
+                                <span class="answer-label">Your Answer:</span>
+                                <span class="answer-text">2x + 3</span>
+                            </div>
+                            <div class="correct-answer">
+                                <span class="answer-label">Correct Answer:</span>
+                                <span class="answer-text">2x + 3</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="question-item incorrect" data-question="2">
+                    <div class="question-header">
+                        <span class="question-number">Q2</span>
+                        <span class="question-status incorrect">
+                            <i data-lucide="x-circle" class="status-icon"></i>
+                            Incorrect
+                        </span>
+                        <span class="question-time">1m 20s</span>
+                    </div>
+                    <div class="question-content">
+                        <p class="question-text">What is ∫(2x + 1)dx?</p>
+                        <div class="answer-comparison">
+                            <div class="your-answer incorrect">
+                                <span class="answer-label">Your Answer:</span>
+                                <span class="answer-text">2x² + x</span>
+                            </div>
+                            <div class="correct-answer">
+                                <span class="answer-label">Correct Answer:</span>
+                                <span class="answer-text">x² + x + C</span>
+                            </div>
+                        </div>
+                        <div class="explanation">
+                            <h5>Explanation:</h5>
+                            <p>Don't forget to add the constant of integration (C) when finding indefinite integrals.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="question-item correct" data-question="3">
+                    <div class="question-header">
+                        <span class="question-number">Q3</span>
+                        <span class="question-status correct">
+                            <i data-lucide="check-circle" class="status-icon"></i>
+                            Correct
+                        </span>
+                        <span class="question-time">30s</span>
+                    </div>
+                    <div class="question-content">
+                        <p class="question-text">Solve for x: 2x + 5 = 13</p>
+                        <div class="answer-comparison">
+                            <div class="your-answer correct">
+                                <span class="answer-label">Your Answer:</span>
+                                <span class="answer-text">x = 4</span>
+                            </div>
+                            <div class="correct-answer">
+                                <span class="answer-label">Correct Answer:</span>
+                                <span class="answer-text">x = 4</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="results-actions">
+            <button class="action-btn secondary" id="retake-test">
+                <i data-lucide="refresh-cw" class="btn-icon"></i>
+                Retake Test
+            </button>
+            <button class="action-btn secondary" id="share-results">
+                <i data-lucide="share-2" class="btn-icon"></i>
+                Share Results
+            </button>
+            <button class="action-btn primary" id="continue-learning">
+                <i data-lucide="arrow-right" class="btn-icon"></i>
+                Continue Learning
+            </button>
+        </div>
+    </div>
+
+    <script src="{% static 'common.js' %}"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="{% static 'test-results.js' %}"></script>
+</body>
+</html>

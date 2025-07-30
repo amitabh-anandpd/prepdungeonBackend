@@ -1,0 +1,24 @@
+**Report Sections and Content:**
+
+1. **Overall Performance Summary:**
+    - Clearly state the student's overall score (e.g., "75/100").
+    - Display the total time taken for the test.
+    - Provide the overall accuracy rate in percentage.
+    - Concisely summarize the student's general performance (e.g., "Good performance, but some areas for improvement").
+2. **Topic-wise Breakdown:**
+    - For each chapter or topic covered in the test, provide a clear score (e.g., "7/10") and accuracy percentage.
+    - Indicate the number of correct and incorrect questions for each topic.
+    - **AI-Identified Weak Topics:** Explicitly highlight 2-3 topics where the student performed weakest, labeling them as "Weak Topic Alerts." For each weak topic, include a direct, clickable hyperlink that will lead the student to the corresponding AI-generated restructured study material for that specific topic (e.g., `[Review Chapter 3: Thermodynamics](link_to_restructured_material)`).
+3. **Personalized Insights (AI-Generated):**
+    - Provide an AI-generated explanation of common error patterns observed in the student's incorrect answers across various topics.
+    - Identify and explain specific conceptual gaps that the student may have, based on their performance.
+    - Analyze the underlying reasons for recurring mistakes (e.g., "misinterpretation of formulas," "lack of foundational understanding in X," "time management issues").
+4. **Recommended Actions:**
+    - Offer concrete and prioritized study suggestions tailored to the student's performance (e.g., "Focus on revising concepts of X," "Practice more problems related to Y").
+    - Suggest specific types of practice or resources that would be most beneficial.
+    - Recommend taking a subsequent quiz or practice test on PrepDungeon focusing on their identified weak areas.
+
+**Overall Report Guidelines:**
+
+- **Clarity and Readability:** Use clear headings, bullet points, and concise language.
+- **Actionable:** Every insight and recommendation must be practical and guide the student on what to do next.

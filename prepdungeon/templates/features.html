@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Features - PrepDungeon</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.344.0/lucide.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Crimson+Text:wght@400;600&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-background">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="gradient-orb orb-4"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-content">
+                <a href="{% url 'index' %}" class="card-link">
+                    <div class="nav-brand">
+                        <i data-lucide="brain" class="nav-logo"></i>
+                        <span class="nav-title">PrepDungeon</span>
+                    </div>
+                </a>
+                <div class="nav-menu">
+                    <a href="{% url 'index' %}" class="nav-link">Home</a>
+                    <a href="{% url 'features' %}" class="nav-link active">Features</a>
+                    <a href="{% url 'about' %}" class="nav-link">About</a>
+                    <a href="{% url 'contact' %}" class="nav-link">Contact</a>
+                    <a href="{% url 'faq' %}" class="nav-link">FAQ</a>
+                    <a href="{% url 'auth' %}" class="nav-cta-btn">Login</a>
+                </div>
+                <div class="mobile-menu-btn">
+                    <i data-lucide="menu" class="menu-icon"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Features Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    What if you had the perfect tutor and study plan, custom-built for <span class="gradient-text">every exam, every time?</span>
+                </h1>
+                <p class="hero-description">
+                    Transform Your Study: Personalized, AI-Powered, and Gamified Learning.
+                </p>
+            </div>
+        </div>
+        <!--div class="marquee-text">
+            <div class="marquee-text-track">
+                <p>Item1</p>
+                <p>Item2</p>
+                <p>Item3</p>
+                <p>Item4</p>
+                <p>Item5</p>
+                <p>Item6</p>
+                <p>Item7</p>
+                <p aria-hidden="true">Item1</p>
+                <p aria-hidden="true">Item2</p>
+                <p aria-hidden="true">Item3</p>
+                <p aria-hidden="true">Item4</p>
+                <p aria-hidden="true">Item5</p>
+                <p aria-hidden="true">Item6</p>
+                <p aria-hidden="true">Item7</p>
+            </div>
+        </div-->
+              
+          
+          
+    </section>
+
+    <section class="features-section">
+        <div class="features-grid">
+    
+          <div class="feature-card">
+            <div class="feature-title">🎓 Smart AI Tutoring</div>
+            <div class="feature-description">
+              Personalized, on-demand tutoring. Tracks mastery, adjusts difficulty, and supports all subjects.
+            </div>
+          </div>
+    
+          <div class="feature-card">
+            <div class="feature-title">📄 Syllabus-to-Study</div>
+            <div class="feature-description">
+              Upload notes or syllabus — get topic summaries, quizzes, and schedules. Built for messy curriculums.
+            </div>
+          </div>
+    
+          <div class="feature-card">
+            <div class="feature-title">🧠 Adaptive Testing</div>
+            <div class="feature-description">
+              Quizzes adapt in real time to your performance. Ideal for mid-terms and end-terms.
+            </div>
+          </div>
+    
+          <div class="feature-card">
+            <div class="feature-title">📅 Self-Paced Revision</div>
+            <div class="feature-description">
+              Generate custom revision plans that fit around your schedule, deadlines, and re-exams.
+            </div>
+          </div>
+    
+          <div class="feature-card">
+            <div class="feature-title">🌐 All Disciplines Welcome</div>
+            <div class="feature-description">
+              No subject lock-in. Built for engineers, managers, humanities, law and more.
+            </div>
+          </div>
+    
+          <div class="feature-card">
+            <div class="feature-title">⚡ Productivity Toolkit</div>
+            <div class="feature-description">
+              Auto-checklists, smart calendars, reminders. Perfect for finals, internships, and placements.
+            </div>
+          </div>
+    
+        </div>
+      </section>
+
+    <!-- Main Features Section -->
+    <section class="main-features">
+        <div class="container">
+            <h2 class="section-title">Coming Soon</h2>
+            <div class="features-showcase">
+                <!-- AI-Powered Analysis -->
+                <div class="feature-showcase">
+                    <div class="feature-demo">
+                        <div class="demo-screen">
+                            <div class="demo-header">
+                                <i data-lucide="brain-circuit"></i>
+                                <span>AI-Powered Analysis</span>
+                            </div>
+                        
+                            <div class="game-stats">
+                                <div class="stat"><i data-lucide="activity"></i> Accuracy: 87%</div>
+                                <div class="stat"><i data-lucide="trending-down"></i> Weak Topics: Trigonometry, DBMS</div>
+                                <div class="stat"><i data-lucide="target"></i> Focus Area: Linear Algebra</div>
+                            </div>
+                        
+                            <div class="achievements">
+                                <div class="achievement">
+                                    <i data-lucide="bar-chart-3"></i> Score Trends: Improving
+                                </div>
+                                <div class="achievement">
+                                    <i data-lucide="radar"></i> Subject Insight: Math > Physics > CS
+                                </div>
+                                <div class="achievement">
+                                    <i data-lucide="sparkles"></i> AI Suggestion: Revise Probability
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="feature-content">
+                        <h2 class="feature-title">AI-Powered Analysis</h2>
+                        <p class="feature-description">
+                            Our advanced AI algorithms analyze your learning patterns, strengths, and weaknesses to create a comprehensive understanding of your academic profile. Get instant insights into your performance across different subjects and topics.
+                        </p>
+                        <ul class="feature-benefits">
+                            <li><i data-lucide="check" class="benefit-icon"></i>Real-time performance tracking</li>
+                            <li><i data-lucide="check" class="benefit-icon"></i>Detailed strength & weakness analysis</li>
+                            <li><i data-lucide="check" class="benefit-icon"></i>Predictive learning recommendations</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Personalized Study Plans -->
+                <div class="feature-showcase reverse">
+                    <div class="feature-visual">
+                        <div class="feature-demo">
+                            <div class="demo-screen">
+                                <div class="demo-header">
+                                    <i data-lucide="calendar" class="demo-icon"></i>
+                                    <span>Study Plan</span>
+                                </div>
+                                <div class="demo-content">
+                                    <div class="plan-item">
+                                        <div class="plan-time">9:00 AM</div>
+                                        <div class="plan-subject">Mathematics - Calculus</div>
+                                        <div class="plan-duration">45 min</div>
+                                    </div>
+                                    <div class="plan-item">
+                                        <div class="plan-time">2:00 PM</div>
+                                        <div class="plan-subject">Physics - Mechanics</div>
+                                        <div class="plan-duration">30 min</div>
+                                    </div>
+                                    <div class="plan-item">
+                                        <div class="plan-time">7:00 PM</div>
+                                        <div class="plan-subject">Review Session</div>
+                                        <div class="plan-duration">20 min</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="feature-content">
+                        <h2 class="feature-title">Personalized Study Plans</h2>
+                        <p class="feature-description">
+                            Never wonder what to study next. Our AI creates custom study schedules tailored to your goals, available time, and learning preferences. Each plan adapts based on your progress and performance.
+                        </p>
+                        <ul class="feature-benefits">
+                            <li><i data-lucide="check" class="benefit-icon"></i>Custom schedules based on your availability</li>
+                            <li><i data-lucide="check" class="benefit-icon"></i>Adaptive planning that evolves with you</li>
+                            <li><i data-lucide="check" class="benefit-icon"></i>Goal-oriented milestone tracking</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Gamified Learning -->
+                <div class="feature-showcase">
+                    <div class="feature-visual">
+                        <div class="feature-demo">
+                            <div class="demo-screen">
+                                <div class="demo-header">
+                                    <i data-lucide="gamepad-2" class="demo-icon"></i>
+                                    <span>Level 5 Scholar</span>
+                                </div>
+                                <div class="demo-content">
+                                    <div class="game-stats">
+                                        <div class="stat">
+                                            <i data-lucide="zap" class="stat-icon"></i>
+                                            <span>2,450 XP</span>
+                                        </div>
+                                        <div class="stat">
+                                            <i data-lucide="star" class="stat-icon"></i>
+                                            <span>350 CP</span>
+                                        </div>
+                                        <div class="stat">
+                                            <i data-lucide="flame" class="stat-icon"></i>
+                                            <span>12 Day Streak</span>
+                                        </div>
+                                    </div>
+                                    <div class="achievements">
+                                        <div class="achievement">🏆 Math Master</div>
+                                        <div class="achievement">⚡ Speed Demon</div>
+                                        <div class="achievement">🎯 Perfect Score</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="feature-content">
+                        <h2 class="feature-title">Gamified Learning Experience</h2>
+                        <p class="feature-description">
+                            Transform studying from a chore into an adventure. Earn XP, unlock achievements, maintain streaks, and compete with friends. Our gamification system keeps you motivated and engaged throughout your learning journey.
+                        </p>
+                        <ul class="feature-benefits">
+                            <li><i data-lucide="check" class="benefit-icon"></i>XP and level progression system</li>
+                            <li><i data-lucide="check" class="benefit-icon"></i>Achievement badges and rewards</li>
+                            <li><i data-lucide="check" class="benefit-icon"></i>Social leaderboards and challenges</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feature Grid -->
+    <section class="feature-grid-section">
+        <div class="container">
+            <h2 class="section-title">Complete Learning Ecosystem</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i data-lucide="target"></i>
+                    </div>
+                    <h3>Adaptive Testing</h3>
+                    <p>Tests that evolve with your skill level, providing optimal challenge and learning opportunities.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i data-lucide="users"></i>
+                    </div>
+                    <h3>Peer Learning</h3>
+                    <p>Connect with study groups, compare progress, and learn collaboratively with students worldwide.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i data-lucide="clock"></i>
+                    </div>
+                    <h3>Smart Scheduling</h3>
+                    <p>AI-optimized study sessions that fit your schedule and maximize retention through spaced repetition.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i data-lucide="trending-up"></i>
+                    </div>
+                    <h3>Progress Analytics</h3>
+                    <p>Detailed insights into your learning journey with visual progress tracking and performance metrics.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i data-lucide="shield"></i>
+                    </div>
+                    <h3>Privacy First</h3>
+                    <p>Your data is secure and private. We never share personal information or learning data with third parties.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i data-lucide="smartphone"></i>
+                    </div>
+                    <h3>Cross-Platform</h3>
+                    <p>Study anywhere, anytime. Full synchronization across all your devices for seamless learning.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2 class="cta-title">Ready to Transform Your Learning?</h2>
+                <p class="cta-description">Become the academic weapon you always aspired to be.</p>
+                <a href="{% url 'index' %}" class="nav-cta-btn">
+                    <span>Start Your Journey</span>
+                    <i data-lucide="arrow-right" class="btn-icon"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-main">
+                    <div class="footer-brand">
+                        <div class="footer-logo">
+                            <i data-lucide="brain" class="footer-logo-icon"></i>
+                            <span class="footer-brand-name">PrepDungeon</span>
+                        </div>
+                        <p class="footer-description">
+                            Empowering students with AI-powered personalized learning experiences. 
+                            Know where you stand before you start your journey.
+                        </p>
+                        <div class="footer-social">
+                            <a href="#" class="social-link">
+                                <i data-lucide="twitter" class="social-icon"></i>
+                            </a>
+                            <a href="#" class="social-link">
+                                <i data-lucide="linkedin" class="social-icon"></i>
+                            </a>
+                            <a href="#" class="social-link">
+                                <i data-lucide="github" class="social-icon"></i>
+                            </a>
+                            <a href="#" class="social-link">
+                                <i data-lucide="instagram" class="social-icon"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="footer-links">
+                        <div class="footer-column">
+                            <h4 class="footer-column-title">Product</h4>
+                            <ul class="footer-link-list">
+                                <li><a href="{% url 'features' %}" class="footer-link">Features</a></li>
+                                <li><a href="{% url 'faq' %}" class="footer-link">FAQs</a></li>
+                            </ul>
+                        </div>
+                        
+                        <div class="footer-column">
+                            <h4 class="footer-column-title">Company</h4>
+                            <ul class="footer-link-list">
+                                <li><a href="{% url 'about' %}" class="footer-link">About Us</a></li>
+                                <li><a href="{% url 'contact' %}" class="footer-link">Contact</a></li>
+                            </ul>
+                        </div>
+                        
+                        
+                    </div>
+                </div>
+                
+                <div class="footer-bottom">
+                    <div class="footer-bottom-content">
+                        <p class="footer-copyright">
+                            © 2025 PrepDungeon. All rights reserved.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script>window.notification = "{{ request.session.notification|default:''|escapejs }}"</script>
+    <script>window.notification_type = "{{ request.session.notification_type|default:''|escapejs }}"</script>
+    <script src="{% static 'js/common.js' %}"></script>
+    <script type="module" src="{% static 'js/script.js' %}"></script>
+</body>
+</html>
