@@ -6,11 +6,14 @@ from accounts.models import UserProfile # Import UserProfile to update XP/level
 
 # Create your views here.
 def dailyQuest(request):
+    if not request.user.is_authenticated:
+        return redirect("/")
     daily_quests = UserDailyQuest.objects.filter(user=request.user, date_created=timezone.now().date(), is_completed=False)
     completed_quests = UserDailyQuest.objects.filter(user=request.user, date_created=timezone.now().date(), is_completed=True)
     return render(request, 'daily-quest.html', {
         'daily_quests': daily_quests,
         'completed_quests': completed_quests,
+        'user': request.user,
     })
 
 def check_quest_completion(request, type):
