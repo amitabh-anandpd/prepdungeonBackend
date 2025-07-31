@@ -37,11 +37,11 @@
             <div class="user-stats">
                 <div class="stat-item">
                     <i data-lucide="star" class="stat-icon"></i>
-                    <span class="stat-value">250 CP</span>
+                    <span class="stat-value">{{ user.profile.points }} CP</span>
                 </div>
                 <div class="stat-item">
                     <i data-lucide="zap" class="stat-icon"></i>
-                    <span class="stat-value">Lv. 3</span>
+                    <span class="stat-value">Lv. {{ user.profile.level }}</span>
                 </div>
             </div>
         </div>
@@ -60,7 +60,7 @@
                     </div>
                     <div class="stat-info">
                         <span class="stat-label">Current Streak</span>
-                        <span class="stat-value">7 Days</span>
+                        <span class="stat-value">{{ user.profile.streak }} Days</span>
                     </div>
                 </div>
                 
