@@ -7,7 +7,7 @@ class DailyQuest(models.Model):
     description = models.TextField()
     xp_reward = models.IntegerField(default=25)
     points_reward = models.IntegerField(default=5)
-    rank = models.CharField(max_length=1, choices=['S', 'A', 'B', 'C', 'D'])
+    rank = models.CharField(max_length=1, choices=[('S', 'S'), ('A', 'A'), ('B', 'B'), ('C', 'C'), ('D', 'D')])
     quest_type = models.CharField(max_length=50, choices=[
         ('read_material', 'Read Study Material'),
         ('complete_test', 'Complete a Test'),
