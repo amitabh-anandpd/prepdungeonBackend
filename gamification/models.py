@@ -26,6 +26,7 @@ class DailyQuest(models.Model):
             "description": self.description,
             "xp_reward": self.xp_reward,
             "points_reward": self.points_reward,
+            "rank": self.rank,
             "quest_type": self.quest_type,
         }
 
