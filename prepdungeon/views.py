@@ -100,6 +100,9 @@ def index(request):
                         return redirect(f"/test-{test_type}")
                     except Exception as e:
                         traceback.print_exc()
+                        request.session['notification'] = "Test generation failed, try again..."
+                        request.session['notification_type'] = "error"
+                        return redirect('/')
                 elif response.status_code == 500:
                     request.session['notification'] = response.json()["error"]
                     request.session['notification_type'] = "error"
