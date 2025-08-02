@@ -141,6 +141,8 @@ function handleBackClick(event) {
 function finishTest() {
     clearInterval(timerInterval);
 
+    showSomeAnimation("Submitting test", "Please wait while the AI checks your answers...");
+
     const payload = {
         test_type: 'mcq',
         userAnswers: userAnswers,

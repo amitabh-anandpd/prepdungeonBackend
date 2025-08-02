@@ -160,7 +160,7 @@ screeningCards.forEach(card => {
         const selectedTestType = card.getAttribute('data-type');
 
         document.getElementById('selected-test-type').value = selectedTestType;
-
+        showSomeAnimation("Generating test", "this may take some time...");
         showNotification('Starting your test...', 'info');
         
         setTimeout(() => {
@@ -507,7 +507,7 @@ if (modalWaitlistForm) {
                 'Content-Type': 'application/json',
                 'X-CSRFToken' : getCookie('csrftoken')
               },
-              body: JSON.stringify({ name, email, score })
+              body: JSON.stringify({ name, email, score})
             });
       
             const data = await res.json();
