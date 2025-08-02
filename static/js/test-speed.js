@@ -144,7 +144,7 @@ function handleBackClick(event) {
 function finishTest() {
     clearInterval(timerInterval);
 
-    showNotification("Submitting test...", "success")
+    showSomeAnimation("Submitting test", "Please wait while the AI checks your answers...");
     
     const questionIds = Array.from(testCards).map(card => card.dataset.questionId);
 
