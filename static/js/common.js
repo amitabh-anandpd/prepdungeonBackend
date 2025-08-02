@@ -327,7 +327,7 @@ function showSomeAnimation(title, message) {
     overlay.innerHTML = `
         <div class="completion-content">
             <div class="completion-icon">
-                <i data-lucide="check-circle" class="success-icon"></i>
+                <i data-lucide="loader-circle" class="success-icon"></i>
             </div>
             <h2 class="completion-title">${title}</h2>
             <p class="completion-message">${message}</p>
