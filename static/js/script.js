@@ -160,7 +160,7 @@ screeningCards.forEach(card => {
         const selectedTestType = card.getAttribute('data-type');
 
         document.getElementById('selected-test-type').value = selectedTestType;
-
+        showSomeAnimation("Generating test", "this may take some time...");
         showNotification('Starting your test...', 'info');
         
         setTimeout(() => {
