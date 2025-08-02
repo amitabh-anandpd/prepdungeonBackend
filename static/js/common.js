@@ -320,6 +320,116 @@ function getCookie(name) {
     return cookieValue;
 }
 
+function showSomeAnimation(title, message) {
+    
+    const overlay = document.createElement('div');
+    overlay.className = 'completion-overlay';
+    overlay.innerHTML = `
+        <div class="completion-content">
+            <div class="completion-icon">
+                <i data-lucide="check-circle" class="success-icon"></i>
+            </div>
+            <h2 class="completion-title">${title}</h2>
+            <p class="completion-message">${message}</p>
+            <div class="loading-bar">
+                <div class="loading-fill"></div>
+            </div>
+        </div>
+    `;
+    
+    // Add completion styles
+    const style = document.createElement('style');
+    style.textContent = `
+        .completion-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .completion-content {
+            text-align: center;
+            max-width: 400px;
+            padding: 2rem;
+        }
+        
+        .completion-icon {
+            margin-bottom: 1.5rem;
+        }
+        
+        .success-icon {
+            width: 4rem;
+            height: 4rem;
+            color: #10b981;
+            animation: scaleIn 0.6s ease;
+        }
+        
+        .completion-title {
+            font-family: 'Bungee', cursive;
+            font-size: 2rem;
+            color: #ffffff;
+            margin-bottom: 1rem;
+            animation: slideUp 0.8s ease;
+        }
+        
+        .completion-message {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 2rem;
+            animation: slideUp 1s ease;
+        }
+        
+        .loading-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .loading-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+            border-radius: 10px;
+            width: 0%;
+            animation: loadingProgress 5s ease forwards;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes scaleIn {
+            from { transform: scale(0); }
+            to { transform: scale(1); }
+        }
+        
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes loadingProgress {
+            from { width: 0%; }
+            to { width: 95%; }
+        }
+    `;
+    
+    document.head.appendChild(style);
+    document.body.appendChild(overlay);
+    
+    // Reinitialize icons
+    lucide.createIcons();
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     if ("notification" in window && "notification_type" in window) {
         const notification = window.notification;
