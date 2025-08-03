@@ -7,6 +7,7 @@
     <meta name="description" content="A personalized, AI-powered platform that adapts to individual pace, goals, and curriculum.">
     <title>PrepDungeon</title>
     <link rel="stylesheet" href="{% static '/css/styles.css' %}">
+    <link rel="stylesheet" href="{% static '/css/styles2.css' %}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.344.0/lucide.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Crimson+Text:wght@400;600&display=swap" rel="stylesheet">
 </head>
@@ -78,7 +79,338 @@
             </div>
         </div>
     </section>
-    <div><h2 class="section-title">Coming Soon!</h2></div>
+    <section class="demo-section">
+        <!-- Header content -->
+        <div class="header-content">
+            <h2 class="main-title">Your complete exam preparation companion.</h2>
+            <p class="main-description">
+                Prep Dungeon gamifies your study experience with quests, achievements, and progress tracking. 
+                Master your exams through interactive learning, daily challenges, and comprehensive study guides.
+            </p>
+        </div>
+
+        <!-- Demo window container -->
+        <div class="demo-container">
+            <div class="demo-window">
+                <!-- Feature badge -->
+                <div class="feature-badge">
+                    <svg class="badge-icon" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"></path>
+                    </svg>
+                    Gamified Learning Platform
+                </div>
+
+                <!-- Mac-style window controls -->
+                <div class="window-controls">
+                    <div class="window-control close" onclick="showNotification('Demo window minimized', 'info')"></div>
+                    <div class="window-control minimize" onclick="showNotification('Window minimized', 'info')"></div>
+                    <div class="window-control maximize" onclick="showNotification('Window maximized', 'info')"></div>
+                    <div class="window-title">Prep Dungeon - Study Dashboard</div>
+                </div>
+
+                <!-- Demo content wrapper -->
+                <div class="demo-content-wrapper">
+                    <!-- Main demo interface -->
+                    <div class="demo-interface">
+                        <div class="interface-gradient"></div>
+                        
+                        <!-- Header bar -->
+                        <div class="interface-header">
+                            <div class="status-bar">
+                                <div class="connection-status">
+                                    <div class="status-dot"></div>
+                                    <span>Study streak: <span id="streak-counter">7</span> days</span>
+                                </div>
+                                <div class="header-actions">
+                                    <button class="header-btn" onclick="openCalendarWindow()" title="Calendar">
+                                        <svg class="btn-icon" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
+                                        </svg>
+                                        Calendar
+                                    </button>
+                                    <button class="header-btn" onclick="openSettingsWindow()" title="Settings">
+                                        <svg class="btn-icon" viewBox="0 0 20 20" fill="currentColor">
+                                            <path d="M5 4a1 1 0 00-2 0v7.268a2 2 0 000 3.464V16a1 1 0 102 0v-1.268a2 2 0 000-3.464V4zM11 4a1 1 0 10-2 0v1.268a2 2 0 000 3.464V16a1 1 0 102 0V8.732a2 2 0 000-3.464V4zM16 3a1 1 0 011 1v7.268a2 2 0 010 3.464V16a1 1 0 11-2 0v-1.268a2 2 0 010-3.464V4a1 1 0 011-1z"></path>
+                                        </svg>
+                                        Settings
+                                    </button>
+                                    <button class="header-btn" onclick="openLeaderboardWindow()" title="Leaderboard">
+                                        <svg class="btn-icon" viewBox="0 0 20 20" fill="currentColor">
+                                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                        Leaderboard
+                                    </button>
+                                    <button class="header-btn" onclick="openProfileWindow()" title="Profile">
+                                        <svg class="btn-icon" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                                        </svg>
+                                        Profile
+                                    </button>
+                                    <button class="header-btn" onclick="openAchievementsWindow()" title="Achievements">
+                                        <svg class="btn-icon" viewBox="0 0 20 20" fill="currentColor">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                        </svg>
+                                        Achievements
+                                    </button>
+                                    <button class="header-btn primary-btn" onclick="openNewQuestWindow()" title="New Quest">
+                                        <svg class="btn-icon" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"></path>
+                                        </svg>
+                                        New Quest
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="title-bar">
+                                <h1 class="interface-title">Prep Dungeon</h1>
+                                <div class="user-section">
+                                    <div class="xp-display">
+                                        <span class="xp-label">XP:</span>
+                                        <span class="xp-value" id="xp-counter">2,450</span>
+                                    </div>
+                                    <div class="level-badge">
+                                        <span>Level <span id="level-counter">12</span></span>
+                                    </div>
+                                    <div class="user-avatar" onclick="openProfileWindow()">
+                                        <span>AK</span>
+                                        <div class="online-indicator"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Quick Actions -->
+                            <div class="quick-actions">
+                                <button class="action-card daily-quest" onclick="completeDailyQuest(this)">
+                                    <div class="action-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="action-content">
+                                        <h3>Daily Quest</h3>
+                                        <p>Complete 3 practice tests</p>
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" style="width: 66%"></div>
+                                        </div>
+                                        <span class="progress-text">2/3 completed</span>
+                                    </div>
+                                </button>
+                                
+                                <button class="action-card study-guide" onclick="openStudyGuide()">
+                                    <div class="action-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="action-content">
+                                        <h3>Study Guide</h3>
+                                        <p>AWS Solutions Architect</p>
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" style="width: 78%"></div>
+                                        </div>
+                                        <span class="progress-text">78% complete</span>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Main content area -->
+                        <div class="main-content">
+                            <!-- Dashboard Stats -->
+                            <div class="stats-section">
+                                <div class="stat-card" onclick="showDetailedStats(this)">
+                                    <div class="stat-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="stat-content">
+                                        <h4>Study Streak</h4>
+                                        <span class="stat-value">7 days</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="stat-card" onclick="showDetailedStats(this)">
+                                    <div class="stat-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="stat-content">
+                                        <h4>Tests Completed</h4>
+                                        <span class="stat-value">24</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="stat-card" onclick="showDetailedStats(this)">
+                                    <div class="stat-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="stat-content">
+                                        <h4>Average Score</h4>
+                                        <span class="stat-value">87%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Syllabus Tracker -->
+                            <div class="syllabus-tracker">
+                                <div class="section-header">
+                                    <h3>Syllabus Progress</h3>
+                                    <button class="view-all-btn" onclick="openSyllabusWindow()">View All</button>
+                                </div>
+                                
+                                <div class="syllabus-items">
+                                    <div class="syllabus-item completed" onclick="openSyllabusDetail(this)">
+                                        <div class="item-icon">
+                                            <svg viewBox="0 0 20 20" fill="currentColor">
+                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                            </svg>
+                                        </div>
+                                        <div class="item-content">
+                                            <h4>Cloud Computing Fundamentals</h4>
+                                            <p>Completed • 15 topics mastered</p>
+                                        </div>
+                                        <div class="item-badge">100%</div>
+                                    </div>
+                                    
+                                    <div class="syllabus-item in-progress" onclick="openSyllabusDetail(this)">
+                                        <div class="item-icon">
+                                            <svg viewBox="0 0 20 20" fill="currentColor">
+                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                            </svg>
+                                        </div>
+                                        <div class="item-content">
+                                            <h4>Security & Compliance</h4>
+                                            <p>In Progress • 8/12 topics completed</p>
+                                        </div>
+                                        <div class="item-badge">67%</div>
+                                    </div>
+                                    
+                                    <div class="syllabus-item pending" onclick="openSyllabusDetail(this)">
+                                        <div class="item-icon">
+                                            <svg viewBox="0 0 20 20" fill="currentColor">
+                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
+                                            </svg>
+                                        </div>
+                                        <div class="item-content">
+                                            <h4>Advanced Networking</h4>
+                                            <p>Scheduled for next week</p>
+                                        </div>
+                                        <div class="item-badge">0%</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Recent Activity -->
+                            <div class="recent-activity">
+                                <div class="section-header">
+                                    <h3>Recent Activity</h3>
+                                    <button class="view-all-btn" onclick="showNotification('Loading full activity view...', 'info')">View All</button>
+                                </div>
+                                
+                                <div class="activity-list">
+                                    <div class="activity-item" onclick="showActivityDetail(this)">
+                                        <div class="activity-icon achievement">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                                            </svg>
+                                        </div>
+                                        <div class="activity-content">
+                                            <h4>Achievement Unlocked!</h4>
+                                            <p>Earned "Week Warrior" badge for 7-day streak</p>
+                                            <span class="activity-time">2 hours ago</span>
+                                        </div>
+                                        <div class="activity-xp">+50 XP</div>
+                                    </div>
+                                    
+                                    <div class="activity-item" onclick="showActivityDetail(this)">
+                                        <div class="activity-icon test">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                            </svg>
+                                        </div>
+                                        <div class="activity-content">
+                                            <h4>Practice Test Completed</h4>
+                                            <p>AWS Security Fundamentals - Score: 92%</p>
+                                            <span class="activity-time">4 hours ago</span>
+                                        </div>
+                                        <div class="activity-xp">+25 XP</div>
+                                    </div>
+                                    
+                                    <div class="activity-item" onclick="showActivityDetail(this)">
+                                        <div class="activity-icon study">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                                            </svg>
+                                        </div>
+                                        <div class="activity-content">
+                                            <h4>Study Session</h4>
+                                            <p>Completed 45 minutes on EC2 instances</p>
+                                            <span class="activity-time">Yesterday</span>
+                                        </div>
+                                        <div class="activity-xp">+15 XP</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Calendar Integration -->
+                            <div class="calendar-widget">
+                                <div class="section-header">
+                                    <h3>Study Calendar</h3>
+                                    <button class="calendar-nav-btn" onclick="openCalendarWindow()">
+                                        <svg viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                                
+                                <div class="calendar-grid">
+                                    <div class="calendar-day" onclick="selectCalendarDay(this)">
+                                        <span class="day-number">15</span>
+                                        <div class="day-events">
+                                            <div class="event study">Study</div>
+                                        </div>
+                                    </div>
+                                    <div class="calendar-day" onclick="selectCalendarDay(this)">
+                                        <span class="day-number">16</span>
+                                        <div class="day-events">
+                                            <div class="event test">Test</div>
+                                        </div>
+                                    </div>
+                                    <div class="calendar-day today" onclick="selectCalendarDay(this)">
+                                        <span class="day-number">17</span>
+                                        <div class="day-events">
+                                            <div class="event quest">Quest</div>
+                                        </div>
+                                    </div>
+                                    <div class="calendar-day" onclick="selectCalendarDay(this)">
+                                        <span class="day-number">18</span>
+                                        <div class="day-events">
+                                            <div class="event review">Review</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Demo interaction hint -->
+                        <div class="demo-hint">
+                            <span>Click elements to interact with the demo</span>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 19V5M5 12l7-7 7 7"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--div><h2 class="section-title">Coming Soon!</h2></div>
     <div style="margin: auto; width: 70%; height: 500px; overflow: hidden; border: 2px solid #ccc; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); position: relative;">
         <iframe 
             src="https://prepdungeon.vercel.app/dashboard.html" 
@@ -91,7 +423,7 @@
             pointer-events: auto;
             ">
         </iframe>
-    </div>
+    </div-->
 
     <form method="post" id="study-material-form" enctype="multipart/form-data">
         {% csrf_token %}
@@ -542,5 +874,6 @@
     <script>window.score = {{ score|safe }};</script>
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     <script type="module" src="{% static 'js/script.js' %}"></script>
+    <script type="module" src="{% static 'js/script2.js' %}"></script>
 </body>
 </html>
