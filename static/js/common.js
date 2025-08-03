@@ -431,6 +431,7 @@ function showSomeAnimation(title, message) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+    window.showNotification = showNotification;
     if ("notification" in window && "notification_type" in window) {
         const notification = window.notification;
         const notificationType = window.notification_type;
