@@ -12,6 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Crimson+Text:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
+    
     <!-- Animated Background -->
     <div class="animated-background">
         <div class="gradient-orb orb-1"></div>
@@ -258,7 +259,7 @@
 
                             <!-- Syllabus Tracker -->
                             <div class="syllabus-tracker">
-                                <div class="section-header">
+                                <div class="section-header2">
                                     <h3>Syllabus Progress</h3>
                                     <button class="view-all-btn" onclick="openSyllabusWindow()">View All</button>
                                 </div>
@@ -307,7 +308,7 @@
 
                             <!-- Recent Activity -->
                             <div class="recent-activity">
-                                <div class="section-header">
+                                <div class="section-header2">
                                     <h3>Recent Activity</h3>
                                     <button class="view-all-btn" onclick="showNotification('Loading full activity view...', 'info')">View All</button>
                                 </div>
@@ -360,7 +361,7 @@
 
                             <!-- Calendar Integration -->
                             <div class="calendar-widget">
-                                <div class="section-header">
+                                <div class="section-header2">
                                     <h3>Study Calendar</h3>
                                     <button class="calendar-nav-btn" onclick="openCalendarWindow()">
                                         <svg viewBox="0 0 20 20" fill="currentColor">
@@ -868,12 +869,14 @@
             }
         }
     </script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="{% static 'js/common.js' %}"></script>
     <script>window.notification = "{{ request.session.notification|default:''|escapejs }}"</script>
     <script>window.notification_type = "{{ request.session.notification_type|default:''|escapejs }}"</script>
-    <script src="{% static 'js/common.js' %}"></script>
     <script>window.score = {{ score|safe }};</script>
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     <script type="module" src="{% static 'js/script.js' %}"></script>
     <script type="module" src="{% static 'js/script2.js' %}"></script>
+    
 </body>
 </html>

@@ -31,6 +31,7 @@ const leaderboardData = [
 
 // Initialize demo
 document.addEventListener('DOMContentLoaded', function() {
+
     // Create animated background
     createAnimatedBackground();
     
@@ -47,7 +48,28 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Add keyboard shortcuts
     setupKeyboardShortcuts();
-    
+    const globalFns = {
+        openProfileWindow,
+        openLeaderboardWindow,
+        openAchievementsWindow,
+        openSettingsWindow,
+        openCalendarWindow,
+        openNewQuestWindow,
+        completeDailyQuest,
+        openStudyGuide,
+        showNotification,
+        showDetailedStats,
+        openSyllabusWindow,
+        openSyllabusDetail,
+        showActivityDetail,
+        selectCalendarDay,
+        closeWindow
+        };
+
+    for (const [name, fn] of Object.entries(globalFns)) {
+        window[name] = fn;
+        }
+
     // Close windows when clicking outside
     document.addEventListener('click', (e) => {
         if (e.target.classList.contains('window-overlay')) {
