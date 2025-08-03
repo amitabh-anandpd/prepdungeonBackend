@@ -57,7 +57,6 @@ document.addEventListener('DOMContentLoaded', function() {
         openNewQuestWindow,
         completeDailyQuest,
         openStudyGuide,
-        showNotification,
         showDetailedStats,
         openSyllabusWindow,
         openSyllabusDetail,
@@ -759,32 +758,6 @@ function createRipple(element) {
     setTimeout(() => {
         ripple.remove();
     }, 600);
-}
-
-function showNotification(message, type = 'info') {
-    // Remove existing notifications
-    const existingNotifications = document.querySelectorAll('.notification');
-    existingNotifications.forEach(notification => notification.remove());
-    
-    // Create notification
-    const notification = document.createElement('div');
-    notification.className = `notification ${type}`;
-    notification.textContent = message;
-    
-    document.body.appendChild(notification);
-    
-    // Animate in
-    setTimeout(() => {
-        notification.classList.add('show');
-    }, 100);
-    
-    // Remove after delay
-    setTimeout(() => {
-        notification.classList.remove('show');
-        setTimeout(() => {
-            notification.remove();
-        }, 300);
-    }, 3000);
 }
 
 // Keyboard shortcuts
